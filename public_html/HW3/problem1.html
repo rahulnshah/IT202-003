@@ -8,18 +8,51 @@
         window.addEventListener("load", () => {
             console.log("loaded via javascript");
             //TODO: add any extra onload processing you may need here
+            // need to call getCurrentSelection() somewhere 
+            // getCurrentSelection();
         });
         function getCurrentSelection() {
             setTimeout(() => {
                 //added this delay here as some solutions may require it to update properly (i.e., click code may complete before the navigation changes)
                 //TODO: add code for processing the current selection 
-
+                let navLinkContent = window.location.href.substring(window.location.href.indexOf("#") + 1);
+                
                 //Note: likely you'll want to call updateCurrentPage towards the end
             }, 100);
+            updateCurrentPage(navLinkContent);
         }
     </script>
     <style>
         /* TODO: make edits here */
+        nav li
+        {
+            display:inline;
+        }
+        nav ul
+        {
+            background-color: rgb(174, 207, 26);
+        }
+        nav li a:hover 
+        {
+            background-color: rgb(218, 146, 12);
+        }
+        body ul /* fix this */
+        {
+            list-style-type: "✓";
+        }
+        h1,a{
+            text-transform: capitalize;
+        }
+
+        /* styling of my choice --> change the font of the li */
+        h3+ul li
+        {
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+        h3
+        {
+            color: blue;
+        }
     </style>
     <!-- make the necessary edits above this line -->
 
