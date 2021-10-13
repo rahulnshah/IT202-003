@@ -4,6 +4,10 @@
 
 <form onsubmit="return validate(this)" method="POST">
     <div>
+        <label for="username">Username</label>
+        <input type="text" name="username" required maxlength="30"/>
+    </div>
+    <div>
         <label for="email">Email</label>
         <input type="email" name="email" required />
     </div>
@@ -27,11 +31,12 @@
 </script>
 <?php
  //TODO 2: add PHP Code
- if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"]))
+ if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"]) && isset($_POST["username"]))
  {
     $email = se($_POST, "email", "", false);
     $password = se($_POST, "password", "", false);
     $confirm = se($_POST, "confirm", "", false);
+    $username = se($_POST, "username", "", false);
     //TODO 3: validate/use
     $errors = [];
     
@@ -66,9 +71,9 @@
         {
             $hash = password_hash($password, PASSWORD_BCRYPT);
             $db = getDB();
-            $stmt = $db->prepare("INSERT INTO Users (email, password) VALUES (:email, :password)");
+            $stmt = $db->prepare("INSERT INTO Users (email, password, username) VALUES (:email, :password, :username)");
             try{
-                $stmt->execute([":email" => $email, ":password" => $hash]);
+                $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
                 echo "You have been registered!";
             } catch(Exception $e)
             {
@@ -87,4 +92,7 @@
     }
     
  }
-?>
+ ?>
+ <?php
+ require(__DIR__ . "/../../partials/flash.php");
+ ?>
