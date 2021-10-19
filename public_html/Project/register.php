@@ -45,7 +45,7 @@
         array_push($errors, "Email must be set");
     }
     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-    if(!filter_var($email, FILTER_SANITIZE_EMAIL))
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL))
     {
         array_push($errors, "Invalid email address");
     }
