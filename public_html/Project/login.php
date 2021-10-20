@@ -27,24 +27,37 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     //same as above but for password
     $password = se($_POST, "password", "", false);
     //TODO 3: validate/use
-    $errors = [];
+    //$errors = [];
+    $hasErrors = false;
     if (empty($email)) {
-        array_push($errors, "Email must be set");
+        //array_push($errors, "Email must be set");
+        flash("Email must be set", "warning");
+        $hasErrors = true;
     }
     //sanitize
+    //$email = filter_var($email, FILTER_SANITIZE_EMAIL);
     $email = sanitize_email($email);
     //validate
+    //if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     if (!is_valid_email($email)) {
-        array_push($errors, "Invalid email address");
+        //array_push($errors, "Invalid email address");
+        flash("Invalid email address", "warning");
+        $hasErrors = true;
     }
     if (empty($password)) {
-        array_push($errors, "Password must be set");
+        //array_push($errors, "Password must be set");
+        flash("Password must be set");
+        $hasErrors = true;
     }
     if (strlen($password) < 8) {
-        array_push($errors, "Password must be 8 or more characters");
+        //array_push($errors, "Password must be 8 or more characters");
+        flash("Password must be at least 8 characters", "warning");
+        $hasErrors = true;
     }
-    if (count($errors) > 0) {
-        echo "<pre>" . var_export($errors, true) . "</pre>";
+    if ($hasErrors) {
+        //Nothing to output here, flash will do it
+        //can likely flip the if condition
+        //echo "<pre>" . var_export($errors, true) . "</pre>";
     } else {
         //TODO 4
         $db = getDB();
@@ -57,19 +70,25 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                     $hash = $user["password"];
                     unset($user["password"]);
                     if (password_verify($password, $hash)) {
-                        echo "Weclome $email";
+                        ///echo "Weclome $email";
                         $_SESSION["user"] = $user;
                         die(header("Location: home.php"));
                     } else {
-                        echo "Invalid password";
+                        //echo "Invalid password";
+                        flash("Invalid password", "danger");
                     }
                 } else {
-                    echo "Invalid email";
+                    //echo "Invalid email";
+                    flash("Email not found", "danger");
                 }
             }
         } catch (Exception $e) {
-            echo "<pre>" . var_export($e, true) . "</pre>";
+            //echo "<pre>" . var_export($e, true) . "</pre>";
+            flash(var_export($e, true));
         }
     }
 }
+?>
+<?php
+require(__DIR__ . "/../../partials/flash.php");
 ?>
