@@ -5,31 +5,47 @@
     <title>Problem 1</title>
     <meta charset="utf-8" />
     <script>
-        window.addEventListener("click", () => {
+        window.addEventListener("load", () => {
             console.log("loaded via javascript");
             //TODO: add any extra onload processing you may need here
-            getCurrentSelection();
+            let aTags = document.getElementsByTagName("a");
+            for(let i = 0; i < aTags.length; i++)
+            {
+                aTags[i].addEventListener("click", getCurrentSelection);
+            }
+            let h3Tag = document.getElementsByTagName("h3")[0];
+            h3Tag.addEventListener("mouseover", changeText);
+            h3Tag.addEventListener("mouseout", changeTextAgain);;            
         });
-        function getCurrentSelection() {
+        function getCurrentSelection(event) {
             setTimeout(() => {
                 //added this delay here as some solutions may require it to update properly (i.e., click code may complete before the navigation changes)
                 //TODO: add code for processing the current selection 
-                let navLinkContent = window.location.href.substring(window.location.href.indexOf("#") + 1);
-                updateCurrentPage(navLinkContent);
+                let contentOfATag = event.path[0].innerText;
+                updateCurrentPage(contentOfATag);
                 // since the page may update 
-
-                
                 //Note: likely you'll want to call updateCurrentPage towards the end
             }, 100);
             
         }
+        function changeText(event)
+        {
+            document.getElementsByTagName("h3")[0].innerText = "Challenges Done!";
+            console.log(event.type);
+        }
+        function changeTextAgain(event)
+        {
+            document.getElementsByTagName("h3")[0].innerText = "Challenges";
+            console.log(event.type);
+        }
+        
     </script>
     <style>
         /* TODO: make edits here */
         nav li
         {
             display:inline;
-            
+            padding: 1%;   
         }
         nav ul
         {
