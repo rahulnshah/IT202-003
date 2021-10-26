@@ -1,10 +1,15 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+reset_session();
 ?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
         <label for="email">Email</label>
         <input type="email" name="email" required />
+    </div>
+    <div>
+        <label for="username">Username</label>
+        <input type="text" name="username" required maxlength="30" />
     </div>
     <div>
         <label for="pw">Password</label>
@@ -30,6 +35,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
     $email = se($_POST, "email", "", false);
     $password = se($_POST, "password", "", false);
     $confirm = se($_POST, "confirm", "", false);
+    $username = se($_POST, "username", "", false);
     //TODO 3
 
 
@@ -45,6 +51,10 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
     //if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     if (!is_valid_email($email)) {
         flash("Invalid email");
+        $hasError = true;
+    }
+    if (!preg_match('/^[a-z0-9_-]{3,30}$/i', $username)) {
+        flash("Username must only be alphanumeric and can only contain - or _");
         $hasError = true;
     }
     if (empty($password)) {
@@ -66,16 +76,17 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
     if ($hasError) {
         //flash("<pre>" . var_export($errors, true) . "</pre>");
     } else {
-        flash("Welcome, $email");//will show on home.php
+        //flash("Welcome, $email"); //will show on home.php
         $hash = password_hash($password, PASSWORD_BCRYPT);
         $db = getDB();
-        $stmt = $db->prepare("INSERT INTO Users (email, password) VALUES(:email, :password)");
+        $stmt = $db->prepare("INSERT INTO Users (email, password, username) VALUES(:email, :password, :username)");
         try {
-            $stmt->execute([":email" => $email, ":password" => $hash]);
+            $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
             flash("You've registered, yay...");
         } catch (Exception $e) {
-            flash("There was a problem registering");
-            flash("<pre>" . var_export($e, true) . "</pre>");
+            /*flash("There was a problem registering");
+            flash("<pre>" . var_export($e, true) . "</pre>");*/
+            users_check_duplicate($e->errorInfo);
         }
     }
 }
