@@ -1,6 +1,4 @@
-// Arcade Shooter game
-
-// Get a reference to the canvas DOM element
+/*JS Fiddle Chnanges */
 var canvas = document.getElementById('canvas');
 // Get the canvas drawing context
 var context = canvas.getContext('2d');
@@ -18,8 +16,34 @@ function makeSquare(x, y, length, speed) {
   };
 }
 
+function makeCircle(x, y, radi, sAngle, eAngle, speed, score) {
+  return {
+    x: x,
+    y: y,
+    r: radi,
+    start: sAngle,
+    end: eAngle,
+    s: speed,
+    sc : score,
+    draw: function() {
+      context.beginPath();
+      context.arc(this.x, this.y, this.r, this.start, this.end);
+      context.fillStyle = 'blue';
+    	context.fill();
+      context.font = "bold 50px Helvetica, Arial, sans-serif";
+      context.fillStyle = "#00FF00";
+      context.fillText(this.sc.toString(), this.x , this.y);
+    }
+  };
+}
+
+// add a makeCircle function here to make enenmires into circle not square 
+
+
 // The ship the user controls
-var ship = makeSquare(50, canvas.height / 2 - 25, 50, 5);
+var shipW = 50;
+var shipH = 5;
+var ship = makeSquare(50, canvas.height / 2 - 25, shipW, shipH);
 
 // Flags to tracked which keys are pressed
 var up = false;
@@ -36,12 +60,14 @@ var enemies = [];
 
 // Add an enemy object to the array
 var enemyBaseSpeed = 2;
+
 function makeEnemy() {
   var enemyX = canvas.width;
   var enemySize = Math.round((Math.random() * 15)) + 15;
   var enemyY = Math.round(Math.random() * (canvas.height - enemySize * 2)) + enemySize;
   var enemySpeed = Math.round(Math.random() * enemyBaseSpeed) + enemyBaseSpeed;
-  enemies.push(makeSquare(enemyX, enemyY, enemySize, enemySpeed));
+  let enemyScore = Math.trunc((Math.random() * 6)) + 1;
+  enemies.push(makeCircle(enemyX, enemyY, enemyScore * 5, 0, 2 * Math.PI, enemySpeed, enemyScore));
 }
 
 // Check if number a is in the range b to c (exclusive)
@@ -50,10 +76,10 @@ function isWithin(a, b, c) {
 }
 
 // Return true if two squares a and b are colliding, false otherwise
-function isColliding(a, b) {
+function isColliding(a, b) { //a = bullet square b = enemby circle 
   var result = false;
-  if (isWithin(a.x, b.x, b.x + b.l) || isWithin(a.x + a.l, b.x, b.x + b.l)) {
-    if (isWithin(a.y, b.y, b.y + b.l) || isWithin(a.y + a.l, b.y, b.y + b.l)) {
+  if (isWithin(a.x, b.x - b.r, b.x + b.r) || isWithin(a.x + a.l, b.x - b.r, b.x + b.r) || isWithin(b.x - b.r, a.x, a.x + a.l)) {
+    if (isWithin(a.y, b.y - b.r, b.y + b.r) || isWithin(a.y + a.l, b.y - b.r, b.y + b.r) || isWithin(b.y + b.r, a.y, a.y + a.l) || isWithin(b.y - b.r, a.y, a.y + a.l)) {
       result = true;
     }
   }
@@ -84,7 +110,7 @@ function menu() {
 
 // Start the game
 function startGame() {
-	// Kick off the enemy spawn interval
+  // Kick off the enemy spawn interval
   timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
   // Make the first enemy
   setTimeout(makeEnemy, 1000);
@@ -96,14 +122,33 @@ function startGame() {
 
 // Show the end game screen
 function endGame() {
-	// Stop the spawn interval
+  // Stop the spawn interval
   clearInterval(timeoutId);
   // Show the final score
   erase();
-  context.fillStyle = '#000000';
-  context.font = '24px Arial';
-  context.textAlign = 'center';
-  context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
+  context.font = "100px Arial";
+  context.fillText("💥",ship.x,ship.y);
+  if(score > 10)
+  {
+    context.fillStyle = 'green';
+    context.font = '24px Arial';
+    context.textAlign = 'center';
+    context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
+  }
+  else if (score > 0 && score <= 10)
+  {
+    context.fillStyle = 'orange';
+    context.font = '24px Arial';
+    context.textAlign = 'center';
+    context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2); 
+  }
+  else
+  {
+    context.fillStyle = 'red';
+    context.font = '24px Arial';
+    context.textAlign = 'center';
+    context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
+  }
 }
 
 // Listen for keydown events
@@ -148,20 +193,21 @@ function shoot() {
 
 // The main draw loop
 function draw() {
+	//console.log("drawing");
   erase();
   var gameOver = false;
   // Move and draw the enemies
   enemies.forEach(function(enemy) {
     enemy.x -= enemy.s;
-    if (enemy.x < 0) {
-      gameOver = true;
-    }
-    context.fillStyle = '#00FF00';
+    // if (enemy.x < 0) {
+    //   gameOver = true;
+    // }
     enemy.draw();
   });
   // Collide the ship with enemies
   enemies.forEach(function(enemy, i) {
-    if (isColliding(enemy, ship)) {
+    if (isColliding(ship, enemy)) {
+    	// decrease ship size
       gameOver = true;
     }
   });
@@ -190,8 +236,9 @@ function draw() {
     enemies.forEach(function(enemy, i) {
       if (isColliding(bullet, enemy)) {
         enemies.splice(i, 1);
-        score++;
+        score+=enemy.sc;
         shooting = false;
+        
         // Make the game harder
         if (score % 10 === 0 && timeBetweenEnemies > 1000) {
           clearInterval(timeoutId);
@@ -207,7 +254,7 @@ function draw() {
       shooting = false;
     }
     // Draw the bullet
-    context.fillStyle = '#0000FF';
+    context.fillStyle = 'black';
     bullet.draw();
   }
   // Draw the score
@@ -226,3 +273,4 @@ function draw() {
 // Start the game
 menu();
 canvas.focus();
+
