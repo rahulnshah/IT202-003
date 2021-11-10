@@ -62,7 +62,7 @@
   - [x] \(11/09/2021) Basic security rules implemented
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Direct Link: http://rns22-prod.herokuapp.com/Project/admin/
       - Pull Requests
         - https://github.com/rahulnshah/IT202-003/pull/25
       - Screenshots
@@ -76,7 +76,7 @@
   - [x] \(11/09/2021) Basic Roles implemented
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Direct Link: http://rns22-prod.herokuapp.com/Project/admin/
       - Pull Requests
         - https://github.com/rahulnshah/IT202-003/pull/26
       - Screenshots
