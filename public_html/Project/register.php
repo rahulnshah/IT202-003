@@ -2,31 +2,110 @@
 require(__DIR__ . "/../../partials/nav.php");
 reset_session();
 ?>
-<form onsubmit="return validate(this)" method="POST">
-    <div>
+<?php $email = se($_POST, "email", "", false); 
+      $username = se($_POST, "username", "", false);
+?>
+<div class="container-fluid">
+<h1>Register</h1>
+<form onsubmit="return validate(this)" method="POST"> <!--removed min and maxlength attributes, because I have validation for those things-->
+    <div class="mb-3">
         <label for="email">Email</label>
-        <input type="email" name="email" required />
+        <input type="email" name="email" class="form-control form-control-sm" value="<?php se($email); ?>"/>
     </div>
-    <div>
+    <div class="mb-3">
         <label for="username">Username</label>
-        <input type="text" name="username" required maxlength="30" />
+        <input type="text" name="username" class="form-control form-control-sm" value="<?php se($username); ?>"/>
     </div>
-    <div>
+    <div class="mb-3">
         <label for="pw">Password</label>
-        <input type="password" id="pw" name="password" required minlength="8" />
+        <input type="password" id="pw" name="password" class="form-control form-control-sm"/>
     </div>
-    <div>
+    <div class="mb-3">
         <label for="confirm">Confirm</label>
-        <input type="password" name="confirm" required minlength="8" />
+        <input type="password" name="confirm" class="form-control form-control-sm"/>
     </div>
-    <input type="submit" value="Register" />
+    <input  class="btn btn-primary" type="submit" value="Register" />
 </form>
+</div>
 <script>
     function validate(form) {
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
-
-        return true;
+        let flashElement = document.getElementById("flash");
+        if(flashElement.children.length > 0)
+        {
+            while (flashElement.firstChild) {
+                flashElement.removeChild(flashElement.firstChild);
+            }
+        }
+        
+        const formFieldOne = form.elements[0];
+        const formFieldTwo = form.elements[1];
+        const formFieldThree = form.elements[2];
+        const formFieldFour = form.elements[3];
+        let retVal = true;
+        
+        if (formFieldOne.value.length > 0 && formFieldTwo.value.length > 0 && formFieldThree.value.length > 0 && formFieldFour.value.length > 0) {
+            if (!(/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.test(formFieldOne.value))) {
+                //check if email is correctly formatted 
+                flash("Invalid email address", "warning");
+                console.log("You missed something");
+                retVal = false;
+            } 
+            // the user has entered a username
+            if (!(/^[a-z0-9_-]{3,30}$/i.test(formFieldTwo.value))){
+                    flash("Username must only be alphanumeric and can only contain - or _");
+                    retVal = false;
+            }
+            if(formFieldThree.value.length >= 8 && formFieldThree.value !== formFieldFour.value)
+            {
+                // flash("Password must be at least 8 characters", "warning");
+                // retVal = false;
+                //check if both match 
+                flash("Passwords must match");
+                retVal = false; 
+            } 
+            else{
+                if(formFieldThree.value.length < 8)
+                {
+                    flash("Password must be at least 8 characters", "warning");
+                    retVal = false;
+                } 
+                if(formFieldFour.value.length < 8)
+                {
+                    flash("Confirm must be at least 8 characters", "warning");
+                    retVal = false;
+                }
+            } 
+        }
+        else
+        {
+            if(formFieldOne.value.length <= 0)
+            {
+                retVal = false;
+                // show this flash message only if there is not already a message like this on top of page 
+                flash("Email must not be empty");
+            }
+            if(formFieldTwo.value.length <= 0)
+            {
+                retVal = false;
+                flash("Username must be set");
+            }
+            if(formFieldThree.value.length <= 0)
+            {
+                retVal = false;
+                // show this flash message only if there is not already a message like this on top of page 
+                flash("Password must be set");
+            }
+            if(formFieldFour.value.length <= 0)
+            {
+                retVal = false;
+                // show this flash message only if there is not already a message like this on top of page 
+                flash("Confirm password must not be empty");
+            }
+        }
+        // console.log(retVal);
+        return retVal;
     }
 </script>
 <?php
@@ -53,8 +132,17 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         flash("Invalid email");
         $hasError = true;
     }
-    if (!preg_match('/^[a-z0-9_-]{3,30}$/i', $username)) {
-        flash("Username must only be alphanumeric and can only contain - or _");
+    //check if $username is not blank on the server side 
+    if(!empty($username))
+    {
+        if (!preg_match('/^[a-z0-9_-]{3,30}$/i', $username)) {
+            flash("Username must only be alphanumeric and can only contain - or _");
+            $hasError = true;
+        }
+    }
+    else
+    {
+        flash("Username must be set");
         $hasError = true;
     }
     if (empty($password)) {

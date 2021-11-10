@@ -81,19 +81,20 @@ function get_user_id()
 function flash($msg = "", $color = "info")
 {
     $message = ["text" => $msg, "color" => $color];
-    if (isset($_SESSION['flash'])) {
+    if (isset($_SESSION['flash'])) { // session[flash cannot exist without sessin_start() is this is false, I session_st in ese 
         array_push($_SESSION['flash'], $message);
     } else {
         $_SESSION['flash'] = array();
         array_push($_SESSION['flash'], $message);
     }
+    /*echo var_export($_SESSION["flash"]);*/
 }
 
 function getMessages()
 {
     if (isset($_SESSION['flash'])) {
         $flashes = $_SESSION['flash'];
-        $_SESSION['flash'] = array();
+        unset($_SESSION['flash']);
         return $flashes;
     }
     return array();
@@ -103,6 +104,7 @@ function reset_session()
 {
     session_unset();
     session_destroy();
+    session_start();
 }
 function users_check_duplicate($errorInfo)
 {
@@ -113,11 +115,11 @@ function users_check_duplicate($errorInfo)
             flash("The chosen " . $matches[1] . " is not available.", "warning");
         } else {
             //TODO come up with a nice error message
-            flash("<pre>" . var_export($errorInfo, true) . "</pre>");
+            flash("An unexpected error occurred, please try again", "danger");
         }
     } else {
         //TODO come up with a nice error message
-        flash("<pre>" . var_export($errorInfo, true) . "</pre>");
+        flash("The chosen email and username are available, but an unexpected error occurred. Please try again", "danger");
     }
 }
 function get_url($dest)

@@ -1,24 +1,6 @@
 <?php
-require(__DIR__ . "/../../partials/nav.php"); ?>
-<form onsubmit="return validate(this)" method="POST">
-    <div>
-        <label for="email">Username/Email</label>
-        <input type="text" name="email" required />
-    </div>
-    <div>
-        <label for="pw">Password</label>
-        <input type="password" id="pw" name="password" required minlength="8" />
-    </div>
-    <input type="submit" value="Login" />
-</form>
-<script>
-    function validate(form) {
-        //TODO 1: implement JavaScript validation
-        //ensure it returns false for an error and true for success
-
-        return true;
-    }
-</script>
+require(__DIR__ . "/../../partials/nav.php"); 
+?>
 <?php
 //TODO 2: add PHP Code
 if (isset($_POST["email"]) && isset($_POST["password"])) {
@@ -101,7 +83,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                     }
                 } else {
                     //echo "Invalid email";
-                    flash("Email not found", "danger");
+                    flash("Email/Username not found", "danger");
                 }
             }
         } catch (Exception $e) {
@@ -111,6 +93,71 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     }
 }
 ?>
+<?php $email = se($_POST, "email", "", false); ?>
+<div class="container-fluid">
+<h1>Login</h1>
+<form onsubmit="return validate(this)" method="POST">
+    <div class="mb-3">
+        <label for="email">Username/Email</label>
+        <input type="text" class="form-control form-control-sm" name="email" value="<?php se($email); ?>"/>
+    </div>
+    <div class="mb-3">
+        <label for="pw">Password</label>
+        <input type="password" id="pw" class="form-control form-control-sm" name="password"/> <!-- rmoved minlength attr, and required attr to see php error messages-->
+    </div>
+    <input type="submit" class="btn btn-primary" value="Login" />
+</form>
+</div>
+<script>
+    function validate(form) {
+        //TODO 1: implement JavaScript validation
+        //ensure it returns false for an error and true for success
+        //clear error messages
+        let flashElement = document.getElementById("flash");
+        flashElement.innerHTML = "";
+        const formFieldOne = form.elements[0];
+        const formFieldTwo = form.elements[1];
+        let retVal = true;
+        
+        if (formFieldOne.value.length > 0 && formFieldTwo.value.length > 0) {
+            if (formFieldOne.value.indexOf("@") > -1) {
+                //check if email is correctly formatted 
+                if (!(/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.test(formFieldOne.value))){
+                    
+                    flash("Invalid email address", "warning");
+                    retVal = false;
+                }
+            } 
+            else { // the user has entered a username
+                if (!(/^[a-z0-9_-]{3,30}$/i.test(formFieldOne.value))){
+                    flash("Username must only be alphanumeric and can only contain - or _");
+                    retVal = false;
+                }
+            }
+            if(formFieldTwo.value.length < 8)
+            {
+                flash("Password must be at least 8 characters", "warning");
+                retVal = false;
+            }   
+        }
+        else
+        {
+            if(formFieldOne.value.length <= 0)
+            {
+                retVal = false;
+                // show this flash message only if there is not already a message like this on top of page 
+                flash("Username or email must be set", "warning");
+            }
+            if(formFieldTwo.value.length <= 0)
+            {
+                retVal = false;
+                flash("Password must be set");
+            }
+        }
+        //console.log(retVal);
+        return retVal;
+    }
+</script>
 <?php
 require(__DIR__ . "/../../partials/flash.php");
 ?>

@@ -44,12 +44,17 @@ try {
 }
 
 ?>
+<div class="container-fluid">
 <h1>List Roles</h1>
-<form method="POST">
-    <input type="search" name="role" placeholder="Role Filter" />
-    <input type="submit" value="Search"/>
-</form>
-<table>
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+    <form method="POST" class="d-flex">
+        <input class="form-control me-2" type="search" name="role" placeholder="Role Filter" />
+        <input type="submit" class="btn btn-outline-success" value="Search"/>
+    </form>
+    </div>
+</nav>
+<table class="table table-bordered border-primary">
     <thead>
         <th>ID</th>
         <th>Name</th>
@@ -76,7 +81,7 @@ try {
                                 <?php /* if this is part of a search, lets persist the search criteria so it reloads correctly*/ ?>
                                 <input type="hidden" name="role" value="<?php se($search, null); ?>" />
                             <?php endif; ?>
-                            <input type="submit" value="Toggle" />
+                            <input type="submit" class="btn btn-primary" value="Toggle" />
                         </form>
                     </td>
                 </tr>
@@ -84,6 +89,7 @@ try {
         <?php endif; ?>
     </tbody>
 </table>
+</div>
 <?php
 //note we need to go up 1 more directory
 require_once(__DIR__ . "/../../../partials/flash.php");
