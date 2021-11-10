@@ -108,7 +108,7 @@
         ![image](https://user-images.githubusercontent.com/68120349/141046583-d44f0e8e-538d-4ced-a24c-da4ec1d0a8e1.png)
         ![image](https://user-images.githubusercontent.com/68120349/141046713-db1fdf7e-94f0-470d-92c9-06bb8532e077.png)
         ![image](https://user-images.githubusercontent.com/68120349/141046768-23ff1696-c4ab-420a-8891-93ab3a984dd7.png)
-        ![image](https://user-images.githubusercontent.com/68120349/141047078-f47fb9dc-4415-42a0-9393-559629dbe982.png)
+        ![image](https://user-images.githubusercontent.com/68120349/141159875-5dec4ce8-cf22-49cb-9e54-88bfb59e3d90.png)
           - User is shown user frindly messages whenever a query is aborted by the DBMS.  Some examples are shown above.
 
   - [x] \(11/09/2021) User will be able to see their profile
