@@ -125,7 +125,7 @@
   - [x] \(11/09/2021) User will be able to edit their profile
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: https://rns22-prod.herokuapp.com/Project/login.php
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/Profile.php
       - Pull Requests
         - https://github.com/rahulnshah/IT202-003/pull/30
       - Screenshots
