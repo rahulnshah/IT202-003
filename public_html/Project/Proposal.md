@@ -30,7 +30,7 @@
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          ![image](https://user-images.githubusercontent.com/68120349/141045585-15ac2d20-bfcf-419c-b98a-3a3be16629f7.png)
           - This is the user registration page.  The user must fill in all required fields and register with a unique username and email address.
 
   - [x] \(11/09/2021) User will be able to login to their account (given they enter the correct credentials)
@@ -40,8 +40,10 @@
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+        ![image](https://user-images.githubusercontent.com/68120349/141045768-bef46e85-7f18-401e-9f75-3b9aff5407c4.png)
           - This is the user login page.  The user must fill in all required fields and login with either a username or email address that he or she is registered with and a valid password.
+        ![image](https://user-images.githubusercontent.com/68120349/141046091-91891757-54b5-42c0-b14a-8d528c21e024.png)
+          - This is the landing page of a logged-in user.
 
   - [x] \(11/09/2021) User will be able to logout
     -  List of Evidence of Feature Completion
@@ -50,7 +52,7 @@
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+        ![image](https://user-images.githubusercontent.com/68120349/141046190-f3f8c0d5-ba3d-4c64-8ab5-d47a6e686e7f.png)
           - The logout page redirects the user to the login page.  Old session keys are erased and a new session is started. 
 
   - [x] \(11/09/2021) Basic security rules implemented
@@ -80,7 +82,9 @@
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+        ![image](https://user-images.githubusercontent.com/68120349/141046319-de360654-6326-4727-b9f2-49ffe345346d.png)
+        ![image](https://user-images.githubusercontent.com/68120349/141046345-332eafb5-d57c-4600-9b31-a72bf7e6338e.png)
+        ![image](https://user-images.githubusercontent.com/68120349/141046398-1eba8868-e6eb-4f70-8cdb-30050a49d4b8.png)
           - Styled the navigation bar, all tables that a user has access to, and all forms in Bootstrap v5.1.
 
   - [x] \(11/09/2021) Any output messages/errors should be “user friendly”
@@ -90,8 +94,11 @@
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - User is shown user frindly messages whenever a query is aborted by the DBMS. 
+        ![image](https://user-images.githubusercontent.com/68120349/141046525-daaa153a-7041-4df7-8fdd-5ff47450f4ca.png)
+        ![image](https://user-images.githubusercontent.com/68120349/141046583-d44f0e8e-538d-4ced-a24c-da4ec1d0a8e1.png)
+        ![image](https://user-images.githubusercontent.com/68120349/141046713-db1fdf7e-94f0-470d-92c9-06bb8532e077.png)
+        ![image](https://user-images.githubusercontent.com/68120349/141046768-23ff1696-c4ab-420a-8891-93ab3a984dd7.png)
+          - User is shown user frindly messages whenever a query is aborted by the DBMS.  Some examples are shown above.
 
   - [x] \(11/09/2021) User will be able to see their profile
     -  List of Evidence of Feature Completion
