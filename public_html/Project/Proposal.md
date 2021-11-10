@@ -30,6 +30,7 @@
       - Pull Requests
         - https://github.com/rahulnshah/IT202-003/pull/20
         - https://github.com/rahulnshah/IT202-003/pull/30
+        - https://github.com/rahulnshah/IT202-003/pull/10
       - Screenshots
           ![image](https://user-images.githubusercontent.com/68120349/141045585-15ac2d20-bfcf-419c-b98a-3a3be16629f7.png)
           - This is the user registration page.  The user must fill in all required fields and register with a unique username and email address.
