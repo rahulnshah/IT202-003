@@ -28,7 +28,8 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/register.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/20
+        - https://github.com/rahulnshah/IT202-003/pull/30
       - Screenshots
           ![image](https://user-images.githubusercontent.com/68120349/141045585-15ac2d20-bfcf-419c-b98a-3a3be16629f7.png)
           - This is the user registration page.  The user must fill in all required fields and register with a unique username and email address.
@@ -38,7 +39,9 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/login.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/27
+        - https://github.com/rahulnshah/IT202-003/pull/10
+        - https://github.com/rahulnshah/IT202-003/pull/30
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/141045768-bef46e85-7f18-401e-9f75-3b9aff5407c4.png)
           - This is the user login page.  The user must fill in all required fields and login with either a username or email address that he or she is registered with and a valid password.
@@ -50,7 +53,7 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/logout.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/30
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/141046190-f3f8c0d5-ba3d-4c64-8ab5-d47a6e686e7f.png)
           - The logout page redirects the user to the login page.  Old session keys are erased and a new session is started. 
@@ -60,7 +63,7 @@
       - Status: Completed
       - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/25
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
@@ -70,7 +73,7 @@
       - Status: Completed
       - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/26
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
@@ -80,7 +83,7 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/home.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/30
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/141046319-de360654-6326-4727-b9f2-49ffe345346d.png)
         ![image](https://user-images.githubusercontent.com/68120349/141046345-332eafb5-d57c-4600-9b31-a72bf7e6338e.png)
@@ -92,7 +95,8 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/login.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/21
+        - https://github.com/rahulnshah/IT202-003/pull/30
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/141046525-daaa153a-7041-4df7-8fdd-5ff47450f4ca.png)
         ![image](https://user-images.githubusercontent.com/68120349/141046583-d44f0e8e-538d-4ced-a24c-da4ec1d0a8e1.png)
@@ -106,7 +110,7 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/Profile.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/30
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/141047223-3e1d7418-7632-49e0-9567-48ff7e7285f9.png)
         ![image](https://user-images.githubusercontent.com/68120349/141047254-9b07083c-90f1-4c9a-8f09-b362648ce765.png)
@@ -117,7 +121,7 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/login.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/30
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/141047335-a20a96df-23a4-4711-bc89-3f99a8f85b06.png)
           - A user can reset his/her password and username and email, as long as the username and email are both available.
