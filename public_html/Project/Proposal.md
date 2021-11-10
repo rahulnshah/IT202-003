@@ -65,8 +65,12 @@
       - Pull Requests
         - https://github.com/rahulnshah/IT202-003/pull/25
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/141156227-036cda54-16c9-4c6b-99cd-e966d987d85f.png)
+          - Function called on appropriate pages that only allow logged in users. 
+        ![image](https://user-images.githubusercontent.com/68120349/141156530-8ba9e156-241f-4338-8db8-69daab385fd2.png)
+        ![image](https://user-images.githubusercontent.com/68120349/141157096-0a2e87cf-1835-419b-9d59-8b51109cb3ec.png)
+        ![image](https://user-images.githubusercontent.com/68120349/141157261-c5137907-f686-4bb4-bad9-9acab8a4a125.png)
+          - Functions called on appropriate pages that only allow role-specific actions, such as viewing the roles table, creating a role, and assigning a role. 
 
   - [x] \(11/09/2021) Basic Roles implemented
     -  List of Evidence of Feature Completion
@@ -75,8 +79,10 @@
       - Pull Requests
         - https://github.com/rahulnshah/IT202-003/pull/26
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/141155452-638fff8c-344c-42d2-93a3-29566e5fc28e.png)
+          - Roles table 
+        ![image](https://user-images.githubusercontent.com/68120349/141155734-62888988-0758-4c0a-9509-d97c123d9857.png)
+          - User Roles table 
 
   - [x] \(11/09/2021) Site should have basic styles/theme applied; everything should be styled
     -  List of Evidence of Feature Completion
