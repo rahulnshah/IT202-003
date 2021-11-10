@@ -26,7 +26,7 @@
   - [x] \(11/09/2021) User will be able to register a new account
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/register.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
@@ -36,7 +36,7 @@
   - [x] \(11/09/2021) User will be able to login to their account (given they enter the correct credentials)
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/login.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
@@ -48,7 +48,7 @@
   - [x] \(11/09/2021) User will be able to logout
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/logout.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
@@ -78,7 +78,7 @@
   - [x] \(11/09/2021) Site should have basic styles/theme applied; everything should be styled
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/home.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
@@ -90,7 +90,7 @@
   - [x] \(11/09/2021) Any output messages/errors should be “user friendly”
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/login.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
@@ -104,21 +104,22 @@
   - [x] \(11/09/2021) User will be able to see their profile
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/Profile.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+        ![image](https://user-images.githubusercontent.com/68120349/141047223-3e1d7418-7632-49e0-9567-48ff7e7285f9.png)
+        ![image](https://user-images.githubusercontent.com/68120349/141047254-9b07083c-90f1-4c9a-8f09-b362648ce765.png)
           - This is the profile page of a user. It allows the user to reset his/her email, username, and password. Resetting password is optional. The user must fill in all required fields.  Email and username are prefilled. 
 
   - [x] \(11/09/2021) User will be able to edit their profile
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/login.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+        ![image](https://user-images.githubusercontent.com/68120349/141047335-a20a96df-23a4-4711-bc89-3f99a8f85b06.png)
           - A user can reset his/her password and username and email, as long as the username and email are both available.
 
 - Milestone 2
