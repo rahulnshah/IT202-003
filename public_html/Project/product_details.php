@@ -14,6 +14,11 @@ $ignore = ["id", "modified", "created", "visibility"];
 $db = getDB();
 //get the item
 $id = se($_GET, "id", -1, false);
+if($id <= 0)
+{
+    flash("Need to select an item first.", "warning");
+    die(header("Location: shop.php"));
+}
 $stmt = $db->prepare("SELECT * FROM Products where id =:id");
 try {
     $stmt->execute([":id" => $id]);
