@@ -13,6 +13,7 @@ try {
 } catch (PDOException $e) {
     flash("<pre>" . var_export($e, true) . "</pre>");
 }
+//echo "<pre>" . var_export($results,true) . "</pre>";
 $categoryResults = [];
 $stmt = $db->prepare("SELECT category FROM Products WHERE visibility = 1"); // check if this the right query 
 try {
@@ -133,10 +134,6 @@ if (isset($_POST["categorySubmit"])) {
         console.log("TODO purchase item", item);
         //TODO create JS helper to update all show-balance elements
     }
-    function goToEditProducts(idVal)
-    {
-        document.location.href = "admin/edit_product.php?id=" + idVal;
-    }
 </script>
 
 <div class="container-fluid">
@@ -195,8 +192,9 @@ if (isset($_POST["categorySubmit"])) {
                             Unit Price: $<?php se($item, "unit_price"); ?>
                             <button onclick="purchase('<?php se($item, 'id'); ?>')" class="btn btn-primary">Purchase</button>
                             <?php if (has_role("Admin")) : ?>
-                                <button onclick="goToEditProducts('<?php se($item, 'id'); ?>')" class="btn btn-primary">Edit</button>
-                            <?php endif ?>
+                                <a class="btn btn-primary" href="admin/edit_product.php?id=<?php echo $item["id"];?>">Edit</a>
+                            <?php endif; ?>
+                            <a class="btn btn-primary" href="product_details.php?id=<?php echo $item["id"];?>">View</a>
                         </div>
                     </div>
                 </div>
