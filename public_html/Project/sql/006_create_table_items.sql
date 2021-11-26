@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS Products(
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
     category varchar(255),
-    unit_price DECIMAL(5,2),
+    unit_price DECIMAL(5,2)
 )

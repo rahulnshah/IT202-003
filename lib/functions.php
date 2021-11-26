@@ -176,6 +176,9 @@ function save_data($table, $data, $ignore = ["submit"])
         return $db->lastInsertId();
     } catch (PDOException $e) {
         //echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
+        if ($e->errorInfo[1] === 1062) {
+            throw $e;
+        }
         flash("<pre>" . var_export($e->errorInfo, true) . "</pre>");
         return -1;
     }
