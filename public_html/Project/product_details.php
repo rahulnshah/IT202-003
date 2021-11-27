@@ -40,8 +40,7 @@ try {
                 <!--<?php var_dump(se($column,null,"",false)); ?>-->
                 <?php if (se($column,null,"",false) === "unit_price") : ?> 
                     <p><?php echo "$" . se($value,null,"",false); ?></p>
-                <?php endif; ?>
-                <?php if (se($column,null,"",false) !== "unit_price") : ?> 
+                <?php else : ?> 
                     <p><?php se($value); ?></p> <!-- equivalent to echo $value; -->
                 <?php endif; ?> 
             <?php endif; ?>
