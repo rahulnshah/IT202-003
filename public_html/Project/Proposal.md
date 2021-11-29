@@ -265,9 +265,9 @@
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/143724659-04c88233-2f84-4638-930b-dab65bd4c71c.png)
           - Shop page dynamically generates a range of prices under which all products with visibility of 1 fall.
-  - [ ] \(11\29\2021) User will be able click on the body of a card, card will have a border generated around it upon hover, and User will see a red border upon blur in all form fields with type=text, password, and email.
+  - [ ] \(11\29\2021) Added jQuery to Shop Project.
     -  List of Evidence of Feature Completion
-      - Status: Pending
+      - Status: Completed
       - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
       - Pull Requests
         - PR link #1 (repeat as necessary)
