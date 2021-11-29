@@ -136,7 +136,7 @@ try {
         <?php else : ?>
             <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>"; ?>  -->
             <?php foreach ($results as $item) : ?>
-                <div class="col">
+                <div id='cardwithID<?php echo $item["id"]; ?>' class="col">
                     <div class="card bg-light">
                         <div class="card-header">
                             Placeholder
@@ -165,7 +165,30 @@ try {
                         </div>
                     </div>
                 </div>
+                <script>
+                    $(document.getElementById('cardwithID<?php echo $item["id"]; ?>').getElementsByClassName('card-body')[0]).click(function() {
+                        document.location.href = 'product_details.php?id=<?php echo $item["product_id"]; ?>';
+                    });
+                </script>
             <?php endforeach; ?>
+            <script>
+                let cards = document.getElementsByClassName("col");
+                for(let i = 0; i < cards.length; i++)
+                {
+                    $(cards[i].firstElementChild).hover(
+                            function() {
+                                $(this).css("border-style", "solid");
+                                $(this).css("border-color", "blue");
+                                $(this).css("border-width", "medium");
+                            },
+                            function() {
+                                $(this).css("border-style", "");
+                                $(this).css("border-color", "");
+                                $(this).css("border-width", "");
+                            }
+                    );
+                }
+            </script>
             <br>
             <div class="btn-group" >
                 <button onclick="clear_cart('<?php echo get_user_id(); ?>')" class="btn btn-primary">Clear Cart</button>
