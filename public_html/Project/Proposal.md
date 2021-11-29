@@ -265,16 +265,7 @@
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/143724659-04c88233-2f84-4638-930b-dab65bd4c71c.png)
           - Shop page dynamically generates a range of prices under which all products with visibility of 1 fall.
-  - [ ] \(11\29\2021) User will be able click on a card, card will expand in size upon hover, and User will view information about a product
-    -  List of Evidence of Feature Completion
-      - Status: Pending
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
-  - [ ] \(11\29\2021) Add a Remember Me functionality at login page
+  - [ ] \(11\29\2021) User will be able click on the body of a card, card will have a border generated around it upon hover, and User will see a red border upon blur in all form fields with type=text, password, and email.
     -  List of Evidence of Feature Completion
       - Status: Pending
       - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
