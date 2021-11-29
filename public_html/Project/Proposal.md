@@ -272,8 +272,12 @@
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/143903101-de677b68-bc3e-4f63-a5f2-017e271e98ff.png)
+          -  User will see a red border upon blur in all form fields with type=text, password, and email and if those fields are left blank.
+        ![image](https://user-images.githubusercontent.com/68120349/143903342-e240055d-8633-4f56-90b8-093b413fd4e0.png)
+          - Added jQuery on hover on the Admin dropdown menu.
+        ![image](https://user-images.githubusercontent.com/68120349/143903571-97633c5d-8658-4d80-ac33-d57c7511a10f.png)
+          - User will be able click on the body of a card and card will have a blue border generated around it upon hover.
 - Milestone 3
 - Milestone 4
 ### Intructions
