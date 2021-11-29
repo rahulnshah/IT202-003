@@ -240,7 +240,7 @@
            
   - [x] \(11\26\2021) User will be able to remove a single item from their cart via button click
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
       - Pull Requests
         - https://github.com/rahulnshah/IT202-003/pull/54
