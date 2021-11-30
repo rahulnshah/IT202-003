@@ -14,3 +14,11 @@ function flash(message = "", color = "info") {
     //add the element to the DOM (if we don't it merely exists in memory)
     flash.appendChild(outerDiv);
 }
+// function goToEditProducts(idVal)
+// {
+//         document.location.href = "admin/edit_product.php?id=" + idVal;
+// }
+// function goToProductDetails(idVal)
+// {
+//         document.location.href = "product_details.php?id=" + idVal;
+// }
