@@ -23,6 +23,7 @@ if (isset($_POST["user_id"])) { //need to check this, becuz user can easily navi
         try {
             $stmt->execute([":id" => $user_id]);
             $response["message"] = "Cleared cart";
+            unset($_SESSION["total_cost"]);
             // if ($r) {
             //     $cost = (int)se($r, "unit_price", 000.00, false);
             //     $name = se($r, "name", "", false);

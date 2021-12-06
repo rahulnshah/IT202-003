@@ -61,7 +61,7 @@ if (isset($_POST["product_id"]) && isset($_POST["unit_price"]) && isset($_POST["
         {
             //I wouldn't throw an exception from save_data unless I have a duplicate key exeltpion
             $db = getDB();
-            $stmt = $db->prepare("INSERT INTO Cart (product_id, user_id) VALUES (:product_id, :user_id) ON DUPLICATE KEY UPDATE desired_quantity = desired_quantity + 1, unit_cost = desired_quantity * :unit_price"); 
+            $stmt = $db->prepare("INSERT INTO Cart (product_id, user_id) VALUES (:product_id, :user_id) ON DUPLICATE KEY UPDATE desired_quantity = desired_quantity + 1, unit_cost =:unit_price"); 
             try
             {
                 $stmt->execute([":product_id" => $item_id, ":user_id" => $user_id, ":unit_price" => $cost]);
