@@ -50,6 +50,7 @@ if (isset($_POST["address"]) && isset($_POST["true_price"]) && isset($_POST["pay
                 // compare with the number of records in the Cart table fro that user 
                 //if ($cart_items === count($reuslts), proceed with the next steps of the order else do 
                 //$response["message"] = "something's wrong")
+                //SELECT Cart.unit_cost, Products.unit_price, Cart.desired_quantity, Products.stock, Cart.user_id, Products.unit_price, Products.id FROM Products INNER JOIN Cart on Products.id = Cart.product_id where Cart.user_id = 22 AND (Cart.unit_cost != Products.unit_price OR Cart.desired_quantity > Products.stock);
                 error_log(count($results));
                 if(count($results) === count($cart_items))
                 {
