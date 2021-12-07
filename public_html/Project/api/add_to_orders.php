@@ -67,7 +67,6 @@ if (isset($_POST["address"]) && isset($_POST["true_price"]) && isset($_POST["pay
                         $str_to_attach = $str_to_attach . "\n";
                     }
                     $response["message"] = $str_to_attach;
-                    error_log("<pre>" . var_export($results, true) . "</pre>");
                 }
                 else
                 { 
