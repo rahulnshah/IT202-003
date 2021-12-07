@@ -47,25 +47,26 @@ if (isset($_POST["address"]) && isset($_POST["true_price"]) && isset($_POST["pay
                 $results = $r;
                 if(count($results) > 0)
                 {
+                    $str_to_attach = "";
                      //tell the user which items are not valid and why they are not valid in separate flash messages, that I will push in the errors array
                      //run a for loop on resutls , check if(AND) else if () else and concatenate the strings and set them to message
                     foreach($results as $res)
                     {
-                        $str_to_attach = "";
                         if((floatval($res['cart_cost']) != floatval($res['product_cost'])) && ((int) $res['desired_quantity'] > (int) $res['stock']))
                         {
-                            $str_to_attach = $res["name"] . "'s cart price:" . $res['cart_cost'] . " does not match its product price:" . " " . $res['product_cost'] . " and " . $res["name"] . "'s quantity in cart:" . $res['desired_quantity'] . " is greater than available stock:" . $res['stock'];
+                            $str_to_attach = $res["name"] . "'s cart price: " . $res['cart_cost'] . " does not match its product price: " . " " . $res['product_cost'] . " and " . $res["name"] . "'s quantity in cart: " . $res['desired_quantity'] . " is greater than available stock: " . $res['stock'];
                         }
                         else if((int) $res['desired_quantity'] > (int) $res['stock'])
                         {
-                            $str_to_attach = $res["name"] . "'s quantity in cart:" . $res['desired_quantity'] . " is greater than available stock:" . " " . $res['stock'];
+                            $str_to_attach = $res["name"] . "'s quantity in cart: " . $res['desired_quantity'] . " is greater than available stock:" . " " . $res['stock'];
                         }
                         else
                         {
-                            $str_to_attach = $res["name"] . "'s cart price:" . $res['cart_cost'] . " does not match its product price:" . " " . $res['product_cost'];
+                            $str_to_attach = $res["name"] . "'s cart price: " . $res['cart_cost'] . " does not match its product price:" . " " . $res['product_cost'];
                         }
+                        $str_to_attach = $str_to_attach . "\n";
                     }
-                    $response["message"] = "At least one item is not in stock or its cart price does not match its actual price.";
+                    $response["message"] = $str_to_attach;
                     error_log("<pre>" . var_export($results, true) . "</pre>");
                 }
                 else
