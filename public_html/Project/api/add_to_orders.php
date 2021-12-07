@@ -38,65 +38,62 @@ if (isset($_POST["address"]) && isset($_POST["true_price"]) && isset($_POST["pay
     if($isValid){
         $pdo = getDB();
         //verfiy current prodcut price against products table 
-        $sql = "SELECT Cart.unit_price AS Cart_price, Products.unit_price AS Product_price, Products.id FROM Products
-        INNER JOIN Cart on Products.id = Cart.product_id 
-        where Cart.user_id = :user_id AND Cart_price = Product_price AND Cart.desired_quantity <= Products.stock"; //inner joins are usally on primary keys and foreign keys
+        $sql = "SELECT Cart.unit_cost as cart_cost, Products.id as product_id, Products.unit_price as product_cost, Cart.desired_quantity, Products.stock, Cart.user_id FROM Products INNER JOIN Cart on Products.id = Cart.product_id where Cart.user_id = :user_id AND (Cart.unit_cost != Products.unit_price OR Cart.desired_quantity > Products.stock)"; //inner joins are usally on primary keys and foreign keys
         //negate the where condition to see which items are not in stock if thre are any
         $stmt = $pdo->prepare($sql);
         try{
-                $stmt->execute([":user_id" => $user_id]); //specify the user_id so I get only products in tat user's cart
+                $stmt->execute([":user_id" => $user_id]);
                 $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $results = $r;
-                // compare with the number of records in the Cart table fro that user 
-                //if ($cart_items === count($reuslts), proceed with the next steps of the order else do 
-                //$response["message"] = "something's wrong")
-                //SELECT Cart.unit_cost, Products.unit_price, Cart.desired_quantity, Products.stock, Cart.user_id, Products.unit_price, Products.id FROM Products INNER JOIN Cart on Products.id = Cart.product_id where Cart.user_id = 22 AND (Cart.unit_cost != Products.unit_price OR Cart.desired_quantity > Products.stock);
-                error_log(count($results));
-                if(count($results) === count($cart_items))
+                error_log("<pre>" . var_export(count($results), true) . "</pre>");
+                if(count($results) > 0)
                 {
-                    //check all entries in cart when desired quantity > stock and if that array of resutls 
-                    // is > 1, run a for loop on the reuslts and queue in messages denotitng whihc items fall 
-                    //in that situation 
-
-                    $sql = "SELECT Products.name, Products.id, Cart.desired_quantity FROM Products
-                    INNER JOIN Cart on Products.id = Cart.product_id 
-                    where Cart.user_id = :user_id and Cart.desired_quantity > Products.stock";
-                    $stmt = $pdo->prepare($sql);
+                     //tell the user which items are not valid and why they are not valid in separate flash messages, that I will push in the errors array
+                }
+                else
+                { 
                     try
                     {
-                        $stmt->execute([":user_id" => $user_id]); //specify the user_id so I get only products in tat user's cart
-                        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        $items_to_purchase = $r; 
-                        if(count($items_to_purchase) > 0)
-                        {
-                            //run a for loop or use a array_map to obtain a flash message for those items and prevent purchase of items in Cart.
-                            
-                        }
-                        else
-                        {
                             $last_inserted_order_id = save_data("Orders", $_POST, ["true_price"]);
                             if($last_inserted_order_id > 0)
                             {
-
                                 //Copy the cart details into the OrderItems tables with the Order ID from the previous step
                                 $stmt = $pdo->prepare("INSERT INTO OrderItems (product_id, unit_price, quantity, order_id)
                                 SELECT product_id, unit_cost, desired_quantity, :o_id FROM Cart where Cart.user_id = :user_id");
                                 try{
                                     $stmt->execute([":user_id" => $user_id, ":o_id" => $last_inserted_order_id]);
-                                    $last_inserted_orderitem = $pdo->lastInsertId();
+                                    //Update the Products table Stock for each item to deduct the Ordered Quantity
+                                    $stmt = $pdo->prepare("UPDATE Products INNER JOIN Cart ON Products.id = Cart.product_id
+                                    SET Products.stock = Products.stock - Cart.desired_quantity WHERE Cart.user_id = :user_id");
+                                    try
+                                    {
+                                        $stmt->execute([":user_id" => $user_id]);
+                                        //clear cart 
+                                        $stmt = $pdo->prepare("DELETE FROM Cart where user_id = :id");
+                                        try {
+                                            $stmt->execute([":id" => $user_id]);
+                                            $response["message"] = "Cleared cart and purchase sucessfull";
+                                            unset($_SESSION["total_cost"]);
+                                            //Redirect user to Order Confirmation Page
+                                        } catch (PDOException $e) {
+                                            flash("Error getting cost of $item_id: " . var_export($e->errorInfo, true), "warning");
+                                        }
+                                    }
+                                    catch(PDOException $e)
+                                    {
+                                        flash(var_export($e->errorInfo, true), "warning");
+                                    }
                                 }
                                 catch(PDOException $e)
                                 {
                                     flash(var_export($e->errorInfo, true), "warning");
-                                }
-                                
+                                } 
                             }
-                        }
                     }
                     catch(PDOException $e)
                     {
                         flash(var_export($e->errorInfo, true), "warning");
-                    } 
+                    }
                 }
         }
         catch(PDOException $e)
