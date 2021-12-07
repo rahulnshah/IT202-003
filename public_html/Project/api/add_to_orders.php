@@ -38,18 +38,35 @@ if (isset($_POST["address"]) && isset($_POST["true_price"]) && isset($_POST["pay
     if($isValid){
         $pdo = getDB();
         //verfiy current prodcut price against products table 
-        $sql = "SELECT Cart.unit_cost as cart_cost, Products.id as product_id, Products.unit_price as product_cost, Cart.desired_quantity, Products.stock, Cart.user_id FROM Products INNER JOIN Cart on Products.id = Cart.product_id where Cart.user_id = :user_id AND (Cart.unit_cost != Products.unit_price OR Cart.desired_quantity > Products.stock)"; //inner joins are usally on primary keys and foreign keys
+        $sql = "SELECT Cart.unit_cost as cart_cost, Products.id as product_id, Products.unit_price as product_cost, Cart.desired_quantity, Products.stock, Products.name, Cart.user_id FROM Products INNER JOIN Cart on Products.id = Cart.product_id where Cart.user_id = :user_id AND (Cart.unit_cost != Products.unit_price OR Cart.desired_quantity > Products.stock)"; //inner joins are usally on primary keys and foreign keys
         //negate the where condition to see which items are not in stock if thre are any
         $stmt = $pdo->prepare($sql);
         try{
                 $stmt->execute([":user_id" => $user_id]);
                 $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $results = $r;
-                error_log("<pre>" . var_export(count($results), true) . "</pre>");
                 if(count($results) > 0)
                 {
                      //tell the user which items are not valid and why they are not valid in separate flash messages, that I will push in the errors array
+                     //run a for loop on resutls , check if(AND) else if () else and concatenate the strings and set them to message
+                    foreach($results as $res)
+                    {
+                        $str_to_attach = "";
+                        if((floatval($res['cart_cost']) != floatval($res['product_cost'])) && ((int) $res['desired_quantity'] > (int) $res['stock']))
+                        {
+                            $str_to_attach = $res["name"] . "'s cart price:" . $res['cart_cost'] . " does not match its product price:" . " " . $res['product_cost'] . " and " . $res["name"] . "'s quantity in cart:" . $res['desired_quantity'] . " is greater than available stock:" . $res['stock'];
+                        }
+                        else if((int) $res['desired_quantity'] > (int) $res['stock'])
+                        {
+                            $str_to_attach = $res["name"] . "'s quantity in cart:" . $res['desired_quantity'] . " is greater than available stock:" . " " . $res['stock'];
+                        }
+                        else
+                        {
+                            $str_to_attach = $res["name"] . "'s cart price:" . $res['cart_cost'] . " does not match its product price:" . " " . $res['product_cost'];
+                        }
+                    }
                     $response["message"] = "At least one item is not in stock or its cart price does not match its actual price.";
+                    error_log("<pre>" . var_export($results, true) . "</pre>");
                 }
                 else
                 { 
