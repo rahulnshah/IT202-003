@@ -49,6 +49,7 @@ if (isset($_POST["address"]) && isset($_POST["true_price"]) && isset($_POST["pay
                 if(count($results) > 0)
                 {
                      //tell the user which items are not valid and why they are not valid in separate flash messages, that I will push in the errors array
+                    $response["message"] = "At least one item is not in stock or its cart price does not match its actual price.";
                 }
                 else
                 { 
@@ -72,9 +73,8 @@ if (isset($_POST["address"]) && isset($_POST["true_price"]) && isset($_POST["pay
                                         $stmt = $pdo->prepare("DELETE FROM Cart where user_id = :id");
                                         try {
                                             $stmt->execute([":id" => $user_id]);
-                                            $response["message"] = "Cleared cart and purchase sucessfull";
+                                            $response["message"] = "Cleared cart and purchase successfull";
                                             unset($_SESSION["total_cost"]);
-                                            //Redirect user to Order Confirmation Page
                                         } catch (PDOException $e) {
                                             flash("Error getting cost of $item_id: " . var_export($e->errorInfo, true), "warning");
                                         }
