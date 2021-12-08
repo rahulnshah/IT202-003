@@ -7,9 +7,7 @@ if (!is_logged_in()) {
 }
 $results = [];
 $db = getDB();
-$stmt = $db->prepare("SELECT Products.name, Orders.id, OrderItems.product_id, Orders.total_price, OrderItems.unit_price, OrderItems.quantity, Orders.payment_method, Orders.address FROM OrderItems
-INNER JOIN Orders on Orders.id = OrderItems.order_id 
-INNER JOIN Products on Products.id = OrderItems.product_id
+$stmt = $db->prepare("SELECT Orders.id, Orders.total_price, Orders.payment_method, Orders.address FROM Orders
 where Orders.user_id = :user_id"); // select prod it and name and inner join where prod id = cart.prod_id 
 //based on that id 
 // $total_cart_value = 0;
@@ -30,7 +28,7 @@ try {
             <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>"; ?>  -->
             
             <?php foreach ($results as $item) : ?>
-                <div id='productwithID<?php echo $item["product_id"]; ?>' class="col">
+                <div id='orderwithID<?php echo $item["id"]; ?>' class="col">
                     <div class="card bg-light">
                         <div class="card-header">
                             Placeholder
@@ -39,22 +37,19 @@ try {
                         <img src="<?php se($item, "image"); ?>" class="card-img-top" alt="...">
                     <?php endif; ?> -->
                         <div class="card-body">
-                            <h5 class="card-title">Name: <?php se($item, "name"); ?></h5>
-                            <p class="card-text">Unit price: $<?php se($item, "unit_price"); ?></p>
-                            <p class="card-text">ProductID: <?php se($item, "id"); ?></p>
+                            <p class="card-text">Total price: $<?php se($item, "total_price"); ?></p>
+                            <p class="card-text">OrderID: <?php se($item, "id"); ?></p>
                             <p class="card-text">Payment method: <?php se($item, "payment_method"); ?></p>
-                            <p class="card-text">Deleiver To: <?php echo join(",",explode(" ", se($item, "address", "Unknown address", false))); ?></p>
-                            <p class="card-text">Quantity purchased: <?php se($item, "quantity"); ?></p>
+                            <p class="card-text">Deliever To: <?php echo join(",",explode(" ", se($item, "address", "Unknown address", false))); ?></p>
                         </div>
                         <div class="card-footer">
-                            Subtotal: $<?php echo ((int) se($item, "quantity", null, false) * floatval(se($item, "unit_price", null, false))); ?>
-                            <a class="btn btn-primary" href="product_details.php?id=<?php se($item, "product_id");?>">View</a>
+                            <a class="btn btn-primary" href="order_details.php?id=<?php se($item, "id");?>">View</a>
                         </div>
                     </div>
                 </div>
                 <script>
-                    $(document.getElementById('productwithID<?php echo $item["product_id"]; ?>').getElementsByClassName('card-body')[0]).click(function() {
-                        document.location.href = 'product_details.php?id=<?php echo $item["product_id"]; ?>';
+                    $(document.getElementById('orderwithID<?php echo $item["id"]; ?>').getElementsByClassName('card-body')[0]).click(function() {
+                        document.location.href = 'order_details.php?id=<?php echo $item["id"]; ?>';
                     });
                 </script>
             <?php endforeach; ?>
@@ -77,9 +72,6 @@ try {
                     );
                 }
             </script>
-            <br>
-            <p><?php echo "Total: $" . se($results[0], "total_price", "000.00", false);?>
-            <br>
             <?php endif; ?>
     </div>
 </div>

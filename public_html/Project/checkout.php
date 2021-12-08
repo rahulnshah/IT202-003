@@ -73,7 +73,7 @@ require(__DIR__ . "/../../partials/nav.php");
                         if(data["message"] === "Cleared cart and purchase successfull")
                         {
                             flash(data["message"], "success");
-                            setTimeout(function(){ window.location.href = "confirmation_page.php"; }, 3000);
+                            setTimeout(function(){ window.location.href = "orders.php"; }, 3000);
                         }
                         else
                         {
