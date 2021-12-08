@@ -5,7 +5,7 @@ $id = se($_GET, "id", -1, false);
 if($id <= 0)
 {
     flash("Need to select an order first.", "warning");
-    redirect("shop.php");
+    redirect("orders.php");
 }
 $results = [];
 $db = getDB();
@@ -23,7 +23,7 @@ try {
 }
 ?>
 <div class="container-fluid">
-    <h1 id="myCart">Orders</h1>
+    <h1 id="myCart">Order Items</h1>
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>" ?> -->
         <p>Thank you for shopping!</p>
