@@ -70,10 +70,14 @@ require(__DIR__ . "/../../partials/nav.php");
                         // document.getElementsByTagName("div")[1].innerHTML = data["message"];
                         let data = JSON.parse(this.responseText);
                         console.log("response text", this.responseText);
-                        flash(data["message"], "success");
                         if(data["message"] === "Cleared cart and purchase successfull")
                         {
+                            flash(data["message"], "success");
                             setTimeout(function(){ window.location.href = "confirmation_page.php"; }, 3000);
+                        }
+                        else
+                        {
+                            flash(data["message"], "warning");
                         }
                         // return a sucsess message and redirect the user 
                     }

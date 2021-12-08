@@ -45,11 +45,12 @@ if (isset($_POST["address"]) && isset($_POST["true_price"]) && isset($_POST["pay
                 $stmt->execute([":user_id" => $user_id]);
                 $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $results = $r;
+                error_log(var_export($results, true));
                 if(count($results) > 0)
                 {
-                    $str_to_attach = "";
                      //tell the user which items are not valid and why they are not valid in separate flash messages, that I will push in the errors array
                      //run a for loop on resutls , check if(AND) else if () else and concatenate the strings and set them to message
+                     $empty_str = "";
                     foreach($results as $res)
                     {
                         if((floatval($res['cart_cost']) != floatval($res['product_cost'])) && ((int) $res['desired_quantity'] > (int) $res['stock']))
@@ -64,9 +65,10 @@ if (isset($_POST["address"]) && isset($_POST["true_price"]) && isset($_POST["pay
                         {
                             $str_to_attach = $res["name"] . "'s cart price: " . $res['cart_cost'] . " does not match its product price:" . " " . $res['product_cost'];
                         }
-                        $str_to_attach = $str_to_attach . "\n";
+                        $empty_str = $empty_str . $str_to_attach . "\n";
                     }
-                    $response["message"] = $str_to_attach;
+                    $response["message"] = $empty_str;
+                    error_log($empty_str);
                 }
                 else
                 { 
