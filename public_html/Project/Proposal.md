@@ -145,7 +145,7 @@
           - Admin/Shop owner can fill in form to add a product to the Products table. 
         ![image](https://user-images.githubusercontent.com/68120349/143923438-3f271ca0-8290-43b6-98d2-2a9b6931d02d.png)
           - Products table
-        ![image](https://user-images.githubusercontent.com/68120349/143923540-8e4f617e-4ec2-409b-b9cb-f21936da8529.png)
+        ![image](https://user-images.githubusercontent.com/68120349/144722430-fe98539f-067f-482c-8826-bd252bb41624.png)
           - Cart table
 
   - [x] \(11\17\2021) Any user will be able to see products with visibility = true on the Shop page
@@ -284,47 +284,77 @@
         ![image](https://user-images.githubusercontent.com/68120349/143903571-97633c5d-8658-4d80-ac33-d57c7511a10f.png)
           - User will be able click on the body of a card and card will have a blue border generated around it upon hover.
 - Milestone 3
-  - [ ] \(mm/dd/yyyy of completion) User will be able to purchase items in their Cart
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
-
-  - [ ] \(mm/dd/yyyy of completion) Order Confirmation Page
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
-
-  - [ ] \(mm/dd/yyyy of completion) User will be able to see their Purchase History
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
-
-  - [ ] \(mm/dd/yyyy of completion) Store Owner will be able to see all Purchase History
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
-
 - Milestone 4
+  - [ ] \(mm/dd/yyyy of completion) User can set their profile to be public or private (will need another column in Users table)
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) User will be able to rate a product they purchased
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) User’s Purchase History Changes
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) Store Owner Purchase History Changes
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) Add pagination to Shop Page (and any other product lists not yet mentioned)
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) Store Owner will be able to see all products out of stock
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) User can sort products by average rating on the Shop Page
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
 ### Intructions
 #### Don't delete this
 1. Pick one project type
