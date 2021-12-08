@@ -3,14 +3,22 @@
 //add a looggedin page , f no orders are for that orider_id from checkout, show current purchase not all purcashed 
 require(__DIR__ . "/../../partials/nav.php");
 $results = [];
+$id = se($_GET, "last_inserted_orderId", -1, false);
+if($id <= 0)
+{
+    flash("Need to checkout from cart first.", "warning");
+    redirect("cart.php");
+}
 $db = getDB();
 $stmt = $db->prepare("SELECT Products.name, OrderItems.product_id, Orders.total_price, OrderItems.unit_price, OrderItems.quantity FROM OrderItems
-INNER JOIN Orders on OrderItems.order_id = Orders.id
-INNER JOIN Products on Products.id = OrderItems.product_id where Orders.user_id = :user_id"); // select prod it and name and inner join where prod id = cart.prod_id 
+INNER JOIN Orders on OrderItems.order_id = :o_id
+INNER JOIN Products on Products.id = OrderItems.product_id"); // select prod it and name and inner join where prod id = cart.prod_id 
 //based on that id 
 // $total_cart_value = 0;
+//not going to check for where Orders.user_id = get_user_id(), becasue I am getting the last inserted id from users table, which 
+//happens when the user checskout
 try {
-    $stmt->execute([":user_id" => get_user_id()]); //specify the user_id so I get only products in tat user's cart
+    $stmt->execute([":o_id" => $id]); //specify the user_id so I get only products in tat user's cart
     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $results = $r;
 } catch (PDOException $e) {
