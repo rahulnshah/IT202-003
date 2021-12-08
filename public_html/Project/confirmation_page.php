@@ -1,6 +1,6 @@
 <?php
 //note we need to go up 1 more directory
-//add a looggedin page , f no orders are for that orider_id, show current purchase not all purcashed 
+//add a looggedin page , f no orders are for that orider_id from checkout, show current purchase not all purcashed 
 require(__DIR__ . "/../../partials/nav.php");
 $results = [];
 $db = getDB();
