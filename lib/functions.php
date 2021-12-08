@@ -246,4 +246,21 @@ function redirect($path)
     echo "<noscript><meta http-equiv=\"refresh\" content=\"0;url=" . get_url($path) . "\"/></noscript>";
     die();
 }
+function get_number_of_cartItems()
+{
+    $query = "SELECT SUM(desired_quantity) AS numberOfCartItems
+    FROM Cart WHERE user_id = :user_id";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    
+    try{
+        $stmt->execute([":user_id" => get_user_id()]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row["numberOfCartItems"];
+    }
+    catch (PDOException $e) {
+        flash("<pre>" . var_export($e->errorInfo, true) . "</pre>");
+    }
+    return "<pre>" . var_export($e->errorInfo, true) . "</pre>";
+}
 ?>

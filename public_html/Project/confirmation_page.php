@@ -1,6 +1,6 @@
 <?php
 //note we need to go up 1 more directory
-//add a looggedin page , f no orders are for that orider_id from checkout, show current purchase not all purcashed 
+//add a looggedin page 
 require(__DIR__ . "/../../partials/nav.php");
 $results = [];
 $id = se($_GET, "last_inserted_orderId", -1, false);
@@ -10,9 +10,8 @@ if($id <= 0)
     redirect("cart.php");
 }
 $db = getDB();
-$stmt = $db->prepare("SELECT Products.name, OrderItems.product_id, Orders.total_price, OrderItems.unit_price, OrderItems.quantity FROM OrderItems
-INNER JOIN Orders on OrderItems.order_id = :o_id
-INNER JOIN Products on Products.id = OrderItems.product_id"); // select prod it and name and inner join where prod id = cart.prod_id 
+$stmt = $db->prepare("SELECT Orders.id, Orders.total_price, Orders.payment_method, Orders.address FROM Orders
+where Orders.id = :o_id"); // select prod it and name and inner join where prod id = cart.prod_id 
 //based on that id 
 // $total_cart_value = 0;
 //not going to check for where Orders.user_id = get_user_id(), becasue I am getting the last inserted id from users table, which 
@@ -26,7 +25,7 @@ try {
 }
 ?>
 <div class="container-fluid">
-    <h1 id="myCart">Order Items</h1>
+    <h1 id="myCart">Orders</h1>
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>" ?> -->
         <p>Thank you for shopping!</p>
@@ -34,7 +33,7 @@ try {
             <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>"; ?>  -->
             
             <?php foreach ($results as $item) : ?>
-                <div id='productwithID<?php echo $item["product_id"]; ?>' class="col">
+                <div id='orderwithID<?php echo $item["id"]; ?>' class="col">
                     <div class="card bg-light">
                         <div class="card-header">
                             Placeholder
@@ -43,20 +42,19 @@ try {
                         <img src="<?php se($item, "image"); ?>" class="card-img-top" alt="...">
                     <?php endif; ?> -->
                         <div class="card-body">
-                            <h5 class="card-title">Name: <?php se($item, "name"); ?></h5>
-                            <p class="card-text">Unit price: $<?php se($item, "unit_price"); ?></p>
-                            <p class="card-text">Quantity purchased: <?php se($item, "quantity"); ?></p>
-                            <p class="card-text">ProductID: <?php se($item, "product_id"); ?></p>
+                            <p class="card-text">Total price: $<?php se($item, "total_price"); ?></p>
+                            <p class="card-text">OrderID: <?php se($item, "id"); ?></p>
+                            <p class="card-text">Payment method: <?php se($item, "payment_method"); ?></p>
+                            <p class="card-text">Deliever To: <?php echo join(",",explode(" ", se($item, "address", "Unknown address", false))); ?></p>
                         </div>
                         <div class="card-footer">
-                            Subtotal: $<?php echo ((int) se($item, "quantity", null, false) * floatval(se($item, "unit_price", null, false))); ?>
-                            <a class="btn btn-primary" href="product_details.php?id=<?php se($item, "product_id");?>">View</a>
+                            <a class="btn btn-primary" href="order_details.php?id=<?php se($item, "id");?>">View</a>
                         </div>
                     </div>
                 </div>
                 <script>
-                    $(document.getElementById('productwithID<?php echo $item["product_id"]; ?>').getElementsByClassName('card-body')[0]).click(function() {
-                        document.location.href = 'product_details.php?id=<?php echo $item["product_id"]; ?>';
+                    $(document.getElementById('orderwithID<?php echo $item["id"]; ?>').getElementsByClassName('card-body')[0]).click(function() {
+                        document.location.href = 'order_details.php?id=<?php echo $item["id"]; ?>';
                     });
                 </script>
             <?php endforeach; ?>
@@ -79,9 +77,6 @@ try {
                     );
                 }
             </script>
-            <br>
-            <p><?php echo "Total: $" . se($results[0], "total_price", "000.00", false);?>
-            <br>
             <?php endif; ?>
     </div>
 </div>
