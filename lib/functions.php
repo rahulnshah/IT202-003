@@ -104,7 +104,10 @@ function reset_session()
 {
     session_unset();
     session_destroy();
-    session_start();
+    if(!headers_sent())
+    {
+        session_start();
+    }
 }
 function users_check_duplicate($errorInfo)
 {

@@ -3,7 +3,7 @@
 require(__DIR__ . "/../../partials/nav.php");
 if (!is_logged_in()) {
     flash("Need to be logged in to shop", "warning");
-    die(header("Location: login.php"));
+    redirect("login.php");
 }
 $results = [];
 $db = getDB();

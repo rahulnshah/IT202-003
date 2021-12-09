@@ -118,6 +118,7 @@ require_once(__DIR__ . "/../lib/functions.php");
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('login.php'); ?>">Login</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('register.php'); ?>">Register</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('shop.php'); ?>">Shop</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('orders.php'); ?>">Orders</a></li>
             <?php endif; ?>
             <?php if (is_logged_in()) : ?>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('logout.php'); ?>">Logout</a></li>
