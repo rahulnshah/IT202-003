@@ -10,7 +10,7 @@ if (!has_role("Admin")) {
 $results = [];
 
     $db = getDB();
-    $stmt = $db->prepare("SELECT id, user_id, total_price, payment_method, address from Orders LIMIT 10");
+    $stmt = $db->prepare("SELECT id, user_id, total_price, payment_method, address from Orders ORDER BY created DESC LIMIT 10");
     try {
         $stmt->execute();
         $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
