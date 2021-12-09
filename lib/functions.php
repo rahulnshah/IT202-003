@@ -256,10 +256,14 @@ function get_number_of_cartItems()
     try{
         $stmt->execute([":user_id" => get_user_id()]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(is_null($row["numberOfCartItems"]))
+        {
+            return "0";
+        }
         return $row["numberOfCartItems"];
     }
     catch (PDOException $e) {
-        flash("<pre>" . var_export($e->errorInfo, true) . "</pre>");
+        flash(var_export($e->errorInfo, true), "warning");
     }
     return "<pre>" . var_export($e->errorInfo, true) . "</pre>";
 }
