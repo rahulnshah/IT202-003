@@ -23,10 +23,8 @@ try {
     <h1 id="myCart">Orders</h1>
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>" ?> -->
-        <p>Thank you for shopping!</p>
         <?php if (count($results) > 0) : ?>
             <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>"; ?>  -->
-            
             <?php foreach ($results as $item) : ?>
                 <div id='orderwithID<?php echo $item["id"]; ?>' class="col">
                     <div class="card bg-light">
@@ -43,13 +41,13 @@ try {
                             <p class="card-text">Deliever To: <?php echo join(",",explode(" ", se($item, "address", "Unknown address", false))); ?></p>
                         </div>
                         <div class="card-footer">
-                            <a class="btn btn-primary" href="order_details.php?id=<?php se($item, "id");?>">View</a>
+                            <a class="btn btn-primary" href="order_details.php?order_id=<?php se($item, "id");?>">View</a>
                         </div>
                     </div>
                 </div>
                 <script>
                     $(document.getElementById('orderwithID<?php echo $item["id"]; ?>').getElementsByClassName('card-body')[0]).click(function() {
-                        document.location.href = 'order_details.php?id=<?php echo $item["id"]; ?>';
+                        document.location.href = 'order_details.php?order_id=<?php echo $item["id"]; ?>';
                     });
                 </script>
             <?php endforeach; ?>

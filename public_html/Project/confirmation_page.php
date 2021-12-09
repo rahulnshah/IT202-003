@@ -48,13 +48,13 @@ try {
                             <p class="card-text">Deliever To: <?php echo join(",",explode(" ", se($item, "address", "Unknown address", false))); ?></p>
                         </div>
                         <div class="card-footer">
-                            <a class="btn btn-primary" href="order_details.php?id=<?php se($item, "id");?>">View</a>
+                            <a class="btn btn-primary" href="order_details.php?order_id=<?php se($item, "id");?>">View</a>
                         </div>
                     </div>
                 </div>
                 <script>
                     $(document.getElementById('orderwithID<?php echo $item["id"]; ?>').getElementsByClassName('card-body')[0]).click(function() {
-                        document.location.href = 'order_details.php?id=<?php echo $item["id"]; ?>';
+                        document.location.href = 'order_details.php?order_id=<?php echo $item["id"]; ?>';
                     });
                 </script>
             <?php endforeach; ?>
