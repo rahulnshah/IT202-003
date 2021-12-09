@@ -3,7 +3,7 @@
 require(__DIR__ . "/../../partials/nav.php");
 if (!is_logged_in()) {
     flash("Need to be logged in to shop", "warning");
-    die(header("Location: login.php"));
+    redirect("login.php");
 }
 $results = [];
 $db = getDB();
@@ -13,14 +13,14 @@ where Cart.user_id = :user_id"); // select prod it and name and inner join where
 //based on that id 
 $total_cart_value = 0;
 try {
-    $stmt->execute([":user_id" => get_user_id()]);
+    $stmt->execute([":user_id" => get_user_id()]); //specify the user_id so I get only products in tat user's cart
     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $results = $r;
     if(count($results) > 0)
     {
         foreach($results as $result)
         {
-            $total_cart_value +=  floatval(se($result, "unit_cost", null, false));
+            $total_cart_value +=  (int) se($result, "desired_quantity", null, false) * floatval(se($result, "unit_cost", null, false));
         }
     }
     //var_export(($results));
@@ -62,9 +62,9 @@ try {
             http.send(q);
             console.log(http);
     }
-    function remove_item(cart_id, quantity, price)
+    function remove_item(cart_id, quantity)
     {
-        console.log("TODO remove item", cart_id);
+        //console.log("TODO remove item", cart_id);
         let http = new XMLHttpRequest();
             http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -77,8 +77,7 @@ try {
         http.open("POST", "api/removeproduct_from_cart.php", true);
         let data = {
                 id: cart_id,
-                desired_quantity: quantity,
-                unit_price: price
+                desired_quantity: quantity
             }
         let q = Object.keys(data).map(key => key + '=' + data[key]).join('&');
         console.log(q);
@@ -87,7 +86,7 @@ try {
         console.log(http);
     }
 
-    function set_quantity(form,cart_id, price)
+    function set_quantity(form,cart_id)
     {
     //    console.log(form);
     //    console.log(form.elements[0].value);
@@ -96,7 +95,7 @@ try {
         flashElement.innerHTML = "";
         const formFieldOne = form.elements[0];// this is the problem, need to get every form 
         console.log("fromFieldOne's value:", formFieldOne.value);
-        let retVal = true;
+        //let retVal = true;
         //if the input is some wierd characters, or some number < 0, flash a message 
         if(!(/^-?[0-9]\d*(\.\d+)?$/.test(formFieldOne.value)) || formFieldOne.value < 0)
         {
@@ -116,8 +115,7 @@ try {
             http.open("POST", "api/setproductquantity_from_cart.php", true);
             let data = {
                     id: cart_id,
-                    desired_quantity: formFieldOne.value,
-                    unit_price: price
+                    desired_quantity: formFieldOne.value
                 }
             let q = Object.keys(data).map(key => key + '=' + data[key]).join('&');
             console.log(q);
@@ -152,14 +150,14 @@ try {
                             <!-- <p class="card-text">Stock: <?php se($item, "stock"); ?></p> show stock to user -->
                         </div>
                         <div class="card-footer">
-                            Subtotal: $<?php se($item, "unit_cost"); ?>
-                            <button onclick="remove_item('<?php se($item, 'id'); ?>', '<?php se($item, 'desired_quantity'); ?>', '<?php se($item, 'unit_price'); ?>')" class="btn btn-primary">Remove</button>
+                            Subtotal: $<?php echo ((int) se($item, "desired_quantity", null, false) * floatval(se($item, "unit_cost", null, false))); ?>
+                            <button onclick="remove_item('<?php se($item, 'id'); ?>', '<?php se($item, 'desired_quantity'); ?>')" class="btn btn-primary">Remove</button>
                             <a class="btn btn-primary" href="product_details.php?id=<?php se($item, "product_id");?>">View</a>
                             <form>
                                 <label for="quantity">Quantity:</label>
                         <div class="input-group">
                                 <input class="form-control" type="number" id="quantity" name="quantity" value="<?php se($item, 'desired_quantity'); ?>">
-                                <button type="button" onclick="set_quantity(this.form,'<?php se($item, 'id'); ?>', '<?php se($item, 'unit_price'); ?>')" class="btn btn-outline-primary">Set Quantity</button>
+                                <button type="button" onclick="set_quantity(this.form,'<?php se($item, 'id'); ?>')" class="btn btn-outline-primary">Set Quantity</button>
                         </div>
                             </form>
                         </div>
@@ -190,11 +188,12 @@ try {
                 }
             </script>
             <br>
-            <div class="btn-group" >
-                <button onclick="clear_cart('<?php echo get_user_id(); ?>')" class="btn btn-primary">Clear Cart</button>
-            </div>
+            <p><?php echo "Total: $" . strval($total_cart_value); ?>
+            <button onclick="clear_cart('<?php echo get_user_id(); ?>')" class="btn btn-primary">Clear Cart</button>
+            <br>
+            <?php $_SESSION['total_cost'] = strval($total_cart_value); ?>
+            <a class="btn btn-primary" href="checkout.php">Checkout</a>
             <?php endif; ?>
-        <p><?php echo "Total: $" . strval($total_cart_value)?></p>
     </div>
 </div>
 <?php
