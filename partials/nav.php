@@ -123,6 +123,7 @@ require_once(__DIR__ . "/../lib/functions.php");
             <?php if (is_logged_in()) : ?>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('logout.php'); ?>">Logout</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('shop.php'); ?>">Shop</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('orders.php'); ?>">Orders</a></li>
                 <li class="nav-item"><a id="show-numOfCart-items" class="nav-link active" aria-current="page" href="<?php echo get_url('cart.php'); ?>"></a>
                 </li>
             <?php endif; ?>
@@ -138,6 +139,7 @@ require_once(__DIR__ . "/../lib/functions.php");
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/assign_roles.php'); ?>">Assign Roles</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/add_product.php'); ?>">Add Product</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/list_products.php'); ?>">List Products</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/list_purchase_history.php'); ?>">List Purchase History</a></li>
                         <?php endif; ?>
                     </ul>
                 </li>
