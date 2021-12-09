@@ -122,7 +122,6 @@ require_once(__DIR__ . "/../lib/functions.php");
             <?php if (is_logged_in()) : ?>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('logout.php'); ?>">Logout</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('shop.php'); ?>">Shop</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('cart.php'); ?>">Cart</a></li>
                 <li class="nav-item"><a id="show-numOfCart-items" class="nav-link active" aria-current="page" href="<?php echo get_url('cart.php'); ?>"></a>
                 </li>
             <?php endif; ?>
@@ -154,7 +153,11 @@ require_once(__DIR__ . "/../lib/functions.php");
     //I'll make this flexible so I can define various placeholders and copy
     //the value into all of them
     let placeholder = document.getElementById("show-numOfCart-items");
+    //if place holder exists, then do the following, remove bv either way. 
         //https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode
-    placeholder.innerHTML = bv.outerHTML;//bv.cloneNode(true).outerHTML;
+    if(placeholder !== null)
+    {
+        placeholder.innerHTML = bv.outerHTML;//bv.cloneNode(true).outerHTML;
+    }
     bv.remove(); //delete the original
 </script>
