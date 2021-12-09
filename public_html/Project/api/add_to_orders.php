@@ -93,6 +93,7 @@ if (isset($_POST["address"]) && isset($_POST["true_price"]) && isset($_POST["pay
                                         try {
                                             $stmt->execute([":id" => $user_id]);
                                             $response["message"] = "Cleared cart and purchase successfull";
+                                            $response["last_inserted_orderId"] = $last_inserted_order_id;
                                             unset($_SESSION["total_cost"]);
                                         } catch (PDOException $e) {
                                             flash("Error getting cost of $item_id: " . var_export($e->errorInfo, true), "warning");
