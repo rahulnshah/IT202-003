@@ -118,11 +118,14 @@ require_once(__DIR__ . "/../lib/functions.php");
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('login.php'); ?>">Login</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('register.php'); ?>">Register</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('shop.php'); ?>">Shop</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('orders.php'); ?>">Orders</a></li>
             <?php endif; ?>
             <?php if (is_logged_in()) : ?>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('logout.php'); ?>">Logout</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('shop.php'); ?>">Shop</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('cart.php'); ?>">Cart</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo get_url('orders.php'); ?>">Orders</a></li>
+                <li class="nav-item"><a id="show-numOfCart-items" class="nav-link active" aria-current="page" href="<?php echo get_url('cart.php'); ?>"></a>
+                </li>
             <?php endif; ?>
             <?php if (has_role("Admin")) : ?>
                 <li class="nav-item dropdown">
@@ -136,6 +139,7 @@ require_once(__DIR__ . "/../lib/functions.php");
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/assign_roles.php'); ?>">Assign Roles</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/add_product.php'); ?>">Add Product</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/list_products.php'); ?>">List Products</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/list_purchase_history.php'); ?>">List Purchase History</a></li>
                         <?php endif; ?>
                     </ul>
                 </li>
@@ -144,3 +148,19 @@ require_once(__DIR__ . "/../lib/functions.php");
     </div>
   </div>
 </nav>
+<div id="cart-value">
+    Cart: <?php echo get_number_of_cartItems(); ?>
+</div>
+<script>
+    let bv = document.getElementById("cart-value");
+    //I'll make this flexible so I can define various placeholders and copy
+    //the value into all of them
+    let placeholder = document.getElementById("show-numOfCart-items");
+    //if place holder exists, then do the following, remove bv either way. 
+        //https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode
+    if(placeholder !== null)
+    {
+        placeholder.innerHTML = bv.outerHTML;//bv.cloneNode(true).outerHTML;
+    }
+    bv.remove(); //delete the original
+</script>

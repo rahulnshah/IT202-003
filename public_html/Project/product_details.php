@@ -17,7 +17,7 @@ $id = se($_GET, "id", -1, false);
 if($id <= 0)
 {
     flash("Need to select an item first.", "warning");
-    die(header("Location: shop.php"));
+    redirect("shop.php");
 }
 $stmt = $db->prepare("SELECT * FROM Products where id =:id");
 try {
