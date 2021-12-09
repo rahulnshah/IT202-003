@@ -7,8 +7,8 @@ if (!is_logged_in()) {
 }
 $results = [];
 $db = getDB();
-$stmt = $db->prepare("SELECT Orders.id, Orders.total_price, Orders.payment_method, Orders.address FROM Orders
-where Orders.user_id = :user_id"); // select prod it and name and inner join where prod id = cart.prod_id 
+$stmt = $db->prepare("SELECT id, total_price, payment_method, address FROM Orders
+where user_id = :user_id ORDER BY created DESC LIMIT 10"); // select prod it and name and inner join where prod id = cart.prod_id 
 //based on that id 
 // $total_cart_value = 0;
 try {
