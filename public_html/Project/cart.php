@@ -148,6 +148,10 @@ try {
                             <p class="card-text">CartID: <?php se($item, "id"); ?></p>
                             <p class="card-text">Category: <?php se($item, "category"); ?></p>
                             <!-- <p class="card-text">Stock: <?php se($item, "stock"); ?></p> show stock to user -->
+                            <?php if (floatval(se($item, "unit_cost", "000.00", false)) !== floatval(se($item, "unit_price","000.00", false))) : ?>
+                                <p class="card-text">Unit Price: $<?php se($item, "unit_price"); ?></p>
+                                <p class="card-text">Unit Cost: $<?php se($item, "unit_cost"); ?></p> 
+                            <?php endif; ?>
                         </div>
                         <div class="card-footer">
                             Subtotal: $<?php echo ((int) se($item, "desired_quantity", null, false) * floatval(se($item, "unit_cost", null, false))); ?>
@@ -164,9 +168,32 @@ try {
                     </div>
                 </div>
                 <script>
+                    function strikeThrough(text) {
+                        return "<del>" + text + "</del>";
+                    }
                     $(document.getElementById('cardwithID<?php echo $item["id"]; ?>').getElementsByClassName('card-body')[0]).click(function() {
                         document.location.href = 'product_details.php?id=<?php echo $item["product_id"]; ?>';
                     });
+                    // extract unit_cost and price from string that check if bot are not null and display 
+                    var u_price = document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[4];
+                    var u_cost = document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[5];
+                    if(u_cost !== undefined & u_price !== undefined)
+                    {
+                        u_price = Number(u_price.innerText.replace(/[^0-9\.]+/g,""));
+                        u_cost = Number(u_cost.innerText.replace(/[^0-9\.]+/g,""));
+                        var percentage_change = (Math.abs(u_cost - u_price)/u_cost) * 100;
+                        if(u_price > u_cost)
+                        {
+                            document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[4].innerText = "Now: $" + u_price + " (" + Math.round(percentage_change) + "% higher)";
+                        }
+                        else
+                        {
+                            document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[4].innerText = "Now: $" + u_price + " (" + Math.round(percentage_change) + "% off)";
+                            
+                        }
+                        document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[5].innerHTML = "Unit Cost: " + strikeThrough("$" + u_cost);
+                    }
+
                 </script>
             <?php endforeach; ?>
             <script>
