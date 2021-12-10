@@ -104,7 +104,10 @@ function reset_session()
 {
     session_unset();
     session_destroy();
-    session_start();
+    if(!headers_sent())
+    {
+        session_start();
+    }
 }
 function users_check_duplicate($errorInfo)
 {
@@ -230,5 +233,41 @@ function update_data($table, $id,  $data, $ignore = ["id", "submit"])
         flash("<pre>" . var_export($e->errorInfo, true) . "</pre>");
         return false;
     }
+}
+//snippet from my functions.php
+function redirect($path)
+{ //header headache
+    //https://www.php.net/manual/en/function.headers-sent.php#90160
+    /*headers are sent at the end of script execution otherwise they are sent when the buffer reaches it's limit and emptied */
+    if (!headers_sent()) {
+        //php redirect
+        die(header("Location: " . get_url($path)));
+    }
+    //javascript redirect
+    echo "<script>window.location.href='" . get_url($path) . "';</script>";
+    //metadata redirect (runs if javascript is disabled)
+    echo "<noscript><meta http-equiv=\"refresh\" content=\"0;url=" . get_url($path) . "\"/></noscript>";
+    die();
+}
+function get_number_of_cartItems()
+{
+    $query = "SELECT SUM(desired_quantity) AS numberOfCartItems
+    FROM Cart WHERE user_id = :user_id";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    
+    try{
+        $stmt->execute([":user_id" => get_user_id()]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(is_null($row["numberOfCartItems"]))
+        {
+            return "0";
+        }
+        return $row["numberOfCartItems"];
+    }
+    catch (PDOException $e) {
+        flash(var_export($e->errorInfo, true), "warning");
+    }
+    return "<pre>" . var_export($e->errorInfo, true) . "</pre>";
 }
 ?>

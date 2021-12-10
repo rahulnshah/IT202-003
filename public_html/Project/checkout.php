@@ -22,7 +22,7 @@ require(__DIR__ . "/../../partials/nav.php");
         if(!(form.elements[0].checked || form.elements[1].checked || form.elements[2].checked || form.elements[3].checked))
         {
             isValid = false;
-            flash("Need to select a method of payment", "warning");
+            flash("Need to select a method of payment", "danger");
         }
         else
         {
@@ -70,7 +70,15 @@ require(__DIR__ . "/../../partials/nav.php");
                         // document.getElementsByTagName("div")[1].innerHTML = data["message"];
                         let data = JSON.parse(this.responseText);
                         console.log("response text", this.responseText);
-                        flash(data["message"], "success");
+                        if(data["message"] === "Cleared cart and purchase successfull")
+                        {
+                            flash(data["message"], "success");
+                            setTimeout(function(){ window.location.href = "confirmation_page.php?last_inserted_orderId=" + data["last_inserted_orderId"]; }, 3000);
+                        }
+                        else
+                        {
+                            flash(data["message"], "warning");
+                        }
                         // return a sucsess message and redirect the user 
                     }
                 };
@@ -78,7 +86,7 @@ require(__DIR__ . "/../../partials/nav.php");
                 let data = {
                         user_id : u_id,
                         total_price : payment, 
-                        true_cost : total,
+                        true_price : total,
                         address : address + " " + apt + " " + city + " " + state + " " + country + " " + zip,
                         payment_method : payment_method
                     }
