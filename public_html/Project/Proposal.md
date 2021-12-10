@@ -185,7 +185,16 @@
           - Store Owner/Admin can see every user's order.
         ![image](https://user-images.githubusercontent.com/68120349/145511606-d05a76d8-febd-4285-add3-868da88d251b.png)
           - User can see order items of a single order by clicking View on an order in orders.php and so can the Store Owner/Admin.
-
+## ⭐Extra Credit Features⭐
+  - [x] \(11\26\2021) User will be able to view a percent of change in price of a product.
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/shop.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/54
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724659-04c88233-2f84-4638-930b-dab65bd4c71c.png)
+          - Shop page dynamically generates a range of prices under which all products with visibility of 1 fall.
 - Milestone 4
 ### Intructions
 #### Don't delete this
