@@ -135,7 +135,7 @@
 
 - Milestone 2
 - Milestone 3
-  - [x] \(12/dd/2021) User will be able to purchase items in their Cart
+  - [x] \(12/07/2021) User will be able to purchase items in their Cart
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
@@ -151,7 +151,7 @@
         ![image](https://user-images.githubusercontent.com/68120349/145510911-a292585d-92e9-4769-8026-061c454919b7.png)
           - Flash message shows up when user cannot place order.=, either because product unit_price does not match with an item's unit_price in the cart table or an item's desired quantity is greater than its stock in the Products table.
 
-  - [x] \(12/dd/2021) Order Confirmation Page
+  - [x] \(12/09/2021) Order Confirmation Page
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/confirmation_page.php
@@ -161,7 +161,7 @@
         ![image](https://user-images.githubusercontent.com/68120349/145511072-e73ea341-1cda-467a-85c3-83de583b710c.png)
           - User sees their placed order after checkout.
 
-  - [x] \(12/dd/2021) User will be able to see their Purchase History
+  - [x] \(12/09/2021) User will be able to see their Purchase History
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/orders.php
@@ -173,7 +173,7 @@
         ![image](https://user-images.githubusercontent.com/68120349/145511277-551868d3-a618-4eb7-998f-a54cab8e1785.png)
           - A user's history of purchases.
 
-  - [x] \(12/dd/2021) Store Owner will be able to see all Purchase History
+  - [x] \(12/09/2021) Store Owner will be able to see all Purchase History
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/confirmation_page.php
@@ -186,7 +186,7 @@
         ![image](https://user-images.githubusercontent.com/68120349/145511606-d05a76d8-febd-4285-add3-868da88d251b.png)
           - User can see order items of a single order by clicking View on an order in orders.php and so can the Store Owner/Admin.
 ## ⭐Extra Credit Features⭐
-  - [x] \(11\26\2021) User will be able to view a percent of change in price of a product.
+  - [x] \(12\10\2021) User will be able to view a percent of change in price of a product.
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
