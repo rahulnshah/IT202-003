@@ -184,14 +184,12 @@ try {
                         var percentage_change = (Math.abs(u_cost - u_price)/u_cost) * 100;
                         if(u_price > u_cost)
                         {
-                            document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[4].innerText = document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[4].innerText + "(" + Math.round(percentage_change) + "% higher)";
-                            console.log("product priced increased by " + percentage_change + "% since last purchase!");
-
+                            document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[4].innerText = "Now: $" + u_price + " (" + Math.round(percentage_change) + "% higher)";
                         }
                         else
                         {
-                            document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[4].innerText = document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[4].innerText + "(" + Math.round(percentage_change) + "% off)";
-                            console.log("product on sale for" + percentage_change + " off!");
+                            document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[4].innerText = "Now: $" + u_price + " (" + Math.round(percentage_change) + "% off)";
+                            
                         }
                         document.getElementById("cardwithID<?php echo $item["id"]; ?>").children[0].children[1].children[5].innerHTML = "Unit Cost: " + strikeThrough("$" + u_cost);
                     }
