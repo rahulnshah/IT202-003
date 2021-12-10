@@ -8,11 +8,11 @@ if (!has_role("Admin")) {
 }
 
 $results = [];
-if (isset($_POST["itemName"])) {
+
     $db = getDB();
-    $stmt = $db->prepare("SELECT id, name, description, stock, category, unit_price, visibility from Products WHERE name like :name LIMIT 10");
+    $stmt = $db->prepare("SELECT id, user_id, total_price, payment_method, address from Orders ORDER BY created DESC LIMIT 10");
     try {
-        $stmt->execute([":name" => "%" . $_POST["itemName"] . "%"]);
+        $stmt->execute();
         $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if ($r) {
             $results = $r;
@@ -21,16 +21,10 @@ if (isset($_POST["itemName"])) {
     } catch (PDOException $e) {
         flash("<pre>" . var_export($e, true) . "</pre>");
     }
-}
+
 ?>
 <div class="container-fluid">
-    <h1>List Products</h1>
-    <form method="POST" class="row row-cols-lg-auto g-3 align-items-center">
-        <div class="input-group mb-3">
-            <input class="form-control" type="search" name="itemName" placeholder="Item Filter" />
-            <input class="btn btn-primary" type="submit" value="Search"/>
-        </div>
-    </form>
+    <h1>List Orders</h1>
     <?php if (count($results) == 0) : ?>
         <p>No results to show</p>
     <?php else : ?>
@@ -51,7 +45,7 @@ if (isset($_POST["itemName"])) {
 
 
                     <td>
-                        <a class="btn btn-primary" href="edit_product.php?id=<?php se($record, "id"); ?>">Edit</a>
+                        <a class="btn btn-primary" href="../order_details.php?order_id=<?php se($record, "id"); ?>">View</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
