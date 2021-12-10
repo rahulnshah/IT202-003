@@ -135,40 +135,40 @@
 
 - Milestone 2
 - Milestone 3
-  - [ ] \(mm/dd/yyyy of completion) User will be able to purchase items in their Cart
+  - [x] \(12/dd/2021) User will be able to purchase items in their Cart
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
 
-  - [ ] \(mm/dd/yyyy of completion) Order Confirmation Page
+  - [x] \(12/dd/2021) Order Confirmation Page
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/confirmation_page.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
 
-  - [ ] \(mm/dd/yyyy of completion) User will be able to see their Purchase History
+  - [x] \(12/dd/2021) User will be able to see their Purchase History
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/orders.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
 
-  - [ ] \(mm/dd/yyyy of completion) Store Owner will be able to see all Purchase History
+  - [x] \(12/dd/2021) Store Owner will be able to see all Purchase History
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/list_purchase_history.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
