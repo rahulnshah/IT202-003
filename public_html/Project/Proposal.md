@@ -168,7 +168,7 @@
   - [x] \(12/dd/2021) Store Owner will be able to see all Purchase History
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/list_purchase_history.php
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/confirmation_page.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
