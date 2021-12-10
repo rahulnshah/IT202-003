@@ -134,6 +134,155 @@
           - A user can reset his/her password and username and email, as long as the username and email are both available.
 
 - Milestone 2
+  - [x] \(11\17\2021) User with an admin role or shop owner role will be able to add products to inventory
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/add_product.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/39
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724146-5c3260bb-c139-49bf-ba0e-c3930b1c551f.png)
+          - Admin/Shop owner can fill in form to add a product to the Products table. 
+        ![image](https://user-images.githubusercontent.com/68120349/143923438-3f271ca0-8290-43b6-98d2-2a9b6931d02d.png)
+          - Products table
+        ![image](https://user-images.githubusercontent.com/68120349/144722430-fe98539f-067f-482c-8826-bd252bb41624.png)
+          - Cart table
+
+  - [x] \(11\17\2021) Any user will be able to see products with visibility = true on the Shop page
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: http://rns22-prod.herokuapp.com/Project/shop.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/39
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724181-0183d404-c40f-434d-b116-119822471891.png)
+          - A user need not be logged in to see products with visibility = true (or integer 1, in this case) 
+        ![image](https://user-images.githubusercontent.com/68120349/143724722-bada2c81-7677-41b0-82ac-448a2aeaa7f1.png)
+          - User can filter by categories
+        ![image](https://user-images.githubusercontent.com/68120349/143724738-c7e95f63-fd9b-4391-aea8-26abc33ff5e4.png)
+          - Sort products by their unit price.
+        ![image](https://user-images.githubusercontent.com/68120349/143724759-ac5ceef8-e0d9-4e7a-a950-04b916c1d808.png)
+          - User can search an item by name
+          
+  - [x] \(11\17\2021) Admin/Shop owner will be able to see products with any visibility
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/list_products.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/39
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724242-055e832e-a3d5-4b69-a5c4-71cf80cb0829.png)
+          - Admin/Shop owner can view all products, regardless of visibility value of each product.
+          
+  - [x] \(11\17\2021) Admin/Shop owner will be able to edit any product
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/edit_product.php?id=1
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/39
+        - https://github.com/rahulnshah/IT202-003/pull/40
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724301-fffed5e0-e47c-4eb7-bde6-0539e354819e.png)
+          - Admin/Shop owner will be able to edit any properties of a product
+           
+  - [x] \(11\18\2021) User will be able to click an item from a list and view a full page with more info about the item (Product Details Page)
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/product_details.php?id=3
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/40
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724413-f583177b-18bf-4b5d-9cec-0cbde7f90c46.png)
+          - User will be able to click an item from a list and view a full page with more info about the item (Product Details Page)
+           
+  - [x] \(11\26\2021) User must be logged in for any Cart related activity below
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/54
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724426-042654b1-7f05-4cff-86e9-09062062f937.png)
+          - User must be logged in for any Cart related activity. Otherwise, a friendly message is thrown. 
+           
+  - [x] \(11\26\2021) User will be able to add items to Cart
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/shop.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/54
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724454-c24d06c8-cbe2-4d8c-8676-422f6d77b3fb.png)
+![image](https://user-images.githubusercontent.com/68120349/143724457-25e76aa3-8921-4460-9668-1829414322c6.png)
+          - Example of adding an item to cart.
+           
+  - [x] \(11\26\2021) User will be able to see their cart
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/54
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724500-e241a2c8-17e6-44ec-89ba-e719bc1eb528.png)
+          - User will be able to see their cart 
+           
+  - [x] \(11\26\2021) User will be able to change quantity of items in their cart
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/54
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724518-a822dd7f-9d8c-43f8-bb25-128235f443b4.png)
+          - User will be able to change quantity of items in their cart
+        ![image](https://user-images.githubusercontent.com/68120349/143724538-6f5c3447-bd93-4851-a697-9abb6d829845.png)
+          - After refreshing page.
+           
+  - [x] \(11\26\2021) User will be able to remove a single item from their cart via button click
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/54
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724559-845e095a-d797-4e53-8169-6dd4f19c0a8e.png)
+          - User will be able to remove a single item from their cart via clicking on the "Remove" button.
+        ![image](https://user-images.githubusercontent.com/68120349/143724588-d128cd56-b3b4-4c1b-b743-f6d79e592e9a.png)
+          - After refreshing the page.
+           
+  - [x] \(11\26\2021) User will be able to clear their entire cart via a button click
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/54
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724598-87783787-9cda-4eb2-a5a9-17fbd41c2ad5.png)
+          - User can clear cart by clicking on the "Clear cart" button 
+  ## ⭐Extra Credit Features⭐
+  - [x] \(11\26\2021) User will be able to view products within different price ranges 
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/shop.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/54
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143724659-04c88233-2f84-4638-930b-dab65bd4c71c.png)
+          - Shop page dynamically generates a range of prices under which all products with visibility of 1 fall.
+    
+  - [x] \(11\29\2021) Added jQuery to Shop Project.
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/shop.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/58
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/143903101-de677b68-bc3e-4f63-a5f2-017e271e98ff.png)
+          -  User will see a red border upon blur in all form fields with type=text, password, and email and if those fields are left blank.
+        ![image](https://user-images.githubusercontent.com/68120349/143903342-e240055d-8633-4f56-90b8-093b413fd4e0.png)
+          - Added jQuery on hover on the Admin dropdown menu.
+        ![image](https://user-images.githubusercontent.com/68120349/143903571-97633c5d-8658-4d80-ac33-d57c7511a10f.png)
+          - User will be able click on the body of a card and card will have a blue border generated around it upon hover.
 - Milestone 3
   - [x] \(12/07/2021) User will be able to purchase items in their Cart
     -  List of Evidence of Feature Completion
