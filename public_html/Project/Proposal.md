@@ -142,8 +142,14 @@
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/145510140-ca05614d-6618-4e13-a0ff-b12c7b25c766.png)
+          - Orders table
+        ![image](https://user-images.githubusercontent.com/68120349/145510221-2b40affc-0b3f-48d0-911e-9f0a8d687fab.png)
+          - OrderItems table
+        ![image](https://user-images.githubusercontent.com/68120349/145510259-e47dbdb3-9116-433e-b866-4004c93b8eaa.png)
+          - Flash messages show up when checkout.php's client side validation fails.
+        ![image](https://user-images.githubusercontent.com/68120349/145510911-a292585d-92e9-4769-8026-061c454919b7.png)
+          - Flash message shows up when user cannot place order.=, either because product unit_price does not match with an item's unit_price in the cart table or an item's desired quantity is greater than its stock in the Products table.
 
   - [x] \(12/dd/2021) Order Confirmation Page
     -  List of Evidence of Feature Completion
@@ -152,8 +158,8 @@
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/145511072-e73ea341-1cda-467a-85c3-83de583b710c.png)
+          - User sees their placed order after checkout.
 
   - [x] \(12/dd/2021) User will be able to see their Purchase History
     -  List of Evidence of Feature Completion
@@ -162,8 +168,8 @@
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/145511277-551868d3-a618-4eb7-998f-a54cab8e1785.png)
+          - A user's history of purchases.
 
   - [x] \(12/dd/2021) Store Owner will be able to see all Purchase History
     -  List of Evidence of Feature Completion
@@ -172,8 +178,10 @@
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/145511497-1e34066a-3498-4537-8c58-6249ce8c6ace.png)
+          - Store Owner/Admin can see every user's order.
+        ![image](https://user-images.githubusercontent.com/68120349/145511606-d05a76d8-febd-4285-add3-868da88d251b.png)
+          - User can see order items of a single order by clicking View on an order in orders.php and so can the Store Owner/Admin.
 
 - Milestone 4
 ### Intructions
