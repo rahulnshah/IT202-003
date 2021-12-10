@@ -189,12 +189,12 @@
   - [x] \(11\26\2021) User will be able to view a percent of change in price of a product.
     -  List of Evidence of Feature Completion
       - Status: Completed
-      - Direct Link: https://rns22-prod.herokuapp.com/Project/shop.php
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
       - Pull Requests
-        - https://github.com/rahulnshah/IT202-003/pull/54
+        - https://github.com/rahulnshah/IT202-003/pull/89
       - Screenshots
-        ![image](https://user-images.githubusercontent.com/68120349/143724659-04c88233-2f84-4638-930b-dab65bd4c71c.png)
-          - Shop page dynamically generates a range of prices under which all products with visibility of 1 fall.
+        ![image](https://user-images.githubusercontent.com/68120349/145623689-4fe7fca0-47c0-4f55-a37e-5778e68539e9.png)
+          - User can now see a percentage of change in price of a product in his/her cart.
 - Milestone 4
 ### Intructions
 #### Don't delete this
