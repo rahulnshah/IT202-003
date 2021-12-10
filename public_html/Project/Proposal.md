@@ -140,7 +140,7 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/77
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/145510140-ca05614d-6618-4e13-a0ff-b12c7b25c766.png)
           - Orders table
@@ -156,7 +156,7 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/confirmation_page.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/79
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/145511072-e73ea341-1cda-467a-85c3-83de583b710c.png)
           - User sees their placed order after checkout.
@@ -166,7 +166,9 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/orders.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/78
+        - https://github.com/rahulnshah/IT202-003/pull/81
+        - https://github.com/rahulnshah/IT202-003/pull/80
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/145511277-551868d3-a618-4eb7-998f-a54cab8e1785.png)
           - A user's history of purchases.
@@ -176,7 +178,8 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/confirmation_page.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/81
+        - https://github.com/rahulnshah/IT202-003/pull/80
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/145511497-1e34066a-3498-4537-8c58-6249ce8c6ace.png)
           - Store Owner/Admin can see every user's order.
