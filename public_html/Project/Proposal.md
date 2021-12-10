@@ -284,67 +284,77 @@
         ![image](https://user-images.githubusercontent.com/68120349/143903571-97633c5d-8658-4d80-ac33-d57c7511a10f.png)
           - User will be able click on the body of a card and card will have a blue border generated around it upon hover.
 - Milestone 3
-  - [x] \(12/07/2021) User will be able to purchase items in their Cart
-    -  List of Evidence of Feature Completion
-      - Status: Completed
-      - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
-      - Pull Requests
-        - https://github.com/rahulnshah/IT202-003/pull/77
-      - Screenshots
-        ![image](https://user-images.githubusercontent.com/68120349/145510140-ca05614d-6618-4e13-a0ff-b12c7b25c766.png)
-          - Orders table
-        ![image](https://user-images.githubusercontent.com/68120349/145510221-2b40affc-0b3f-48d0-911e-9f0a8d687fab.png)
-          - OrderItems table
-        ![image](https://user-images.githubusercontent.com/68120349/145510259-e47dbdb3-9116-433e-b866-4004c93b8eaa.png)
-          - Flash messages show up when checkout.php's client side validation fails.
-        ![image](https://user-images.githubusercontent.com/68120349/145510911-a292585d-92e9-4769-8026-061c454919b7.png)
-          - Flash message shows up when user cannot place order.=, either because product unit_price does not match with an item's unit_price in the cart table or an item's desired quantity is greater than its stock in the Products table.
-
-  - [x] \(12/09/2021) Order Confirmation Page
-    -  List of Evidence of Feature Completion
-      - Status: Completed
-      - Direct Link: https://rns22-prod.herokuapp.com/Project/confirmation_page.php
-      - Pull Requests
-        - https://github.com/rahulnshah/IT202-003/pull/79
-      - Screenshots
-        ![image](https://user-images.githubusercontent.com/68120349/145511072-e73ea341-1cda-467a-85c3-83de583b710c.png)
-          - User sees their placed order after checkout.
-
-  - [x] \(12/09/2021) User will be able to see their Purchase History
-    -  List of Evidence of Feature Completion
-      - Status: Completed
-      - Direct Link: https://rns22-prod.herokuapp.com/Project/orders.php
-      - Pull Requests
-        - https://github.com/rahulnshah/IT202-003/pull/78
-        - https://github.com/rahulnshah/IT202-003/pull/81
-        - https://github.com/rahulnshah/IT202-003/pull/80
-      - Screenshots
-        ![image](https://user-images.githubusercontent.com/68120349/145511277-551868d3-a618-4eb7-998f-a54cab8e1785.png)
-          - A user's history of purchases.
-
-  - [x] \(12/09/2021) Store Owner will be able to see all Purchase History
-    -  List of Evidence of Feature Completion
-      - Status: Completed
-      - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/confirmation_page.php
-      - Pull Requests
-        - https://github.com/rahulnshah/IT202-003/pull/81
-        - https://github.com/rahulnshah/IT202-003/pull/80
-      - Screenshots
-        ![image](https://user-images.githubusercontent.com/68120349/145511497-1e34066a-3498-4537-8c58-6249ce8c6ace.png)
-          - Store Owner/Admin can see every user's order.
-        ![image](https://user-images.githubusercontent.com/68120349/145511606-d05a76d8-febd-4285-add3-868da88d251b.png)
-          - User can see order items of a single order by clicking View on an order in orders.php and so can the Store Owner/Admin.
-## ⭐Extra Credit Features⭐
-  - [x] \(12\10\2021) User will be able to view a percent of change in price of a product.
-    -  List of Evidence of Feature Completion
-      - Status: Completed
-      - Direct Link: https://rns22-prod.herokuapp.com/Project/cart.php
-      - Pull Requests
-        - https://github.com/rahulnshah/IT202-003/pull/89
-      - Screenshots
-        ![image](https://user-images.githubusercontent.com/68120349/145623689-4fe7fca0-47c0-4f55-a37e-5778e68539e9.png)
-          - User can now see a percentage of change in price of a product in his/her cart.
 - Milestone 4
+  - [ ] \(mm/dd/yyyy of completion) User can set their profile to be public or private (will need another column in Users table)
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) User will be able to rate a product they purchased
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) User’s Purchase History Changes
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) Store Owner Purchase History Changes
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) Add pagination to Shop Page (and any other product lists not yet mentioned)
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) Store Owner will be able to see all products out of stock
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) User can sort products by average rating on the Shop Page
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
 ### Intructions
 #### Don't delete this
 1. Pick one project type
