@@ -3,6 +3,24 @@ require_once(__DIR__ . "/../../partials/nav.php");
 if (!is_logged_in()) {
     redirect("login.php");
 }
+//is_logged_in(true);
+/**
+ * Logic:
+ * Check if query params have an id
+ * If so, use that id
+ * Else check logged in user id
+ * otherwise redirect away
+ */
+$user_id = se($_GET, "id", get_user_id(), false);
+error_log("user id $user_id");
+$isMe = $user_id === get_user_id();
+//!! makes the value into a true or false value regardless of the data https://stackoverflow.com/a/2127324
+$edit = !!se($_GET, "edit", false, false); //if key is present allow edit, otherwise no edit
+if ($user_id < 1) {
+    flash("Invalid user", "danger");
+    redirect("home.php");
+    //die(header("Location: home.php"));
+}
 ?>
 <?php
 if (isset($_POST["save"])) {
