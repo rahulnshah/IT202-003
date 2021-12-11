@@ -19,13 +19,14 @@ $edit = !!se($_GET, "edit", false, false); //if key is present allow edit, other
 if ($user_id < 1) {
     flash("Invalid user", "danger");
     redirect("home.php");
-    //die(header("Location: home.php"));
 }
 ?>
 <?php
-if (isset($_POST["save"])) {
+if (isset($_POST["save"]) && $isMe && $edit) {
+    $db = getDB();
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
+    $visibility = !!se($_POST, "visibility", false, false) ? 1 : 0;
     //Notes:
     // I am updating a row, with the given username and email, but if either alredy exists in its respective col, 
     // SQL stops the update.
@@ -58,26 +59,13 @@ if (isset($_POST["save"])) {
     }
     if(!$errors)
     {
-        $params = [":email" => $email, ":username" => $username, ":id" => get_user_id()];
+        $params = [":email" => $email, ":username" => $username, ":id" => get_user_id(), ":vis" => $visibility];
         $db = getDB();
-        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username where id = :id");
+        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, visibility = :vis where id = :id");
         try {
             $stmt->execute($params);
         } catch (Exception $e) {
-            if ($e->errorInfo[1] === 1062) {
-                //https://www.php.net/manual/en/function.preg-match.php
-                preg_match("/Users.(\w+)/", $e->errorInfo[2], $matches);
-                //echo $matches[0];
-                if (isset($matches[1])) {
-                    flash("The chosen " . $matches[1] . " is not available.", "warning");
-                } else {
-                    //TODO come up with a nice error message
-                    flash("An unexpected error occurred, please try again", "danger");
-                }
-            } else {
-                //TODO come up with a nice error message
-                flash("The chosen email and username are available, but an unexpected error occurred. Please try again", "danger");
-            }
+            users_check_duplicate($e->errorInfo);
         }
         //select fresh data from table
         $stmt = $db->prepare("SELECT id, email, username from Users where id = :id LIMIT 1");
@@ -148,6 +136,30 @@ if (isset($_POST["save"])) {
         }
     }
 }
+$email = get_user_email();
+$username = get_username();
+$created = "";
+$public = false;
+//$user_id = get_user_id(); //this is retrieved above now
+//TODO pull any other public info you want
+$db = getDB();
+$stmt = $db->prepare("SELECT username, created, visibility from Users where id = :id");
+try {
+    $stmt->execute([":id" => $user_id]);
+    $r = $stmt->fetch(PDO::FETCH_ASSOC);
+    error_log("user: " . var_export($r, true));
+    $username = se($r, "username", "", false);
+    $created = se($r, "created", "", false);
+    $public = se($r, "visibility", 0, false) > 0;
+    if (!$public && !$isMe) {
+        flash("User's profile is private", "warning");
+        redirect("home.php");
+        //die(header("Location: home.php"));
+    }
+} catch (Exception $e) {
+    echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
+}
+$word = $public ? " Private" : " Public";
 ?>
 
 <?php
@@ -157,6 +169,12 @@ $username = get_username();
 <div class="container-fluid">
 <h1>Profile</h1>
 <form method="POST" onsubmit="return validate(this);">
+    <div class="mb-3">
+        <div class="form-check form-switch">
+            <input name="visibility" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" <?php if ($public) echo "checked"; ?>>
+            <label class="form-check-label" for="flexSwitchCheckDefault">Make Profile<?php echo $word ?></label>
+        </div>
+    </div>
     <div class="mb-3">
         <label for="email">Email</label>
         <input  class="form-control form-control-sm"  type="email" name="email" id="email" value="<?php se($email); ?>" />
