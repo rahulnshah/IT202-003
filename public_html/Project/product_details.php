@@ -74,7 +74,7 @@ echo "<pre>" . var_export($allRatings, true) . "</pre>";
 ?>
 <div class="container-fluid">
     <h1><?php se($result,"name"); ?> Details</h1>
-    <form method="POST">
+    <form onsubmit="return validate(this)" method="POST">
         <?php foreach ($result as $column => $value) : ?>
             <?php if (!in_array($column, $ignore)) : ?> 
                 <h3><?php echo str_replace("_", " ", se($column,null,"",false)); ?> :</h3>
@@ -117,6 +117,15 @@ echo "<pre>" . var_export($allRatings, true) . "</pre>";
 </div>
 <script>
     $(document).ready(function (){
+        function validate(form) {
+            //clear error messages
+            let flashElement = document.getElementById("flash");
+            flashElement.innerHTML = "";
+            const formFieldOne = form.elements[0];
+            const formFieldTwo = form.elements[1];
+            let retVal = true;
+
+        }
         const ratingText = document.getElementsByTagName("label")[0].innerText;
         document.getElementById("vol").oninput = function() { document.getElementsByTagName("label")[0].innerText = ratingText + " " + document.getElementById("vol").value + "/5"};
     });
