@@ -1,7 +1,6 @@
 <?php
 //note we need to go up 1 more directory
 require(__DIR__ . "/../../partials/nav.php");
-echo "<pre>" . var_export($_POST,true) . "</pre>";
 $result = [];
 $columns = get_columns("Products");
 //echo "<pre>" . var_export($columns, true) . "</pre>";
@@ -27,16 +26,11 @@ try {
 if(isset($_POST['comment']) && isset($_POST["vol"]))
 {
     $comment = se($_POST, "comment", "", false);
-    $rating = (int) se($_POST, "vol", "", false);
+    $rating = floatval(se($_POST, "vol", "", false));
     $haserrors = false;
     if($rating < 1 || $rating > 5)
     {
         flash("invalid rating","warning");
-        $haserrors = true;
-    }
-    if(!preg_match('/^[a-zA-Z0-9 ]*$/', $comment))
-    {
-        flash("Comment must only be alphanumeric and can only contain - or _","warning");
         $haserrors = true;
     }
     if(strlen($comment) <= 0)
@@ -70,11 +64,9 @@ try {
 } catch (PDOException $e) {
     flash("<pre>" . var_export($e, true) . "</pre>");
 }
-echo "<pre>" . var_export($allRatings, true) . "</pre>";
 ?>
 <div class="container-fluid">
     <h1><?php se($result,"name"); ?> Details</h1>
-    <form onsubmit="return validate(this)" method="POST">
         <?php foreach ($result as $column => $value) : ?>
             <?php if (!in_array($column, $ignore)) : ?> 
                 <h3><?php echo str_replace("_", " ", se($column,null,"",false)); ?> :</h3>
@@ -90,18 +82,21 @@ echo "<pre>" . var_export($allRatings, true) . "</pre>";
             <a class="btn btn-primary" href="admin/edit_product.php?id=<?php echo se($result, "id", "", false);?>">Edit</a>
         <?php endif; ?>
         <!-- add a rating form here with a comment box -->
-        <div class="mb-3">
-            <label for="vol">Rating (between 1 and 5): <?php echo get_average_rating($id)?>/5</label>
-            <br>
-            <input type="range" step="0.01" id="vol" name="vol" min="1" max="5">
-        </div>
-        <div class="mb-3">
-            <label for="d">Comment</label>
-            <textarea class="form-control form-control-sm" name="comment" id="d" placeholder="leave a comment..."></textarea>
-        </div>
+        <?php if(is_logged_in()): ?>
+        <form onsubmit="return validate(this)" method="POST">
+            <div class="mb-3">
+                <label for="vol">Average Rating (between 1 and 5): <?php echo get_average_rating($id)?>/5</label>
+                <br>
+                <input type="range" step="0.01" id="vol" name="vol" min="1" max="5" value="<?php echo get_average_rating($id)?>">
+            </div>
+            <div class="mb-3">
+                <label for="d">Comment</label>
+                <textarea class="form-control form-control-sm" name="comment" id="d" placeholder="leave a comment..."></textarea>
+            </div>
         <!-- submit btn -->
         <input class="btn btn-primary" type="submit" value="Submit Feedback"/>
     </form>
+    <?php endif; ?>
     <?php if (count($allRatings) > 0) : ?>
         <h1>Ratings & Reviews</h1>
         <hr>
@@ -109,27 +104,38 @@ echo "<pre>" . var_export($allRatings, true) . "</pre>";
         <div class="card">
             <div class="card-body">
                 <p><?php echo " Created: " . se($rating,"created","Unknown created time", false); ?></p>
-                <p><?php se($rating,"comment","Unknown Comment"); ?><p>
+                <p>Comment: <?php se($rating,"comment","Unknown Comment"); ?><p>
+                <p>Rating: <?php se($rating,"rating","Unknown rating"); ?><p>
             </div>
         </div>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
 <script>
-    $(document).ready(function (){
-        function validate(form) {
+    function validate(form) {
             //clear error messages
             let flashElement = document.getElementById("flash");
             flashElement.innerHTML = "";
             const formFieldOne = form.elements[0];
             const formFieldTwo = form.elements[1];
             let retVal = true;
+            if(parseFloat(formFieldOne.value) < 1 || parseFloat(formFieldOne.value) > 5)
+            {
+                flash("Invalid rating", "warning");
+                retVal = false;
+            }
+            if(formFieldTwo.value.length <= 0)
+            {
+                flash("Need to provide a comment", "warning");
+                retVal = false;
+            }
+            return retVal;
 
-        }
-        const ratingText = document.getElementsByTagName("label")[0].innerText;
-        document.getElementById("vol").oninput = function() { document.getElementsByTagName("label")[0].innerText = ratingText + " " + document.getElementById("vol").value + "/5"};
+    }
+    $(document).ready(function (){
+        
+        document.getElementById("vol").oninput = function() { document.getElementsByTagName("label")[0].innerText = document.getElementsByTagName("label")[0].innerText.replace(document.getElementsByTagName("label")[0].innerText.substring(document.getElementsByTagName("label")[0].innerText.indexOf(":")), ": " + document.getElementById("vol").value + "/5");};
     });
-    
 </script>
 
 
