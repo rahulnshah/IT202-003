@@ -80,12 +80,13 @@ try {
         <?php endforeach; ?>
         <?php if(has_role("Admin")) : ?>
             <a class="btn btn-primary" href="admin/edit_product.php?id=<?php echo se($result, "id", "", false);?>">Edit</a>
+            <br>
         <?php endif; ?>
         <!-- add a rating form here with a comment box -->
+        <label for="vol" form="form1">Average Rating (between 1 and 5): <?php echo !!floatval(get_average_rating($id)) ? strval(floatval(get_average_rating($id))) . "/5" : get_average_rating($id)?></label>
         <?php if(is_logged_in()): ?>
-        <form onsubmit="return validate(this)" method="POST">
+        <form onsubmit="return validate(this)" id="form1" method="POST">
             <div class="mb-3">
-                <label for="vol">Average Rating (between 1 and 5): <?php echo get_average_rating($id)?>/5</label>
                 <br>
                 <input type="range" step="0.01" id="vol" name="vol" min="1" max="5" value="<?php echo get_average_rating($id)?>">
             </div>
