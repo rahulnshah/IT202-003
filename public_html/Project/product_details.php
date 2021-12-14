@@ -134,8 +134,10 @@ try {
 
     }
     $(document).ready(function (){
-        
-        document.getElementById("vol").oninput = function() { document.getElementsByTagName("label")[0].innerText = document.getElementsByTagName("label")[0].innerText.replace(document.getElementsByTagName("label")[0].innerText.substring(document.getElementsByTagName("label")[0].innerText.indexOf(":")), ": " + document.getElementById("vol").value + "/5");};
+        if(document.getElementById("vol") !== null)
+        {
+            document.getElementById("vol").oninput = function() { document.getElementsByTagName("label")[0].innerText = document.getElementsByTagName("label")[0].innerText.replace(document.getElementsByTagName("label")[0].innerText.substring(document.getElementsByTagName("label")[0].innerText.indexOf(":")), ": " + document.getElementById("vol").value + "/5");};
+        }
     });
 </script>
 
