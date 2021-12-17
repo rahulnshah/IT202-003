@@ -54,9 +54,26 @@ if(isset($_POST['comment']) && isset($_POST["vol"]))
     }
 }
 $allRatings = [];
-$stmt = $db->prepare("SELECT user_id, created, comment, rating FROM Ratings WHERE product_id = :p_id ORDER BY created DESC LIMIT 10");
+$base_query = "SELECT user_id, created, comment, rating FROM Ratings WHERE product_id = :p_id ORDER BY created DESC LIMIT 10";
+$total_query = "SELECT count(1) as total from Ratings where product_id = :p_id";
+$params = []; //define default params, add keys as needed and pass to execute
+paginate($total_query . $query, $params, $per_page); //$per_page defualts to 10 in the paginate function
+//$offset and $per_page variables are availble when the function above is called 
+//now get a sub array of records from base query 
+$query .= " LIMIT :offset, :count";
+$params[":offset"] = $offset;
+$params[":count"] = $per_page;
+$params[":p_id"] = $id;
+//get the records
+$stmt = $db->prepare($base_query . $query);
+//we'll want to convert this to use bindValue so ensure they're integers so lets map our array
+foreach ($params as $key => $value) {
+    $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+    $stmt->bindValue($key, $value, $type);
+}
+$params = null;
 try {
-    $stmt->execute([":p_id" => $id]);
+    $stmt->execute($params); //I am passing in nothing in the execute function by setting $params to null
     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($r) {
         $allRatings = $r;
