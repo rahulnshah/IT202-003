@@ -66,7 +66,7 @@ try {
 }
 ?>
 <div class="container-fluid">
-    <h1><?php se($result,"name"); ?> Details</h1>
+    <h1><?php se($result,"name"); ?>Details</h1>
         <?php foreach ($result as $column => $value) : ?>
             <?php if (!in_array($column, $ignore)) : ?> 
                 <h3><?php echo str_replace("_", " ", se($column,null,"",false)); ?> :</h3>
