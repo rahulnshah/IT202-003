@@ -21,6 +21,60 @@ try {
 ?>
 <div class="container-fluid">
     <h1 id="myCart">Orders</h1>
+    <form method="GET">
+        <label for="categories">Filter By Category:</label>
+        <br>
+        <div class="input-group">
+            <select class="form-select form-select-sm" name="categories" id="categories">
+                <!-- TODO add php templating here to get all the categories-->
+                <!-- <?php foreach ($categories as $category) : ?>
+                    <option value="<?php echo $category ?>"><?php echo $category ?></option>
+                <?php endforeach; ?> -->
+            </select>
+            <br>
+            <input class="btn btn-primary" type="submit" name="categorySubmit" value="Submit">
+        </div>
+    </form>
+    <form method="GET">
+        <label for="dateRanges">Select A Date Range:</label>
+        <br>
+        <div class="input-group">
+            <select class="form-select form-select-sm" name="categories" id="dateRanges">
+                <!-- TODO add php templating here to get all the categories-->
+                <!-- <?php foreach ($categories as $category) : ?>
+                    <option value="<?php echo $category ?>"><?php echo $category ?></option>
+                <?php endforeach; ?> -->
+            </select>
+            <br>
+            <input class="btn btn-primary" type="submit" name="dateRangeSubmit" value="Submit">
+        </div>
+    </form>
+    <form method="GET">
+        <label for="dates">Sort By Date Purchased:</label>
+        <br>
+        <div class="input-group">
+            <select class="form-select form-select-sm" name="categories" id="dates">
+                <!-- TODO add php templating here to get all the categories-->
+                <option>Recent To Old</option>
+                <option>Old To Recent</option>
+            </select>
+            <br>
+            <input class="btn btn-primary" type="submit" name="dateSubmit" value="Submit">
+        </div>
+    </form>
+    <form method="GET">
+        <label for="totalPrices">Sort By Total:</label>
+        <br>
+        <div class="input-group">
+            <select class="form-select form-select-sm" name="categories" id="totalPrices">
+                <!-- TODO add php templating here to get all the categories-->
+                <option>Low To High</option>
+                <option>High To Low</option>
+            </select>
+            <br>
+            <input class="btn btn-primary" type="submit" name="totalPriceSubmit" value="Submit">
+        </div>
+    </form>
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>" ?> -->
         <?php if (count($results) > 0) : ?>
