@@ -296,7 +296,7 @@ function get_average_rating($id_of_product)
  * @param array $params
  * @param int $per_page
  */
-function paginate($query, $params = [], $per_page = 10)
+function paginate($query, $params, $per_page = 10)
 {
     global $page; //will be available after function is called
     try {
@@ -318,8 +318,14 @@ function paginate($query, $params = [], $per_page = 10)
         $total = (int)se($result, "total", 0, false);
     }
     global $total_pages; //will be available after function is called
-    $total_pages = ceil($total / $per_page);
+    $total_pages = ceil($total / $per_page);// if total is 0, $total_pages is 0 
     global $offset; //will be available after function is called
     $offset = ($page - 1) * $per_page;
+}
+//updates or inserts page into query string while persisting anything already present
+function persistQueryString($page)
+{
+    $_GET["page"] = $page;
+    return http_build_query($_GET);
 }
 ?>
