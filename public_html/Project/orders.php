@@ -24,50 +24,77 @@ try {
 <div class="container-fluid">
     <h1 id="myCart">Orders</h1>
     <!-- gonna have to change this up a bit-->
-    <form method="GET">
-        <label for="categories">Filter By Category:</label>
-        <br>
-        <div class="input-group">
-            <select class="form-select form-select-sm" name="categories" id="categories">
-                <!-- TODO add php templating here to get all the categories-->
-                <!-- <?php foreach ($categories as $category) : ?>
-                    <option value="<?php echo $category ?>"><?php echo $category ?></option>
-                <?php endforeach; ?> -->
-            </select>
+    <p class="aPara">This is a paragraph.</p>
+    <form class="row row-cols-auto g-3 align-items-center">
+        <!-- <div class="col">
+            <div class="input-group">
+                <div class="input-group-text">Name</div>
+                <input class="form-control" name="name" value="<?php se($name); ?>" />
+            </div>
+        </div> -->
+        <!-- with php fill two dropdwown with their respective ranges, then 
+        let the user select which thing to see the range of data purchased or category. When the 
+        user select one of these hide the column of the other thing with jQuery-->
+        <div class="col">
+            <div class="input-group">
+                <div class="input-group-text">Filter</div>
+                <!-- make sure these match the in_array filter above-->
+                <select class="form-control" name="col" value="<?php se($col); ?>">
+                    <option value="category">Category</option>
+                    <option value="created">Date Purchased</option>
+                </select>
+                <script>
+                    //quick fix to ensure proper value is selected since
+                    //value setting only works after the options are defined and php has the value set prior
+                    document.forms[0].col.value = "<?php se($col); ?>";
+                </script>
+                <div class="input-group-text">Categories</div>
+                <!-- make sure these match the in_array filter above-->
+                <select class="form-control" name="categories" value="<?php se($category); ?>">
+                        <!-- run a php for loop here -->
+                </select>
+                <script>
+                    //quick fix to ensure proper value is selected since
+                    //value setting only works after the options are defined and php has the value set prior
+                    document.forms[0].categories.value = "<?php se($category); ?>";
+                </script>
+                <div class="input-group-text">Date Ranges</div>
+                <!-- make sure these match the in_array filter above-->
+                <select class="form-control" name="dateRanges" value="<?php se($dateRange); ?>">
+                        <!-- run a php for loop here -->
+                </select>
+                <script>
+                    //quick fix to ensure proper value is selected since
+                    //value setting only works after the options are defined and php has the value set prior
+                    document.forms[0].dateRanges.value = "<?php se($dateRange); ?>";
+                </script>
+                <div class="input-group-text">Order By</div>
+                <select class="form-control" name="order" value="<?php se($order); ?>">
+                    <option value="total_price">Total Price</option>
+                    <option value="created">Date Purchased</option>
+                </select>
+                <script>
+                    //quick fix to ensure proper value is selected since
+                    //value setting only works after the options are defined and php has the value set prior
+                    document.forms[0].order.value = "<?php se($order); ?>";
+                </script>
+                <div class="input-group-text">Sort</div>
+                <select class="form-control" name="aOrd" value="<?php se($aOrd); ?>">
+                    <option value="desc">High To Low/Recent to Old</option>
+                    <option value="asc">Low To High/Old to Recent</option>
+                </select>
+                <script>
+                    //quick fix to ensure proper value is selected since
+                    //value setting only works after the options are defined and php has the value set prior
+                    document.forms[0].aOrd.value = "<?php se($aOrd); ?>";
+                </script>
+            </div>
         </div>
-        <br>
-        <label for="dateRanges">Select A Date Range:</label>
-        <br>
-        <div class="input-group">
-            <select class="form-select form-select-sm" name="categories" id="dateRanges">
-                <!-- TODO add php templating here to get all the categories-->
-                <!-- <?php foreach ($categories as $category) : ?>
-                    <option value="<?php echo $category ?>"><?php echo $category ?></option>
-                <?php endforeach; ?> -->
-            </select>
+        <div class="col">
+            <div class="input-group">
+                <input type="submit" class="btn btn-primary" value="Apply" />
+            </div>
         </div>
-        <br>
-        <label for="dates">Sort By Date Purchased:</label>
-        <br>
-        <div class="input-group">
-            <select class="form-select form-select-sm" name="categories" id="dates">
-                <!-- TODO add php templating here to get all the categories-->
-                <option>Recent To Old</option>
-                <option>Old To Recent</option>
-            </select>
-        </div>
-        <br>
-        <label for="totalPrices">Sort By Total:</label>
-        <br>
-        <div class="input-group">
-            <select class="form-select form-select-sm" name="categories" id="totalPrices">
-                <!-- TODO add php templating here to get all the categories-->
-                <option>Low To High</option>
-                <option>High To Low</option>
-            </select>
-        </div>
-        <br>
-        <input type="submit" class="btn btn-primary" value="Apply"/>
     </form>
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>" ?> -->
@@ -117,6 +144,16 @@ try {
                             }
                     );
                 }
+                //hide the other column if the user selet one column
+                //datePurchased.click(hide the categories div and select dropdown
+                //and if the datePurchased div and datePurchased
+                //select dropdown are noth there, unhide them);
+                //categories.click(hide the datePurchased div and select dropdown, and if the categories div and 
+                //select dropdwon are noth there, unhide them);
+                //Example 
+//                 $(document.getElementsByTagName("p")[0]).click(function(){
+//     $(this).hide();
+//   });
             </script>
             <?php endif; ?>
     </div>
