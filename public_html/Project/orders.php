@@ -18,9 +18,12 @@ try {
 } catch (PDOException $e) {
     flash("<pre>" . var_export($e, true) . "</pre>");
 }
+//Filter Logic 
+//if GET
 ?>
 <div class="container-fluid">
     <h1 id="myCart">Orders</h1>
+    <!-- gonna have to change this up a bit-->
     <form method="GET">
         <label for="categories">Filter By Category:</label>
         <br>
@@ -31,11 +34,8 @@ try {
                     <option value="<?php echo $category ?>"><?php echo $category ?></option>
                 <?php endforeach; ?> -->
             </select>
-            <br>
-            <input class="btn btn-primary" type="submit" name="categorySubmit" value="Submit">
         </div>
-    </form>
-    <form method="GET">
+        <br>
         <label for="dateRanges">Select A Date Range:</label>
         <br>
         <div class="input-group">
@@ -45,11 +45,8 @@ try {
                     <option value="<?php echo $category ?>"><?php echo $category ?></option>
                 <?php endforeach; ?> -->
             </select>
-            <br>
-            <input class="btn btn-primary" type="submit" name="dateRangeSubmit" value="Submit">
         </div>
-    </form>
-    <form method="GET">
+        <br>
         <label for="dates">Sort By Date Purchased:</label>
         <br>
         <div class="input-group">
@@ -58,11 +55,8 @@ try {
                 <option>Recent To Old</option>
                 <option>Old To Recent</option>
             </select>
-            <br>
-            <input class="btn btn-primary" type="submit" name="dateSubmit" value="Submit">
         </div>
-    </form>
-    <form method="GET">
+        <br>
         <label for="totalPrices">Sort By Total:</label>
         <br>
         <div class="input-group">
@@ -71,9 +65,9 @@ try {
                 <option>Low To High</option>
                 <option>High To Low</option>
             </select>
-            <br>
-            <input class="btn btn-primary" type="submit" name="totalPriceSubmit" value="Submit">
         </div>
+        <br>
+        <input type="submit" class="btn btn-primary" value="Apply"/>
     </form>
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>" ?> -->
