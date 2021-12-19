@@ -75,9 +75,7 @@ if((int) $total_pages > 0)
 }
 $rangeOfDates = [];
 $oldestDate = "";
-if(count($results) > 0)
-{
-        //get the categories to prefill
+        //get the categories to prefill; still want to display them when $total_pages == 0 (no records)
         $categoryResults = [];
         $stmt = $db->prepare("SELECT category FROM Products WHERE visibility = 1"); //could have used the distinct keyword here 
         try {
@@ -110,6 +108,8 @@ if(count($results) > 0)
             $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $dates = $r;
                 //get the date a index 0. 
+            if(count($dates) > 0) //count($dates) could be 0 if we have a new user 
+            {
                 $oldestDate = date_create($dates[0]["oldestDate"]);
                 $latestDate = date_create($dates[count($dates) - 1]["oldestDate"]);
                 $diffBetweenDates = 0;
@@ -127,14 +127,13 @@ if(count($results) > 0)
                     array_push($rangeOfDates, $oldestDate->format("Y-m-d") . " to " . date_add($oldestDate,date_interval_create_from_date_string(strval((int) $diffBetweenDates) . " days"))->format("Y-m-d"));
                     error_log($oldestDate->format("Y-m-d"));
                 }
+            }
         } catch (PDOException $e) {
             flash("<pre>" . var_export($e, true) . "</pre>");
         }
-}
 ?>
 <div class="container-fluid">
     <h1 id="myCart">Orders</h1>
-    <?php if (count($results) > 0) : ?>
     <form class="row row-cols-auto g-3 align-items-center" id="myForm">
         <div class="col">
             <div class="input-group">
@@ -163,15 +162,14 @@ if(count($results) > 0)
                 <div class="input-group-text">Date Ranges</div>
                 <!-- make sure these match the in_array filter above-->
                 <select class="form-control" name="dateRanges" form="myForm">
-                        <!-- run a php for loop here -->
-                        <!-- make the first option have the value of the oldestDate (first element in $dates) if diff is < 1-->
-                        <!-- else run a for loop setting -->
-                        <?php if (count($rangeOfDates) > 0): ?>
-                            <?php foreach ($rangeOfDates as $dateRange) : ?>
-                                <option value="<?php se($dateRange)?>"><?php se($dateRange); ?></option>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <option value="<?php se($oldestDate)?>"><?php se($oldestDate); ?></option>
+                        <?php if (count($dates) > 0): ?>
+                            <?php if (count($rangeOfDates) > 0): ?>
+                                <?php foreach ($rangeOfDates as $dateRange) : ?>
+                                    <option value="<?php se($dateRange)?>"><?php se($dateRange); ?></option>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <option value="<?php se($oldestDate->format("Y-m-d") . " to " . date_add($oldestDate,date_interval_create_from_date_string("2 days"))->format("Y-m-d"))?>"><?php se($oldestDate->format("Y-m-d") . " to " . date_add($oldestDate,date_interval_create_from_date_string("2 days"))->format("Y-m-d"))?></option>
+                            <?php endif; ?>
                         <?php endif; ?>
                 </select>
                 <script>
@@ -204,7 +202,6 @@ if(count($results) > 0)
             </div>
         </div>
     </form>
-    <?php endif; ?>
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>" ?> -->
         <?php if (count($results) > 0) : ?>
