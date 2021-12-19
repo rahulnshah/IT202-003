@@ -13,11 +13,6 @@ $orderCol = se($_GET, "order", "total_price", false);
 if (!in_array($orderCol, ["total_price", "created"])) {
     $orderCol = "total_price"; //default value, prevent sql injection
 }
-$whereCol = se($_GET, "col", "created", false);
-//allowed list
-if (!in_array($col, ["category", "created"])) {
-    $whereCol = "created"; //default value, prevent sql injection
-}
 $upOrdown = se($_GET, "aOrd", "asc", false);
 //allowed list
 if (!in_array($upOrdown, ["asc", "desc"])) {
@@ -25,8 +20,8 @@ if (!in_array($upOrdown, ["asc", "desc"])) {
 }
 //cannot know before hand all the appropiate date ranges with SQL
 $aDateRange = se($_GET, "dateRanges", "", false);
-$aCategory = se($_GET, "category", "", false);
-$query = "SELECT id, total_price, payment_method, address FROM Orders where user_id = :user_id";
+$aCategory = se($_GET, "categories", "", false);
+$query = "SELECT Orders.user_id, Orders.id, Orders.created as created, Orders.total_price, Orders.payment_method, Orders.address FROM Orders";
 $params = [];
 $params[":user_id"] = get_user_id();
 if(!empty($aDateRange))
@@ -35,18 +30,25 @@ if(!empty($aDateRange))
     if(count($dateArr) >= 2)
     {
         $date_1 = $dateArr[0];
-        $date_2 = $dateArr[1];
-        $query .= " AND cast(created as date) BETWEEN :date_1 AND :date_2";
-        $params[":date_1"] = $date_1;
-        $params[":date_2"] = $date_2;
+        $date_2 = $dateArr[2];
+        $query .= " where DATE(created) BETWEEN :date_1 AND :date_2 AND";
+        $params[":date_1"] = date("Y-m-d",strtotime($date_1));
+        $params[":date_2"] = date("Y-m-d",strtotime($date_2));
     }
 }
 else if(!empty($aCategory))
 {
-    $query .= " AND cast(created as date) BETWEEN :date_1 AND :date_2";
+    $query .= " INNER JOIN OrderItems ON Orders.id = OrderItems.order_id INNER JOIN Products ON Products.id = OrderItems.product_id WHERE Products.category = :category AND";
+    $params[":category"] = $aCategory;
 }
-if (!empty($col) && !empty($upOrdown)) {
-    $query .= " ORDER BY $col $upOrdown"; //be sure you trust these values, I validate via the in_array checks above
+else
+{
+    $query .= " where";
+}
+$query .= " Orders.user_id = :user_id";
+$params[":user_id"] = get_user_id();
+if (!empty($orderCol) && !empty($upOrdown)) {
+    $query .= " ORDER BY $orderCol $upOrdown"; //be sure you trust these values, I validate via the in_array checks above
 }
 $query .= " LIMIT 10";
 $stmt = $db->prepare($query); // select prod it and name and inner join where prod id = cart.prod_id 
@@ -118,17 +120,13 @@ if(count($results) > 0)
 ?>
 <div class="container-fluid">
     <h1 id="myCart">Orders</h1>
-    <!-- gonna have to change this up a bit-->
     <?php if (count($results) > 0) : ?>
-    <form class="row row-cols-auto g-3 align-items-center">
-        <!-- with php fill two dropdwown with their respective ranges, then 
-        let the user select which thing to see the range of data purchased or category. When the 
-        user select one of these hide the column of the other thing with jQuery-->
+    <form class="row row-cols-auto g-3 align-items-center" id="myForm">
         <div class="col">
             <div class="input-group">
                 <div class="input-group-text">Filter</div>
                 <!-- make sure these match the in_array filter above-->
-                <select class="form-control" name="col">
+                <select class="form-control" name="col" form="myForm">
                     <option value="category">Category</option>
                     <option value="created">Date Purchased</option>
                 </select>
@@ -138,7 +136,7 @@ if(count($results) > 0)
                 </script>
                 <div class="input-group-text">Categories</div>
                 <!-- make sure these match the in_array filter above-->
-                <select class="form-control" name="categories">
+                <select class="form-control" name="categories" form="myForm">
                         <!-- run a php for loop here -->
                         <?php foreach ($categories as $category) : ?>
                             <option value="<?php echo $category ?>"><?php echo $category ?></option>
@@ -150,7 +148,7 @@ if(count($results) > 0)
                 </script>
                 <div class="input-group-text">Date Ranges</div>
                 <!-- make sure these match the in_array filter above-->
-                <select class="form-control" name="dateRanges">
+                <select class="form-control" name="dateRanges" form="myForm">
                         <!-- run a php for loop here -->
                         <!-- make the first option have the value of the oldestDate (first element in $dates) if diff is < 1-->
                         <!-- else run a for loop setting -->
@@ -167,7 +165,7 @@ if(count($results) > 0)
                     //value setting only works after the options are defined and php has the value set prior
                 </script>
                 <div class="input-group-text">Order By</div>
-                <select class="form-control" name="order">
+                <select class="form-control" name="order" form="myForm">
                     <option value="total_price">Total Price</option>
                     <option value="created">Date Purchased</option>
                 </select>
@@ -176,7 +174,7 @@ if(count($results) > 0)
                     //value setting only works after the options are defined and php has the value set prior
                 </script>
                 <div class="input-group-text">Sort</div>
-                <select class="form-control" name="aOrd">
+                <select class="form-control" name="aOrd" form="myForm">
                     <option value="desc">High To Low/Recent to Old</option>
                     <option value="asc">Low To High/Old to Recent</option>
                 </select>
@@ -208,6 +206,7 @@ if(count($results) > 0)
                     <?php endif; ?> -->
                         <div class="card-body">
                             <p class="card-text">Total price: $<?php se($item, "total_price"); ?></p>
+                            <p class="card-text">UserID: <?php se($item, "user_id"); ?></p>
                             <p class="card-text">OrderID: <?php se($item, "id"); ?></p>
                             <p class="card-text">Payment method: <?php se($item, "payment_method"); ?></p>
                             <p class="card-text">Deliever To: <?php echo join(",",explode(" ", se($item, "address", "Unknown address", false))); ?></p>
@@ -223,7 +222,6 @@ if(count($results) > 0)
                     });
                 </script>
             <?php endforeach; ?>
-            
             <script>
                 let cards = document.getElementsByClassName("col");
                 for(let i = 0; i < cards.length; i++)
@@ -242,6 +240,8 @@ if(count($results) > 0)
                     );
                 }
             </script>
+            <?php else: ?>
+                <p>No results to show</p>
             <?php endif; ?>
     </div>
 </div>
@@ -255,21 +255,26 @@ if(count($results) > 0)
                 //Example 
                 $(document).ready(function(){
                     $(".input-group-text:nth-child(7)").hide(); 
-                    $(".form-control:nth-child(8)").hide(); 
+                    $(".form-control:nth-child(8)").hide();
+                    $(".form-control:nth-child(8)").attr("form", "anotherForm"); 
                     $("[name=col]").change(function(){ //date purchased select 
                         if(this.value === "created")
                         {
                             $(".input-group-text:nth-child(4)").hide(); // category div
                             $(".form-control:nth-child(5)").hide(); //category 
+                            $(".form-control:nth-child(5)").attr("form", "anotherForm"); //category 
                             $(".input-group-text:nth-child(7)").show(); //date range div
                             $(".form-control:nth-child(8)").show();//date purchased 
+                            $(".form-control:nth-child(8)").attr("form", "myForm");
                         }
                         else
                         {
                             $(".input-group-text:nth-child(7)").hide(); 
                             $(".form-control:nth-child(8)").hide(); 
+                            $(".form-control:nth-child(8)").attr("form", "anotherForm");
                             $(".input-group-text:nth-child(4)").show(); 
                             $(".form-control:nth-child(5)").show();
+                            $(".form-control:nth-child(5)").attr("form", "myForm");
                         }
                     });
             });
