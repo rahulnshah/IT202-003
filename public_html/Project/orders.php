@@ -7,12 +7,51 @@ if (!is_logged_in()) {
 }
 $results = [];
 $db = getDB();
-$stmt = $db->prepare("SELECT id, total_price, payment_method, address FROM Orders
-where user_id = :user_id ORDER BY created DESC LIMIT 10"); // select prod it and name and inner join where prod id = cart.prod_id 
-//based on that id 
-// $total_cart_value = 0;
+//Sort and Filters
+$orderCol = se($_GET, "order", "total_price", false);
+//allowed list
+if (!in_array($orderCol, ["total_price", "created"])) {
+    $orderCol = "total_price"; //default value, prevent sql injection
+}
+$whereCol = se($_GET, "col", "created", false);
+//allowed list
+if (!in_array($col, ["category", "created"])) {
+    $whereCol = "created"; //default value, prevent sql injection
+}
+$upOrdown = se($_GET, "aOrd", "asc", false);
+//allowed list
+if (!in_array($upOrdown, ["asc", "desc"])) {
+    $upOrdown = "asc"; //default value, prevent sql injection
+}
+//cannot know before hand all the appropiate date ranges with SQL
+$aDateRange = se($_GET, "dateRanges", "", false);
+$aCategory = se($_GET, "category", "", false);
+$query = "SELECT id, total_price, payment_method, address FROM Orders where user_id = :user_id";
+$params = [];
+$params[":user_id"] = get_user_id();
+if(!empty($aDateRange))
+{
+    $dateArr = explode(" ", $aDateRange);
+    if(count($dateArr) >= 2)
+    {
+        $date_1 = $dateArr[0];
+        $date_2 = $dateArr[1];
+        $query .= " AND cast(created as date) BETWEEN :date_1 AND :date_2";
+        $params[":date_1"] = $date_1;
+        $params[":date_2"] = $date_2;
+    }
+}
+else if(!empty($aCategory))
+{
+    $query .= " AND cast(created as date) BETWEEN :date_1 AND :date_2";
+}
+if (!empty($col) && !empty($upOrdown)) {
+    $query .= " ORDER BY $col $upOrdown"; //be sure you trust these values, I validate via the in_array checks above
+}
+$query .= " LIMIT 10";
+$stmt = $db->prepare($query); // select prod it and name and inner join where prod id = cart.prod_id 
 try {
-    $stmt->execute([":user_id" => get_user_id()]); //specify the user_id so I get only products in tat user's cart
+    $stmt->execute($params); //specify the user_id so I get only products in tat user's cart
     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $results = $r;
 } catch (PDOException $e) {
@@ -117,10 +156,10 @@ if(count($results) > 0)
                         <!-- else run a for loop setting -->
                         <?php if (count($rangeOfDates) > 0): ?>
                             <?php foreach ($rangeOfDates as $dateRange) : ?>
-                                <option><?php se($dateRange); ?></option>
+                                <option value="<?php se($dateRange)?>"><?php se($dateRange); ?></option>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <option><?php se($oldestDate); ?></option>
+                            <option value="<?php se($oldestDate)?>"><?php se($oldestDate); ?></option>
                         <?php endif; ?>
                 </select>
                 <script>
