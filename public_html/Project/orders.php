@@ -72,9 +72,6 @@ if(count($results) > 0)
                 array_push($rangeOfDates, $oldestDate->format("Y-m-d") . " to " . date_add($oldestDate,date_interval_create_from_date_string(strval((int) $diffBetweenDates) . " days"))->format("Y-m-d"));
                 error_log($oldestDate->format("Y-m-d"));
             }
-
-        echo "<pre>" . var_export($dates, true) . "</pre>";
-        var_dump($diffBetweenDates);
     } catch (PDOException $e) {
         flash("<pre>" . var_export($e, true) . "</pre>");
     }
@@ -82,10 +79,8 @@ if(count($results) > 0)
 ?>
 <div class="container-fluid">
     <h1 id="myCart">Orders</h1>
-    <?php echo "<pre>" . var_export($rangeOfDates,true) . "</pre>"; ?>
     <!-- gonna have to change this up a bit-->
     <?php if (count($results) > 0) : ?>
-    <p class="aPara">This is a paragraph.</p>
     <form class="row row-cols-auto g-3 align-items-center">
         <!-- with php fill two dropdwown with their respective ranges, then 
         let the user select which thing to see the range of data purchased or category. When the 
@@ -220,19 +215,23 @@ if(count($results) > 0)
                 //select dropdwon are noth there, unhide them);
                 //Example 
                 $(document).ready(function(){
-                    console.log("reday");
-                    $("option[value=created]").click(function(){ //date purchased select 
-                        $(".input-group-text:nth-child(4)").hide(); // category div
-                        $(".form-control:nth-child(5)").hide(); //category 
-                        $(".input-group-text:nth-child(7)").show(); //date range div
-                        $(".form-control:nth-child(8)").show();//date purchased 
-                    });
-                    $("option[value=category]").click(function(e){ //category select
-                        console.log(e);
-                        $(".input-group-text:nth-child(7)").hide(); 
-                        $(".form-control:nth-child(8)").hide(); 
-                        $(".input-group-text:nth-child(4)").show(); 
-                        $(".form-control:nth-child(5)").show();
+                    $(".input-group-text:nth-child(7)").hide(); 
+                    $(".form-control:nth-child(8)").hide(); 
+                    $("[name=col]").change(function(){ //date purchased select 
+                        if(this.value === "created")
+                        {
+                            $(".input-group-text:nth-child(4)").hide(); // category div
+                            $(".form-control:nth-child(5)").hide(); //category 
+                            $(".input-group-text:nth-child(7)").show(); //date range div
+                            $(".form-control:nth-child(8)").show();//date purchased 
+                        }
+                        else
+                        {
+                            $(".input-group-text:nth-child(7)").hide(); 
+                            $(".form-control:nth-child(8)").hide(); 
+                            $(".input-group-text:nth-child(4)").show(); 
+                            $(".form-control:nth-child(5)").show();
+                        }
                     });
             });
 </script>
