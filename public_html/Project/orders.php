@@ -47,75 +47,89 @@ else
 }
 $query .= " Orders.user_id = :user_id";
 $params[":user_id"] = get_user_id();
-if (!empty($orderCol) && !empty($upOrdown)) {
-    $query .= " ORDER BY $orderCol $upOrdown"; //be sure you trust these values, I validate via the in_array checks above
-}
-$query .= " LIMIT 10";
-$stmt = $db->prepare($query); // select prod it and name and inner join where prod id = cart.prod_id 
-try {
-    $stmt->execute($params); //specify the user_id so I get only products in tat user's cart
-    $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $results = $r;
-} catch (PDOException $e) {
-    flash("<pre>" . var_export($e, true) . "</pre>");
+//paginate 
+$total_query = str_replace("Orders.user_id, Orders.id, Orders.created as created, Orders.total_price, Orders.payment_method, Orders.address","count(1) as total",$query);
+$per_page = 10;
+paginate($total_query, $params, $per_page); //$per_page defualts to 10 in the paginate function
+if((int) $total_pages > 0)
+{
+    if (!empty($orderCol) && !empty($upOrdown)) {
+        $query .= " ORDER BY $orderCol $upOrdown"; //be sure you trust these values, I validate via the in_array checks above
+    }
+    $query .= " LIMIT :offset, :count";
+    $params[":offset"] = $offset;
+    $params[":count"] = $per_page;
+    $stmt = $db->prepare($query); // select prod it and name and inner join where prod id = cart.prod_id 
+    foreach ($params as $key => $value) {
+        $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+        $stmt->bindValue($key, $value, $type);
+    }
+    $params = null;
+    try {
+        $stmt->execute($params); //specify the user_id so I get only products in tat user's cart
+        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $r;
+    } catch (PDOException $e) {
+        flash("<pre>" . var_export($e, true) . "</pre>");
+    }
 }
 $rangeOfDates = [];
 $oldestDate = "";
 if(count($results) > 0)
 {
-    //get the categories to prefill
-    $categoryResults = [];
-    $stmt = $db->prepare("SELECT category FROM Products WHERE visibility = 1"); //could have used the distinct keyword here 
-    try {
-        $stmt->execute();
-        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if ($r) {
-            $categoryResults = $r;
-        }
-        //echo "<pre>" . var_export($results, true) . "</pre>";
-        $categories = [];
-        if (count($categoryResults) > 0) // only want to create an extra array (categories) if $results is not empty 
-        {
-            foreach ($categoryResults as $categoryResult) {
-                $aCategory = se($categoryResult, "category", "", false);
-                if (!in_array($aCategory, $categories)) {
-                    array_push($categories, $aCategory);
+        //get the categories to prefill
+        $categoryResults = [];
+        $stmt = $db->prepare("SELECT category FROM Products WHERE visibility = 1"); //could have used the distinct keyword here 
+        try {
+            $stmt->execute();
+            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($r) {
+                $categoryResults = $r;
+            }
+            //echo "<pre>" . var_export($results, true) . "</pre>";
+            $categories = [];
+            if (count($categoryResults) > 0) // only want to create an extra array (categories) if $results is not empty 
+            {
+                foreach ($categoryResults as $categoryResult) {
+                    $aCategory = se($categoryResult, "category", "", false);
+                    if (!in_array($aCategory, $categories)) {
+                        array_push($categories, $aCategory);
+                    }
                 }
             }
+            // echo "<pre>" . var_export($categories, true) . "</pre>";
+        } catch (PDOException $e) {
+            flash("<pre>" . var_export($e, true) . "</pre>");
         }
-        // echo "<pre>" . var_export($categories, true) . "</pre>";
-    } catch (PDOException $e) {
-        flash("<pre>" . var_export($e, true) . "</pre>");
-    }
-    //data ranges to fill: find the smallest difference between adjacent dates (in sorted order, and then increase
-    //by the ammount starting from the samllest date. 
-    $dates = [];
-    $stmt = $db->prepare("SELECT DISTINCT(DATE(created)) as oldestDate FROM Orders WHERE user_id = :u_id ORDER BY oldestDate ASC"); //could have used the distinct keyword here 
-    try {
-        $stmt->execute([":u_id" => get_user_id()]);
-        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $dates = $r;
-            //get the date a index 0. 
-            $oldestDate = date_create($dates[0]["oldestDate"]);
-            $latestDate = date_create($dates[count($dates) - 1]["oldestDate"]);
-            $diffBetweenDates = 0;
-            //if the dates array has only one element, than difference is ofcourse 0, but if length is > 1, difference 
-            //cannot be 0 between two elements
-            if(count($dates) > 1)
-            {
-                $diffBetweenDates = date_diff($oldestDate, date_create($dates[1]["oldestDate"]));
-                $diffBetweenDates = $diffBetweenDates->format("%a");
-            }
-            //push in date ranges here , if diffBetween dates is 0, same += 0 = same and old = leates so array will be empty
-            while((int) date_diff($oldestDate, $latestDate)->format("%a") > 0)
-            {
-            //     error_log("date: " . date_add(date_create($oldestDate),date_interval_create_from_date_string(strval((int) $diffBetweenDates * 2) . " days"))->format("Y-m-d"));
-                array_push($rangeOfDates, $oldestDate->format("Y-m-d") . " to " . date_add($oldestDate,date_interval_create_from_date_string(strval((int) $diffBetweenDates) . " days"))->format("Y-m-d"));
-                error_log($oldestDate->format("Y-m-d"));
-            }
-    } catch (PDOException $e) {
-        flash("<pre>" . var_export($e, true) . "</pre>");
-    }
+        //data ranges to fill: find the smallest difference between adjacent dates (in sorted order, and then increase
+        //by the ammount starting from the samllest date. 
+        $dates = [];
+        $stmt = $db->prepare("SELECT DISTINCT(DATE(created)) as oldestDate FROM Orders WHERE user_id = :u_id ORDER BY oldestDate ASC"); //could have used the distinct keyword here 
+        try {
+            $stmt->execute([":u_id" => get_user_id()]);
+            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $dates = $r;
+                //get the date a index 0. 
+                $oldestDate = date_create($dates[0]["oldestDate"]);
+                $latestDate = date_create($dates[count($dates) - 1]["oldestDate"]);
+                $diffBetweenDates = 0;
+                //if the dates array has only one element, than difference is ofcourse 0, but if length is > 1, difference 
+                //cannot be 0 between two elements
+                if(count($dates) > 1)
+                {
+                    $diffBetweenDates = date_diff($oldestDate, date_create($dates[1]["oldestDate"]));
+                    $diffBetweenDates = $diffBetweenDates->format("%a");
+                }
+                //push in date ranges here , if diffBetween dates is 0, same += 0 = same and old = leates so array will be empty
+                while((int) date_diff($oldestDate, $latestDate)->format("%a") > 0)
+                {
+                //     error_log("date: " . date_add(date_create($oldestDate),date_interval_create_from_date_string(strval((int) $diffBetweenDates * 2) . " days"))->format("Y-m-d"));
+                    array_push($rangeOfDates, $oldestDate->format("Y-m-d") . " to " . date_add($oldestDate,date_interval_create_from_date_string(strval((int) $diffBetweenDates) . " days"))->format("Y-m-d"));
+                    error_log($oldestDate->format("Y-m-d"));
+                }
+        } catch (PDOException $e) {
+            flash("<pre>" . var_export($e, true) . "</pre>");
+        }
 }
 ?>
 <div class="container-fluid">
@@ -240,6 +254,8 @@ if(count($results) > 0)
                     );
                 }
             </script>
+            <br>
+            <?php require(__DIR__ . "/../../partials/pagination.php"); ?>
             <?php else: ?>
                 <p>No results to show</p>
             <?php endif; ?>
