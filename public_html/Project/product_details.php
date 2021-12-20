@@ -46,6 +46,8 @@ if(isset($_POST['comment']) && isset($_POST["vol"]))
             {
                 $stmt->execute([":comment" => $comment,":p_id" => $id, ":u_id" => get_user_id(), ":rating" => $rating]);
                 flash("Thank you for your feedback!");
+                //update products, insert average rating for that product id. there has to be a rating at this stage.
+                update_data("Products", $id, ['average_rating' => get_average_rating($id)]);
             }
             catch(PDOException $e)
             {
