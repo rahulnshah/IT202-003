@@ -8,6 +8,7 @@ if (!has_role("Admin")) {
 }
 
 $results = [];
+$total_price_of_purchase_history = 0;
 $db = getDB();
 $orderCol = se($_GET, "order", "total_price", false);
 //allowed list
@@ -31,44 +32,109 @@ if(!empty($aDateRange))
     {
         $date_1 = $dateArr[0];
         $date_2 = $dateArr[2];
-        $query .= " where DATE(created) BETWEEN :date_1 AND :date_2 AND";
+        $query .= " where DATE(created) BETWEEN :date_1 AND :date_2";
         $params[":date_1"] = date("Y-m-d",strtotime($date_1));
         $params[":date_2"] = date("Y-m-d",strtotime($date_2));
     }
 }
 else if(!empty($aCategory))
 {
-    $query .= " INNER JOIN OrderItems ON Orders.id = OrderItems.order_id INNER JOIN Products ON Products.id = OrderItems.product_id WHERE Products.category = :category AND";
+    $query .= " INNER JOIN OrderItems ON Orders.id = OrderItems.order_id INNER JOIN Products ON Products.id = OrderItems.product_id WHERE Products.category = :category";
     $params[":category"] = $aCategory;
 }
-else
-{
-    $query .= " where";
-}
-$query .= " Orders.user_id = :user_id";
-$params[":user_id"] = get_user_id();
 //paginate 
-$total_query = str_replace("Orders.user_id, Orders.id, Orders.created as created, Orders.total_price, Orders.payment_method, Orders.address","count(1) as total",$query);
+$total_query = str_replace("Orders.id, Orders.user_id, Orders.total_price, Orders.created as created, Orders.payment_method, Orders.address","count(1) as total",$query);
 $per_page = 10;
 paginate($total_query, $params, $per_page); //$per_page defualts to 10 in the paginate function
-$stmt = $db->prepare();
-try {
-    $stmt->execute();
-    $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($r) 
-    {
-        $results = $r;
+if((int) $total_pages > 0)
+{
+    if (!empty($orderCol) && !empty($upOrdown)) {
+        $query .= " ORDER BY $orderCol $upOrdown"; //be sure you trust these values, I validate via the in_array checks above
     }
+    $query .= " LIMIT :offset, :count";
+    $params[":offset"] = $offset;
+    $params[":count"] = $per_page;
+    $stmt = $db->prepare($query);
+    foreach ($params as $key => $value) {
+        $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+        $stmt->bindValue($key, $value, $type);
+    }
+    $params = null;
+    try {
+        $stmt->execute($params);
+        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $r;
         //echo "<pre>" . var_export($results, true) . "</pre>";
-} 
-catch (PDOException $e) {
-    flash("<pre>" . var_export($e, true) . "</pre>");
+        foreach($results as $result)
+        {
+            $total_price_of_purchase_history +=  floatval(se($result, "total_price", null, false));
+        }
+    } 
+    catch (PDOException $e) {
+        flash("<pre>" . var_export($e, true) . "</pre>");
+    }
 }
-
+$rangeOfDates = [];
+$oldestDate = "";
+        //get the categories to prefill; still want to display them when $total_pages == 0 (no records)
+        $categoryResults = [];
+        $stmt = $db->prepare("SELECT category FROM Products WHERE visibility = 1"); //could have used the distinct keyword here 
+        try {
+            $stmt->execute();
+            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($r) {
+                $categoryResults = $r;
+            }
+            //echo "<pre>" . var_export($results, true) . "</pre>";
+            $categories = [];
+            if (count($categoryResults) > 0) // only want to create an extra array (categories) if $results is not empty 
+            {
+                foreach ($categoryResults as $categoryResult) {
+                    $aCategory = se($categoryResult, "category", "", false);
+                    if (!in_array($aCategory, $categories)) {
+                        array_push($categories, $aCategory);
+                    }
+                }
+            }
+            // echo "<pre>" . var_export($categories, true) . "</pre>";
+        } catch (PDOException $e) {
+            flash("<pre>" . var_export($e, true) . "</pre>");
+        }
+        //data ranges to fill: find the smallest difference between adjacent dates (in sorted order, and then increase
+        //by the ammount starting from the samllest date. 
+        $dates = [];
+        $stmt = $db->prepare("SELECT DISTINCT(DATE(created)) as oldestDate FROM Orders ORDER BY oldestDate ASC"); //could have used the distinct keyword here 
+        try {
+            $stmt->execute();
+            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $dates = $r;
+                //get the date a index 0. 
+            if(count($dates) > 0) //count($dates) could be 0 if we have a new user 
+            {
+                $oldestDate = date_create($dates[0]["oldestDate"]);
+                $latestDate = date_create($dates[count($dates) - 1]["oldestDate"]);
+                $diffBetweenDates = 0;
+                //if the dates array has only one element, than difference is ofcourse 0, but if length is > 1, difference 
+                //cannot be 0 between two elements
+                if(count($dates) > 1)
+                {
+                    $diffBetweenDates = date_diff($oldestDate, date_create($dates[1]["oldestDate"]));
+                    $diffBetweenDates = $diffBetweenDates->format("%a");
+                }
+                //push in date ranges here , if diffBetween dates is 0, same += 0 = same and old = leates so array will be empty
+                while((int) date_diff($oldestDate, $latestDate)->format("%a") > 0)
+                {
+                //     error_log("date: " . date_add(date_create($oldestDate),date_interval_create_from_date_string(strval((int) $diffBetweenDates * 2) . " days"))->format("Y-m-d"));
+                    array_push($rangeOfDates, $oldestDate->format("Y-m-d") . " to " . date_add($oldestDate,date_interval_create_from_date_string(strval((int) $diffBetweenDates) . " days"))->format("Y-m-d"));
+                    error_log($oldestDate->format("Y-m-d"));
+                }
+            }
+        } catch (PDOException $e) {
+            flash("<pre>" . var_export($e, true) . "</pre>");
+        }
 ?>
 <div class="container-fluid">
     <h1>List Orders</h1>
-    <?php echo "<pre>" . var_export($results,true) . "</pre>"; ?>
     <form class="row row-cols-auto g-3 align-items-center" id="myForm">
         <div class="col">
             <div class="input-group">
@@ -160,6 +226,10 @@ catch (PDOException $e) {
                 </tr>
             <?php endforeach; ?>
         </table>
+        <br>
+        <?php echo "Total: " . "$" . $total_price_of_purchase_history;?>
+        <br>
+        <?php require(__DIR__ . "/../../../partials/pagination.php"); ?>
     <?php endif; ?>
 </div>
 <script>

@@ -149,7 +149,7 @@ require_once(__DIR__ . "/../lib/functions.php");
   </div>
 </nav>
 <div id="cart-value">
-    Cart: <?php echo get_number_of_cartItems(); ?>
+    Cart: <?php echo get_number_of_cartItems("desired_quantity","Cart"); ?>
 </div>
 <script>
     let bv = document.getElementById("cart-value");

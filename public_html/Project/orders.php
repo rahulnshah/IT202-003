@@ -205,7 +205,6 @@ $oldestDate = "";
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>" ?> -->
         <?php if (count($results) > 0) : ?>
-            <?php echo $query;?>
             <!-- <?php echo "<pre>" . var_export($results,true) . "</pre>"; ?>  -->
             <?php foreach ($results as $item) : ?>
                 <div id='orderwithID<?php echo $item["id"]; ?>' class="col">
