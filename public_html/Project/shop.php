@@ -38,6 +38,39 @@ try {
 } catch (PDOException $e) {
     flash("<pre>" . var_export($e, true) . "</pre>");
 }
+//ratings
+$theRatings = [];
+//select the minimum rating, select the maximum rating from Produtcs then order the DISTINCT ratings and select the mimimal difference 
+// between the first two ratings 
+$stmt = $db->prepare("SELECT DISTINCT(average_rating) as average_Rating FROM Products WHERE visibility = 1 ORDER BY average_Rating ASC"); //could have used the distinct keyword here 
+try {
+    $stmt->execute();
+    $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $avgRatings = $r;
+        //get the date a index 0. 
+    if(count($avgRatings) > 0) //count($dates) could be 0 if we have a new user 
+    {
+        $minAvgRating = floatval($avgRatings[0]["average_Rating"]);
+        $maxAvgRating = floatval($avgRatings[count($avgRatings) - 1]["average_Rating"]);
+        $diffBetweenAvgRatings = 0;
+       //if the dates array has only one element, than difference is ofcourse 0, but if length is > 1, difference 
+        //cannot be 0 between two elements
+        if(count($avgRatings) > 1)
+        {
+            $diffBetweenAvgRatings = floatval($avgRatings[1]["average_Rating"]) - $minAvgRating;
+        }
+                //push in date ranges here , if diffBetween dates is 0, same += 0 = same and old = leates so array will be empty
+        array_push($theRatings, $minAvgRating);
+        while($minAvgRating < $maxAvgRating) //if they are the same this won't run but I will still push the minavgRating into theRatings array
+        {
+        //     error_log("date: " . date_add(date_create($oldestDate),date_interval_create_from_date_string(strval((int) $diffBetweenDates * 2) . " days"))->format("Y-m-d"));
+            $minAvgRating += $diffBetweenAvgRatings;
+            array_push($theRatings,$minAvgRating);
+        }
+    }
+} catch (PDOException $e) {
+    flash("<pre>" . var_export($e, true) . "</pre>");
+}
 //prices 
 $prices = [];
 //get the max price from database and print it out 
@@ -89,6 +122,47 @@ if (isset($_POST["categorySubmit"])) {
             //echo var_export($results, true); //<- getting all records when I submit empty string why?
         } catch (PDOException $e) {
             flash("<pre>" . var_export($e, true) . "</pre>");
+        }
+    } else {
+        $results = [];
+    }
+}
+if (isset($_POST["averageRatingSubmit"])) {
+    //echo var_export($_POST["itemName"], true);
+    if (!empty($_POST["ratings"])) {
+        $selected = se($_POST, "ratings", "Cannot be empty", false);
+        $query = "SELECT id, name, description, category, stock, unit_price, average_rating from Products";
+        $rateArr = explode(" ", $selected);
+        $params = [];
+        if(count($rateArr) >= 3)
+        {
+            $rate_1 = $rateArr[0];
+            $rate_2 = $rateArr[2];
+            $query .= " where average_rating BETWEEN :rate_1 AND :rate_2";
+            $params[":rate_1"] = $rate_1;
+            $params[":rate_2"] = $rate_2;
+            $total_query = str_replace("id, name, description, category, stock, unit_price, average_rating","count(1) as total",$query);
+            $per_page = 10;
+            paginate($total_query, $params, $per_page); //$per_page defualts to 10 in the paginate function
+            if((int) $total_pages > 0)
+            {
+                $query .= " LIMIT :offset, :count";
+                $params[":offset"] = $offset;
+                $params[":count"] = $per_page;
+                $stmt = $db->prepare($query); // select prod it and name and inner join where prod id = cart.prod_id 
+                foreach ($params as $key => $value) {
+                    $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                    $stmt->bindValue($key, $value, $type);
+                }
+                $params = null;
+                try {
+                    $stmt->execute($params); //specify the user_id so I get only products in tat user's cart
+                    $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    $results = $r;
+                } catch (PDOException $e) {
+                    flash("<pre>" . var_export($e, true) . "</pre>");
+                }
+            }
         }
     } else {
         $results = [];
@@ -213,6 +287,24 @@ if (isset($_POST["featuredSubmit"])) {
         </div>
     </form>
     <form method="POST">
+        <label for="ratings">Rating Between:</label>
+        <br>
+        <div class="input-group">
+            <select class="form-select form-select-sm" name="ratings" id="ratings">
+                <!-- TODO add php templating here to get all the categories-->
+                <?php if (count($theRatings) == 1): ?>
+                    <option value="<?php echo $theRatings[0] . " and " . ($theRatings[0] + 1);?>"><?php echo $theRatings[0] . " and " . ($theRatings[0] + 1);?></option>
+                <?php else: ?>
+                    <?php for($i = 0; $i < count($theRatings) - 1; $i++) : ?>
+                        <option value="<?php echo $theRatings[$i] . " and " . $theRatings[$i + 1];?>"><?php echo $theRatings[$i] . " and " . $theRatings[$i + 1];?></option>
+                    <?php endfor; ?>
+                <?php endif; ?>
+            </select>
+            <br>
+            <input class="btn btn-primary" type="submit" name="averageRatingSubmit" value="Submit">
+        </div>
+    </form>
+    <form method="POST">
         <label for="sortByPrice">Select a Price Range:</label>
         <br>
         <div class="input-group">
@@ -271,7 +363,9 @@ if (isset($_POST["featuredSubmit"])) {
                             <h5 class="card-title">Name: <?php se($item, "name"); ?></h5>
                             <p class="card-text">Description: <?php se($item, "description"); ?></p>
                             <p class="card-text">Category: <?php se($item, "category"); ?></p>
-                            <!-- <p class="card-text">Stock: <?php se($item, "stock"); ?></p> show stock to user -->
+                            <?php if(!empty(se($item, "average_rating", "", false))): ?>
+                                <p class="card-text">Average Rating: <?php se($item, "average_rating");?></p>
+                            <?php endif; ?>
                         </div>
                         <div class="card-footer">
                             Unit Price: $<?php se($item, "unit_price"); ?>
@@ -311,6 +405,8 @@ if (isset($_POST["featuredSubmit"])) {
                 }
             </script>
         </div>
+        <br>
+        <?php require(__DIR__ . "/../../partials/pagination.php"); ?>
     <?php endif; ?>
 </div>
 <?php
