@@ -15,15 +15,15 @@ $user_id = se($_GET, "id", get_user_id(), false);
 error_log("user id $user_id");
 $isMe = $user_id === get_user_id();
 //!! makes the value into a true or false value regardless of the data https://stackoverflow.com/a/2127324
-$edit = !!se($_GET, "edit", false, false); //if key is present allow edit, otherwise no edit
-error_log(var_export($edit, true));
+// $edit = !!se($_GET, "edit", false, false); //if key is present allow edit, otherwise no edit
+// error_log(var_export($edit, true));
 if ($user_id < 1) {
     flash("Invalid user", "danger");
     redirect("home.php");
 }
 ?>
 <?php
-if (isset($_POST["save"]) && $isMe && $edit) {
+if (isset($_POST["save"]) && $isMe) {  // && $edit
     $db = getDB();
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
