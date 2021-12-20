@@ -249,21 +249,21 @@ function redirect($path)
     echo "<noscript><meta http-equiv=\"refresh\" content=\"0;url=" . get_url($path) . "\"/></noscript>";
     die();
 }
-function get_number_of_cartItems()
+function get_number_of_cartItems($aCol, $tableName)
 {
-    $query = "SELECT SUM(desired_quantity) AS numberOfCartItems
-    FROM Cart WHERE user_id = :user_id";
+    $query = "SELECT SUM($aCol) AS sumNum
+    FROM $tableName WHERE user_id = :user_id";
     $db = getDB();
     $stmt = $db->prepare($query);
     
     try{
         $stmt->execute([":user_id" => get_user_id()]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(is_null($row["numberOfCartItems"]))
+        if(is_null($row["sumNum"]))
         {
             return "0";
         }
-        return $row["numberOfCartItems"];
+        return $row["sumNum"];
     }
     catch (PDOException $e) {
         flash(var_export($e->errorInfo, true), "warning");
