@@ -49,7 +49,11 @@ $query .= " Orders.user_id = :user_id";
 $params[":user_id"] = get_user_id();
 //paginate 
 $total_query = str_replace("Orders.user_id, Orders.id, Orders.created as created, Orders.total_price, Orders.payment_method, Orders.address","count(1) as total",$query);
-$per_page = 10;
+$per_page = intval(se($_GET, "results_per_page", 10, false));
+if(!($per_page > 0))
+{
+    $per_page = 10;
+}
 paginate($total_query, $params, $per_page); //$per_page defualts to 10 in the paginate function
 if((int) $total_pages > 0)
 {
@@ -196,6 +200,7 @@ $oldestDate = "";
                 </script>
             </div>
         </div>
+        <?php require(__DIR__ . "/../../partials/limitdropdown.php"); ?>
         <div class="col">
             <div class="input-group">
                 <input type="submit" class="btn btn-primary" value="Apply" />

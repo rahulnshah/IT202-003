@@ -57,7 +57,11 @@ if(count($whereQuery) > 0)
     $query .= " and " . join(" and ",$whereQuery);
 }
 $total_query = str_replace("id, name, description, category, unit_price, stock","count(1) as total",$query);
-$per_page = 10;
+$per_page = intval(se($_GET, "results_per_page", 10, false));
+if(!($per_page > 0))
+{
+    $per_page = 10;
+}
 paginate($total_query, $params, $per_page); //$per_page defualts to 10 in the paginate function
 if((int) $total_pages > 0)
 {
@@ -245,6 +249,7 @@ try {
                 <input class="form-control me-2" type="search" form="myForm" name="itemName" placeholder="Item Filter" />
             </div>
         </div>
+        <?php require(__DIR__ . "/../../partials/limitdropdown.php"); ?>
         <div class="col">
             <div class="input-group">
                 <input type="submit" class="btn btn-primary" value="Apply" />
