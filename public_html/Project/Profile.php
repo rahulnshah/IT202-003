@@ -17,6 +17,7 @@ if ($user_id < 1) {
 if (isset($_POST["save"]) && $isMe) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
+    $visibility = !!se($_POST, "visibility", false, false) ? 1 : 0;
     //Notes:
     // I am updating a row, with the given username and email, but if either alredy exists in its respective col, 
     // SQL stops the update.
@@ -49,9 +50,9 @@ if (isset($_POST["save"]) && $isMe) {
     }
     if(!$errors)
     {
-        $params = [":email" => $email, ":username" => $username, ":id" => get_user_id()];
+        $params = [":email" => $email, ":username" => $username, ":id" => get_user_id(), ":vis" => $visibility];
         $db = getDB();
-        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username where id = :id");
+        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, visibility = :vis where id = :id");
         try {
             $stmt->execute($params);
         } catch (Exception $e) {
@@ -143,60 +144,67 @@ $email = get_user_email();
 $username = get_username();
 $public = false;
 $db = getDB();
-$stmt = $db->prepare("SELECT username, email, visibility from Users where id = :id");
+$stmt = $db->prepare("SELECT DATE(created) as join_date, username, visibility from Users where id = :id");
 try {
     $stmt->execute([":id" => $user_id]); // user_id could be the id of the loggedin user.
     $r = $stmt->fetch(PDO::FETCH_ASSOC);
     error_log("user: " . var_export($r, true));
     $username = se($r, "username", "", false);
     $public = se($r, "visibility", 0, false) > 0;
-    if (!$public && !$isMe) { // if profile is public or isMe this is false, and I stay on profile.php 
-        flash("User's profile is private", "warning");
-        redirect("home.php");
+    if (!$public) { // if the profile is not public this whole if is true and I go to home even if $isMe is true
+        if(!$isMe)
+        {
+            flash("User's profile is private", "warning");
+            redirect("home.php");
+        }
         //die(header("Location: home.php"));
-    }
-    else if(!$isMe && $public) // does matter than if the profile if public or private, I get my user and password, which are set by defualt
-    {
-        //unset the email, keep the username.
-        unset($email); 
     }
 } catch (Exception $e) {
     echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
 }
 ?>
-
-<?php
-    $email = get_user_email(); //of the logged in user, want to only show this the user viewing their own profile, you don;t want to show this when the 
-    //user vistis someone else's profile, it will default to your own 
-    $username = get_username();
-?>
 <div class="container-fluid">
 <h1>Profile</h1>
-<form method="POST" onsubmit="return validate(this);">
-    <div class="mb-3">
-        <label for="email">Email</label>
-        <input  class="form-control form-control-sm"  type="email" name="email" id="email" value="<?php se($email); ?>" />
+<?php if ($isMe): ?>
+    <form method="POST" onsubmit="return validate(this);">
+            <div class="mb-3">
+                <div class="form-check form-switch">
+                    <input name="visibility" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" <?php if ($public) echo "checked"; ?>>
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Make Profile Public</label>
+                </div>
+            </div>
+        <div class="mb-3">
+            <label for="email">Email</label>
+            <input  class="form-control form-control-sm"  type="email" name="email" id="email" value="<?php se($email); ?>" />
+        </div>
+        <div class="mb-3">
+            <label for="username">Username</label>
+            <input  class="form-control form-control-sm"  type="text" name="username" id="username" value="<?php se($username); ?>" />
+        </div>
+        <!-- DO NOT PRELOAD PASSWORD -->
+        <div>Password Reset</div>
+        <div class="mb-3">
+            <label for="cp">Current Password</label>
+            <input  class="form-control form-control-sm" type="password" name="currentPassword" id="cp" />
+        </div>
+        <div class="mb-3">
+            <label for="np">New Password</label>
+            <input  class="form-control form-control-sm"  type="password" name="newPassword" id="np" />
+        </div>
+        <div class="mb-3">
+            <label for="conp">Confirm Password</label>
+            <input  class="form-control form-control-sm"  type="password" name="confirmPassword" id="conp" />
+        </div>
+        <input type="submit"  class="btn btn-primary" value="Update Profile" name="save" />
+    </form>
+    <p>Member Since: <?php se($r, "join_date", "Unknown date"); ?></p>
+<?php else: ?>
+    <!-- sho the user name of user, joined-->
+    <div class="card-body">
+        <p class="card-text">Username: <?php se($username); ?></p>
+        <p class="card-text">Member Since: <?php se($r, "join_date", "Unknown date"); ?></p>
     </div>
-    <div class="mb-3">
-        <label for="username">Username</label>
-        <input  class="form-control form-control-sm"  type="text" name="username" id="username" value="<?php se($username); ?>" />
-    </div>
-    <!-- DO NOT PRELOAD PASSWORD -->
-    <div>Password Reset</div>
-    <div class="mb-3">
-        <label for="cp">Current Password</label>
-        <input  class="form-control form-control-sm" type="password" name="currentPassword" id="cp" />
-    </div>
-    <div class="mb-3">
-        <label for="np">New Password</label>
-        <input  class="form-control form-control-sm"  type="password" name="newPassword" id="np" />
-    </div>
-    <div class="mb-3">
-        <label for="conp">Confirm Password</label>
-        <input  class="form-control form-control-sm"  type="password" name="confirmPassword" id="conp" />
-    </div>
-    <input type="submit"  class="btn btn-primary" value="Update Profile" name="save" />
-</form>
+<?php endif; ?>
 </div>
 <script>
     function validate(form) {
