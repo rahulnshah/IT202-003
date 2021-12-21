@@ -293,7 +293,7 @@ try {
                 </script>
             <?php endforeach; ?>
             <script>
-                let cards = document.getElementsByClassName("col");
+                let cards = document.querySelectorAll(".row > div");
                 for(let i = 0; i < cards.length; i++)
                 {
                     $(cards[i].firstElementChild).hover(

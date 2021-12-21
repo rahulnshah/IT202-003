@@ -234,7 +234,7 @@ $oldestDate = "";
                 </script>
             <?php endforeach; ?>
             <script>
-                let cards = document.getElementsByClassName("col");
+                let cards = document.querySelectorAll(".row-cols-1 > div");
                 for(let i = 0; i < cards.length; i++)
                 {
                     $(cards[i].firstElementChild).hover(
