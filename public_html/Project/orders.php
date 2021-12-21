@@ -209,9 +209,9 @@ $oldestDate = "";
             <?php foreach ($results as $item) : ?>
                 <div id='orderwithID<?php echo $item["id"]; ?>' class="col">
                     <div class="card bg-light">
-                        <div class="card-header">
+                        <!-- <div class="card-header">
                             Placeholder
-                        </div>
+                        </div> -->
                         <!-- <?php if (se($item, "image", "", false)) : ?>
                         <img src="<?php se($item, "image"); ?>" class="card-img-top" alt="...">
                     <?php endif; ?> -->
