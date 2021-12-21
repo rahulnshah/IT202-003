@@ -8,18 +8,43 @@ if (!has_role("Admin")) {
 }
 
 $results = [];
+$query = "";
+$params = [];
 if (isset($_POST["itemName"])) {
+    $itemName = se($_POST, "itemName", "", false);
+    $query = "SELECT id, name, description, stock, category, unit_price, visibility from Products WHERE name like :name";
+    $params[":name"] = "%" . $itemName . "%";
+}
+else if(isset($_POST["stockToCheck"]) && (!empty($_POST["stockToCheck"]) || $_POST["stockToCheck"] === "0"))
+{
+    $stockToCheck = se($_POST, "stockToCheck", "0", false);
+    $query = "SELECT id, name, description, stock, category, unit_price, visibility from Products WHERE stock <= :stockToCheck";
+    $params[":stockToCheck"] = $stockToCheck; 
+}
+if(!empty($query))
+{
     $db = getDB();
-    $stmt = $db->prepare("SELECT id, name, description, stock, category, unit_price, visibility from Products WHERE name like :name LIMIT 10");
-    try {
-        $stmt->execute([":name" => "%" . $_POST["itemName"] . "%"]);
-        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if ($r) {
-            $results = $r;
+    $total_query = str_replace("id, name, description, stock, category, unit_price, visibility","count(1) as total",$query);
+    $per_page = 10;
+    paginate($total_query, $params, $per_page); //$per_page defualts to 10 in the paginate function
+    if((int) $total_pages > 0)
+    {
+        $query .= " LIMIT :offset, :count";
+        $params[":offset"] = $offset;
+        $params[":count"] = $per_page;
+        $stmt = $db->prepare($query);
+        foreach ($params as $key => $value) {
+            $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+            $stmt->bindValue($key, $value, $type);
         }
-        //echo "<pre>" . var_export($results, true) . "</pre>";
-    } catch (PDOException $e) {
-        flash("<pre>" . var_export($e, true) . "</pre>");
+        $params = null;
+        try {
+            $stmt->execute($params);
+            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $results = $r;
+        } catch (PDOException $e) {
+                flash("<pre>" . var_export($e, true) . "</pre>");
+        }
     }
 }
 ?>
@@ -29,6 +54,12 @@ if (isset($_POST["itemName"])) {
         <div class="input-group mb-3">
             <input class="form-control" type="search" name="itemName" placeholder="Item Filter" />
             <input class="btn btn-primary" type="submit" value="Search"/>
+        </div>
+    </form>
+    <form method="POST" class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="input-group">
+            <input class="form-control" type="number" id="stockToCheck" name="stockToCheck">
+            <input type="submit" class="btn btn-primary" value="Check Stock">
         </div>
     </form>
     <?php if (count($results) == 0) : ?>
@@ -48,14 +79,13 @@ if (isset($_POST["itemName"])) {
                     <?php foreach ($record as $column => $value) : ?>
                         <td><?php se($value, null, "N/A"); ?></td>
                     <?php endforeach; ?>
-
-
                     <td>
                         <a class="btn btn-primary" href="edit_product.php?id=<?php se($record, "id"); ?>">Edit</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </table>
+        <?php require(__DIR__ . "/../../../partials/pagination.php"); ?>
     <?php endif; ?>
 </div>
 <?php
