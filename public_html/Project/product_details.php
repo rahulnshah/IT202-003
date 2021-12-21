@@ -46,6 +46,8 @@ if(isset($_POST['comment']) && isset($_POST["vol"]))
             {
                 $stmt->execute([":comment" => $comment,":p_id" => $id, ":u_id" => get_user_id(), ":rating" => $rating]);
                 flash("Thank you for your feedback!");
+                //update products, insert average rating for that product id. there has to be a rating at this stage.
+                update_data("Products", $id, ['average_rating' => get_average_rating($id)]);
             }
             catch(PDOException $e)
             {
@@ -53,7 +55,7 @@ if(isset($_POST['comment']) && isset($_POST["vol"]))
             }
     }
 }
-$total_query = "SELECT count(1) as total from Ratings where product_id = :p_id";
+$total_query = "SELECT count(1) as total FROM Ratings INNER JOIN Users On Ratings.user_id = Users.id WHERE product_id = :p_id";
 $params = []; //define default params, add keys as needed and pass to execute
 $params[":p_id"] = $id;
 $per_page = 10;
@@ -64,7 +66,7 @@ paginate($total_query, $params, $per_page); //$per_page defualts to 10 in the pa
 $allRatings = []; 
 if((int) $total_pages > 0)
 {
-    $base_query = "SELECT user_id, created, comment, rating FROM Ratings WHERE product_id = :p_id ORDER BY created DESC";
+    $base_query = "SELECT Ratings.user_id, Ratings.created, Ratings.comment, Ratings.rating, Users.username FROM Ratings INNER JOIN Users On Ratings.user_id = Users.id WHERE product_id = :p_id ORDER BY created DESC";
     $query = " LIMIT :offset, :count";
     $params[":offset"] = $offset;
     $params[":count"] = $per_page;
@@ -127,6 +129,7 @@ if((int) $total_pages > 0)
         <div class="card">
             <div class="card-body">
                 <p><?php echo " Created: " . se($rating,"created","Unknown created time", false); ?></p>
+                By: <a href="<?php echo get_url("profile.php?id=") . se($rating, "user_id", "Unknown user_id", false); ?>"><?php se($rating, "username", "Unknown user"); ?></a>
                 <p>Comment: <?php se($rating,"comment","Unknown Comment"); ?><p>
                 <p>Rating: <?php se($rating,"rating","Unknown rating"); ?><p>
             </div>
