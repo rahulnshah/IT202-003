@@ -255,7 +255,6 @@ function get_number_of_cartItems($aCol, $tableName)
     FROM $tableName WHERE user_id = :user_id";
     $db = getDB();
     $stmt = $db->prepare($query);
-    
     try{
         $stmt->execute([":user_id" => get_user_id()]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

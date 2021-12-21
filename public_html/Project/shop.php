@@ -51,12 +51,17 @@ if(!empty($itemName))
     array_push($whereQuery,"name like :name");
     $params[":name"] = "%" . $itemName . "%";
 }
+$query .= " where visibility = 1 and stock >= 0 and unit_price > 0 ";
 if(count($whereQuery) > 0)
 {
-    $query .= " where " . join(" and ",$whereQuery);
+    $query .= " and " . join(" and ",$whereQuery);
 }
 $total_query = str_replace("id, name, description, category, unit_price, stock","count(1) as total",$query);
-$per_page = 10;
+$per_page = intval(se($_GET, "results_per_page", 10, false));
+if(!($per_page > 0))
+{
+    $per_page = 10;
+}
 paginate($total_query, $params, $per_page); //$per_page defualts to 10 in the paginate function
 if((int) $total_pages > 0)
 {
@@ -244,6 +249,7 @@ try {
                 <input class="form-control me-2" type="search" form="myForm" name="itemName" placeholder="Item Filter" />
             </div>
         </div>
+        <?php require(__DIR__ . "/../../partials/limitdropdown.php"); ?>
         <div class="col">
             <div class="input-group">
                 <input type="submit" class="btn btn-primary" value="Apply" />
@@ -258,9 +264,9 @@ try {
             <?php foreach ($results as $item) : ?>
                 <div id='cardwithID<?php echo $item["id"]; ?>' class="col">
                     <div id="aCard" class="card bg-light">
-                        <div class="card-header">
+                        <!-- <div class="card-header">
                             Placeholder
-                        </div>
+                        </div> -->
                         <!-- <?php if (se($item, "image", "", false)) : ?>
                             <img src="<?php se($item, "image"); ?>" class="card-img-top" alt="...">
                         <?php endif; ?> -->
@@ -292,7 +298,7 @@ try {
                 </script>
             <?php endforeach; ?>
             <script>
-                let cards = document.getElementsByClassName("col");
+                let cards = document.querySelectorAll(".row > div");
                 for(let i = 0; i < cards.length; i++)
                 {
                     $(cards[i].firstElementChild).hover(
