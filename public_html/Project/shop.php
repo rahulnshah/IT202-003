@@ -3,18 +3,83 @@ require(__DIR__ . "/../../partials/nav.php");
 
 $results = [];
 $db = getDB();
-$stmt = $db->prepare("SELECT id, name, description, category, unit_price, stock FROM Products WHERE visibility = 1 LIMIT 10"); // check if this the right query 
-try {
-    $stmt->execute();
-    $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($r) {
-        $results = $r;
-    }
-} catch (PDOException $e) {
-    flash("<pre>" . var_export($e, true) . "</pre>");
+$upOrdown = se($_GET, "itemsfeatured", "asc", false);
+//allowed list
+if (!in_array($upOrdown, ["asc", "desc"])) {
+    $upOrdown = "asc"; //default value, prevent sql injection
 }
-// echo count($results);
-//echo "<pre>" . var_export($results,true) . "</pre>";
+//need to a value attric but to the priceRanges
+$aPriceRange = se($_GET, "price", "", false);
+$aCategory = se($_GET, "categories", "", false);
+$aRatingRange = se($_GET, "ratings", "", false);
+$itemName = se($_GET, "itemName", "", false);
+$query = "SELECT id, name, description, category, unit_price, stock FROM Products";
+$whereQuery = [];
+$params = [];
+
+if(!empty($aCategory))
+{
+    array_push($whereQuery,"category = :category");
+    $params[":category"] = $aCategory;
+}
+if(!empty($aPriceRange))
+{
+    preg_match_all("!\d+!", $aPriceRange, $matches);
+    if(count($matches) > 0 && count($matches[0]) >= 2)
+    {
+        $lowPriceBound = intval($matches[0][0]);
+        $highPriceBound = intval($matches[0][1]);
+        array_push($whereQuery,"unit_price BETWEEN :lowPriceBound AND :highPriceBound");
+        $params[":lowPriceBound"] = $lowPriceBound;
+        $params[":highPriceBound"] = $highPriceBound;
+    }
+}
+if(!empty($aRatingRange))
+{
+        $rateArr = explode(" ", $aRatingRange);
+        if(count($rateArr) >= 3)
+        {
+            $rate_1 = $rateArr[0];
+            $rate_2 = $rateArr[2];
+            array_push($whereQuery,"average_rating BETWEEN :rate_1 AND :rate_2");
+            $params[":rate_1"] = $rate_1;
+            $params[":rate_2"] = $rate_2;
+        }
+}
+if(!empty($itemName))
+{
+    array_push($whereQuery,"name like :name");
+    $params[":name"] = "%" . $itemName . "%";
+}
+if(count($whereQuery) > 0)
+{
+    $query .= " where " . join(" and ",$whereQuery);
+}
+$total_query = str_replace("id, name, description, category, unit_price, stock","count(1) as total",$query);
+$per_page = 10;
+paginate($total_query, $params, $per_page); //$per_page defualts to 10 in the paginate function
+if((int) $total_pages > 0)
+{
+    if (!empty($upOrdown)) {
+        $query .= " ORDER BY unit_price $upOrdown"; //be sure you trust these values, I validate via the in_array checks above
+    }
+    $query .= " LIMIT :offset, :count";
+    $params[":offset"] = $offset;
+    $params[":count"] = $per_page;
+    $stmt = $db->prepare($query); // select prod it and name and inner join where prod id = cart.prod_id 
+    foreach ($params as $key => $value) {
+        $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+        $stmt->bindValue($key, $value, $type);
+    }
+    $params = null;
+    try {
+        $stmt->execute($params); //specify the user_id so I get only products in tat user's cart
+        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $r;
+    } catch (PDOException $e) {
+        flash("<pre>" . var_export($e, true) . "</pre>");
+    }
+}
 $categoryResults = [];
 $stmt = $db->prepare("SELECT category FROM Products WHERE visibility = 1");
 try {
@@ -90,147 +155,6 @@ try {
 } catch (PDOException $e) {
     flash("<pre>" . var_export($e, true) . "</pre>");
 }
-//check if a serch was submitted then make query, reset $results and let the HTML hand everything else
-if (isset($_POST["itemName"])) {
-    //echo var_export($_POST["itemName"], true);
-    if (strlen($_POST["itemName"]) > 0) {
-        $searchedItem = se($_POST, "itemName", "", false);
-        $stmt = $db->prepare("SELECT id, name, description, stock, unit_price from Products WHERE name like :name and visibility = 1 LIMIT 10");
-        try {
-            $stmt->execute([":name" => "%" . $searchedItem . "%"]);
-            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $results = $r; //remove if($r) from here becasuse then if $r is empty, if($r) is false, and $results does not get set to empty array
-            //if $results is not empty , I don't see the No results to show message
-            //echo var_export($results, true); //<- getting all records when I submit empty string why?
-        } catch (PDOException $e) {
-            flash("<pre>" . var_export($e, true) . "</pre>");
-        }
-    } else {
-        $results = [];
-    }
-}
-if (isset($_POST["categorySubmit"])) {
-    //echo var_export($_POST["itemName"], true);
-    if (!empty($_POST["categories"])) {
-        $selected = se($_POST, "categories", "", false);
-        $stmt = $db->prepare("SELECT id, name, description, category, stock, unit_price from Products WHERE category = :category LIMIT 10");
-        try {
-            $stmt->execute([":category" => $selected]);
-            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $results = $r; //remove if($r) from here becasuse then if $r is empty, if($r) is false, and $results does not get set to empty array
-            //if $results is not empty , I don't see the No results to show message
-            //echo var_export($results, true); //<- getting all records when I submit empty string why?
-        } catch (PDOException $e) {
-            flash("<pre>" . var_export($e, true) . "</pre>");
-        }
-    } else {
-        $results = [];
-    }
-}
-if (isset($_POST["averageRatingSubmit"])) {
-    //echo var_export($_POST["itemName"], true);
-    if (!empty($_POST["ratings"])) {
-        $selected = se($_POST, "ratings", "Cannot be empty", false);
-        $query = "SELECT id, name, description, category, stock, unit_price, average_rating from Products";
-        $rateArr = explode(" ", $selected);
-        $params = [];
-        if(count($rateArr) >= 3)
-        {
-            $rate_1 = $rateArr[0];
-            $rate_2 = $rateArr[2];
-            $query .= " where average_rating BETWEEN :rate_1 AND :rate_2";
-            $params[":rate_1"] = $rate_1;
-            $params[":rate_2"] = $rate_2;
-            $total_query = str_replace("id, name, description, category, stock, unit_price, average_rating","count(1) as total",$query);
-            $per_page = 10;
-            paginate($total_query, $params, $per_page); //$per_page defualts to 10 in the paginate function
-            if((int) $total_pages > 0)
-            {
-                $query .= " LIMIT :offset, :count";
-                $params[":offset"] = $offset;
-                $params[":count"] = $per_page;
-                $stmt = $db->prepare($query); // select prod it and name and inner join where prod id = cart.prod_id 
-                foreach ($params as $key => $value) {
-                    $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
-                    $stmt->bindValue($key, $value, $type);
-                }
-                $params = null;
-                try {
-                    $stmt->execute($params); //specify the user_id so I get only products in tat user's cart
-                    $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    $results = $r;
-                } catch (PDOException $e) {
-                    flash("<pre>" . var_export($e, true) . "</pre>");
-                }
-            }
-        }
-    } else {
-        $results = [];
-    }
-}
-if (isset($_POST["priceSubmit"])) {
-    //echo var_export($_POST["itemName"], true);
-    //Solution to save DB calls
-    if (!empty($_POST["price"])) {
-        $selected = se($_POST, "price", "", false);
-        preg_match_all("!\d+!", $selected, $matches);
-        $lowPriceBound = intval($matches[0][0]);
-        $highPriceBound = intval($matches[0][1]);
-
-        //var_dump($matches);
-        //var_dump($selected);
-        $stmt = $db->prepare("SELECT id, name, description, category, stock, unit_price from Products WHERE unit_price BETWEEN :lowPriceBound AND :highPriceBound LIMIT 10");
-        try {
-            $stmt->execute([":lowPriceBound" => $lowPriceBound, ":highPriceBound" => $highPriceBound]);
-            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $results = $r; //remove if($r) from here becasuse then if $r is empty, if($r) is false, and $results does not get set to empty array
-            //if $results is not empty , I don't see the No results to show message
-            //echo var_export($results, true); //<- getting all records when I submit empty string why?
-        } catch (PDOException $e) {
-            flash("<pre>" . var_export($e, true) . "</pre>");
-        }
-    } else {
-        $results = [];
-    }
-}
-//need to be able to sort results by price
-if (isset($_POST["featuredSubmit"])) {
-    //echo var_export($_POST["itemName"], true);
-    //Solution to save DB calls
-    if (!empty($_POST["itemsfeatured"])) {
-        $selected = se($_POST, "itemsfeatured", "", false);
-        if ($selected === "Low To High") {
-            $stmt = $db->prepare("SELECT id, name, description, category, stock, unit_price from Products WHERE visibility = 1 ORDER BY unit_price LIMIT 10");
-            try {
-                $stmt->execute();
-                $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $results = $r; //remove if($r) from here becasuse then if $r is empty, if($r) is false, and $results does not get set to empty array
-                //if $results is not empty , I don't see the No results to show message
-                //echo var_export($results, true); //<- getting all records when I submit empty string why?
-            } catch (PDOException $e) {
-                flash("<pre>" . var_export($e, true) . "</pre>");
-            }
-        } else if ($selected === "High To Low") {
-            $stmt = $db->prepare("SELECT id, name, description, category, stock, unit_price from Products WHERE visibility = 1 ORDER BY unit_price DESC LIMIT 10");
-            try {
-                $stmt->execute();
-                $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $results = $r; //remove if($r) from here becasuse then if $r is empty, if($r) is false, and $results does not get set to empty array
-                //if $results is not empty , I don't see the No results to show message
-                //echo var_export($results, true); //<- getting all records when I submit empty string why?
-            } catch (PDOException $e) {
-                flash("<pre>" . var_export($e, true) . "</pre>");
-            }
-        } else {
-            //feature by new arrivals
-        }
-        //    echo "<pre>" . var_export($results,true) . "</pre>";
-    } else {
-        $results = [];
-    }
-}
-// echo count($results);
-
 ?>
 <script>
     function purchase(p_id, cost, stock, u_id, item_name) {
@@ -272,78 +196,59 @@ if (isset($_POST["featuredSubmit"])) {
 <div class="container-fluid">
     <h1>Shop</h1>
     <!-- TODO add filter -->
-    <form method="POST">
-        <label for="categories">Filter By Category:</label>
-        <br>
-        <div class="input-group">
-            <select class="form-select form-select-sm" name="categories" id="categories">
-                <!-- TODO add php templating here to get all the categories-->
-                <?php foreach ($categories as $category) : ?>
-                    <option value="<?php echo $category ?>"><?php echo $category ?></option>
-                <?php endforeach; ?>
-            </select>
-            <br>
-            <input class="btn btn-primary" type="submit" name="categorySubmit" value="Submit">
-        </div>
-    </form>
-    <form method="POST">
-        <label for="ratings">Rating Between:</label>
-        <br>
-        <div class="input-group">
-            <select class="form-select form-select-sm" name="ratings" id="ratings">
-                <!-- TODO add php templating here to get all the categories-->
-                <?php if (count($theRatings) == 1): ?>
-                    <option value="<?php echo $theRatings[0] . " and " . ($theRatings[0] + 1);?>"><?php echo $theRatings[0] . " and " . ($theRatings[0] + 1);?></option>
-                <?php else: ?>
-                    <?php for($i = 0; $i < count($theRatings) - 1; $i++) : ?>
-                        <option value="<?php echo $theRatings[$i] . " and " . $theRatings[$i + 1];?>"><?php echo $theRatings[$i] . " and " . $theRatings[$i + 1];?></option>
-                    <?php endfor; ?>
-                <?php endif; ?>
-            </select>
-            <br>
-            <input class="btn btn-primary" type="submit" name="averageRatingSubmit" value="Submit">
-        </div>
-    </form>
-    <form method="POST">
-        <label for="sortByPrice">Select a Price Range:</label>
-        <br>
-        <div class="input-group">
-            <select class="form-select form-select-sm" name="price" id="sortByPrice">
-                <?php foreach ($prices as $index => $value) : ?>
-                    <?php if ($index == 0) : ?>
-                        <option><?php echo "$" . 0 . " to " . "$" . $prices[$index] ?></option>
-                    <?php endif; ?>
-                    <?php if ($index < count($prices) - 1) : ?>
-                        <option><?php echo "$" . $prices[$index] . " to " . "$" . $prices[$index + 1] ?></option>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </select>
-            <input class="btn btn-primary" type="submit" name="priceSubmit" value="Submit">
-        </div>
-    </form>
-    <form method="POST">
-        <label for="sortByFeatured">Featured:</label>
-        <br>
-        <div class="input-group">
-            <select class="form-select form-select-sm" name="itemsfeatured" id="sortByFeatured">
-                <!-- <?php foreach ($prices as $index => $value) : ?>
+    <form id="myForm">
+        <div class="col">
+            <div class="input-group">
+                <div class="input-group-text">Filter By Category:</div>
+                    <select class="form-control" name="categories" form="myForm">
+                            <option></option>
+                        <!-- TODO add php templating here to get all the categories-->
+                        <?php foreach ($categories as $category) : ?>
+                            <option value="<?php echo $category ?>"><?php echo $category ?></option>
+                        <?php endforeach; ?>
+                    </select>
+            
+                <div class="input-group-text">Rating Between:</div>
+                    <select class="form-control" name="ratings" form="myForm">
+                            <option></option>
+                        <!-- TODO add php templating here to get all the categories-->
+                        <?php if (count($theRatings) == 1): ?>
+                            <option value="<?php echo $theRatings[0] . " and " . ($theRatings[0] + 1);?>"><?php echo $theRatings[0] . " and " . ($theRatings[0] + 1);?></option>
+                        <?php else: ?>
+                            <?php for($i = 0; $i < count($theRatings) - 1; $i++) : ?>
+                                <option value="<?php echo $theRatings[$i] . " and " . $theRatings[$i + 1];?>"><?php echo $theRatings[$i] . " and " . $theRatings[$i + 1];?></option>
+                            <?php endfor; ?>
+                        <?php endif; ?>
+                    </select>
+            
+            
+                <div class="input-group-text">Select a Price Range:</div>
+                    <select class="form-control" name="price" form="myForm">
+                            <option></option>
+                        <?php foreach ($prices as $index => $value) : ?>
                             <?php if ($index == 0) : ?>
-                                <option><?php echo "$" . 0 . " to " . "$" . $prices[$index] ?></option>
+                                <option value="<?php echo "$" . 0 . " to " . "$" . $prices[$index] ?>"><?php echo "$" . 0 . " to " . "$" . $prices[$index] ?></option>
                             <?php endif; ?>
                             <?php if ($index < count($prices) - 1) : ?>
-                                <option><?php echo "$" . $prices[$index] . " to " . "$" . $prices[$index + 1] ?></option>
+                                <option value="<?php echo "$" . $prices[$index] . " to " . "$" . $prices[$index + 1] ?>"><?php echo "$" . $prices[$index] . " to " . "$" . $prices[$index + 1] ?></option>
                             <?php endif; ?>
-                    <?php endforeach; ?> -->
-                <option>Low To High</option>
-                <option>High To Low</option>
-                <!-- <option value="mercedes">Mercedes</option> -->
-            </select>
-            <input class="btn btn-primary" type="submit" name="featuredSubmit" value="Submit">
+                        <?php endforeach; ?>
+                    </select>
+            
+                <div class="input-group-text">Featured:</div>
+                    <select class="form-control" name="itemsfeatured" form="myForm">
+                        <option></option>
+                        <option value="asc">Low To High</option>
+                        <option value="desc">High To Low</option>
+                    </select>
+                <input class="form-control me-2" type="search" form="myForm" name="itemName" placeholder="Item Filter" />
+            </div>
         </div>
-    </form>
-    <form method="POST" class="d-flex">
-        <input class="form-control me-2" type="search" name="itemName" placeholder="Item Filter" />
-        <input class="btn btn-outline-success" type="submit" value="Search" />
+        <div class="col">
+            <div class="input-group">
+                <input type="submit" class="btn btn-primary" value="Apply" />
+            </div>
+        </div>
     </form>
     <?php if (count($results) == 0) : ?>
         <p>No results to show</p>
