@@ -51,9 +51,10 @@ if(!empty($itemName))
     array_push($whereQuery,"name like :name");
     $params[":name"] = "%" . $itemName . "%";
 }
+$query .= " where visibility = 1 and stock >= 0 and unit_price > 0 ";
 if(count($whereQuery) > 0)
 {
-    $query .= " where " . join(" and ",$whereQuery);
+    $query .= " and " . join(" and ",$whereQuery);
 }
 $total_query = str_replace("id, name, description, category, unit_price, stock","count(1) as total",$query);
 $per_page = 10;
