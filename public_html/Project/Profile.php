@@ -3,31 +3,20 @@ require_once(__DIR__ . "/../../partials/nav.php");
 if (!is_logged_in()) {
     redirect("login.php");
 }
-//is_logged_in(true);
-/**
- * Logic:
- * Check if query params have an id
- * If so, use that id
- * Else check logged in user id
- * otherwise redirect away
- */
+?>
+<?php
+//show the user profile if it is the user
 $user_id = se($_GET, "id", get_user_id(), false);
 error_log("user id $user_id");
 $isMe = $user_id === get_user_id();
-//!! makes the value into a true or false value regardless of the data https://stackoverflow.com/a/2127324
-// $edit = !!se($_GET, "edit", false, false); //if key is present allow edit, otherwise no edit
-// error_log(var_export($edit, true));
 if ($user_id < 1) {
     flash("Invalid user", "danger");
     redirect("home.php");
+    //die(header("Location: home.php"));
 }
-?>
-<?php
-if (isset($_POST["save"]) && $isMe) {  // && $edit
-    $db = getDB();
+if (isset($_POST["save"]) && $isMe) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
-    $visibility = !!se($_POST, "visibility", false, false) ? 1 : 0;
     //Notes:
     // I am updating a row, with the given username and email, but if either alredy exists in its respective col, 
     // SQL stops the update.
@@ -60,13 +49,26 @@ if (isset($_POST["save"]) && $isMe) {  // && $edit
     }
     if(!$errors)
     {
-        $params = [":email" => $email, ":username" => $username, ":id" => get_user_id(), ":vis" => $visibility];
+        $params = [":email" => $email, ":username" => $username, ":id" => get_user_id()];
         $db = getDB();
-        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, visibility = :vis where id = :id");
+        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username where id = :id");
         try {
             $stmt->execute($params);
         } catch (Exception $e) {
-            users_check_duplicate($e->errorInfo);
+            if ($e->errorInfo[1] === 1062) {
+                //https://www.php.net/manual/en/function.preg-match.php
+                preg_match("/Users.(\w+)/", $e->errorInfo[2], $matches);
+                //echo $matches[0];
+                if (isset($matches[1])) {
+                    flash("The chosen " . $matches[1] . " is not available.", "warning");
+                } else {
+                    //TODO come up with a nice error message
+                    flash("An unexpected error occurred, please try again", "danger");
+                }
+            } else {
+                //TODO come up with a nice error message
+                flash("The chosen email and username are available, but an unexpected error occurred. Please try again", "danger");
+            }
         }
         //select fresh data from table
         $stmt = $db->prepare("SELECT id, email, username from Users where id = :id LIMIT 1");
@@ -139,43 +141,38 @@ if (isset($_POST["save"]) && $isMe) {  // && $edit
 }
 $email = get_user_email();
 $username = get_username();
-$created = "";
 $public = false;
-//$user_id = get_user_id(); //this is retrieved above now
-//TODO pull any other public info you want
 $db = getDB();
-$stmt = $db->prepare("SELECT username, created, visibility from Users where id = :id");
+$stmt = $db->prepare("SELECT username, email, visibility from Users where id = :id");
 try {
-    $stmt->execute([":id" => $user_id]);
+    $stmt->execute([":id" => $user_id]); // user_id could be the id of the loggedin user.
     $r = $stmt->fetch(PDO::FETCH_ASSOC);
     error_log("user: " . var_export($r, true));
     $username = se($r, "username", "", false);
-    $created = se($r, "created", "", false);
     $public = se($r, "visibility", 0, false) > 0;
-    if (!$public && !$isMe) {
+    if (!$public && !$isMe) { // if profile is public or isMe this is false, and I stay on profile.php 
         flash("User's profile is private", "warning");
         redirect("home.php");
         //die(header("Location: home.php"));
     }
+    else if(!$isMe && $public) // does matter than if the profile if public or private, I get my user and password, which are set by defualt
+    {
+        //unset the email, keep the username.
+        unset($email); 
+    }
 } catch (Exception $e) {
     echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
 }
-$word = $public ? " Private" : " Public";
 ?>
 
 <?php
-$email = get_user_email();
-$username = get_username();
+    $email = get_user_email(); //of the logged in user, want to only show this the user viewing their own profile, you don;t want to show this when the 
+    //user vistis someone else's profile, it will default to your own 
+    $username = get_username();
 ?>
 <div class="container-fluid">
 <h1>Profile</h1>
 <form method="POST" onsubmit="return validate(this);">
-    <div class="mb-3">
-        <div class="form-check form-switch">
-            <input name="visibility" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" <?php if ($public) echo "checked"; ?>>
-            <label class="form-check-label" for="flexSwitchCheckDefault">Make Profile<?php echo $word ?></label>
-        </div>
-    </div>
     <div class="mb-3">
         <label for="email">Email</label>
         <input  class="form-control form-control-sm"  type="email" name="email" id="email" value="<?php se($email); ?>" />
