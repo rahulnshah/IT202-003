@@ -345,75 +345,87 @@
         ![image](https://user-images.githubusercontent.com/68120349/145623689-4fe7fca0-47c0-4f55-a37e-5778e68539e9.png)
           - User can now see a percentage of change in price of a product in his/her cart.
 - Milestone 4
-  - [ ] \(mm/dd/yyyy of completion) User can set their profile to be public or private (will need another column in Users table)
+  - [x] \(mm/dd/yyyy of completion) User can set their profile to be public or private (will need another column in Users table)
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/Profile.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
 
-  - [ ] \(mm/dd/yyyy of completion) User will be able to rate a product they purchased
+  - [x] \(mm/dd/yyyy of completion) User will be able to rate a product they purchased
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/product_details.php?id=1
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
 
-  - [ ] \(mm/dd/yyyy of completion) User’s Purchase History Changes
+  - [x] \(mm/dd/yyyy of completion) User’s Purchase History Changes
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/orders.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
 
-  - [ ] \(mm/dd/yyyy of completion) Store Owner Purchase History Changes
+  - [x] \(mm/dd/yyyy of completion) Store Owner Purchase History Changes
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/list_purchase_history.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
 
-  - [ ] \(mm/dd/yyyy of completion) Add pagination to Shop Page (and any other product lists not yet mentioned)
+  - [x] \(mm/dd/yyyy of completion) Add pagination to Shop Page (and any other product lists not yet mentioned)
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/shop.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
 
-  - [ ] \(mm/dd/yyyy of completion) Store Owner will be able to see all products out of stock
+  - [x] \(mm/dd/yyyy of completion) Store Owner will be able to see all products out of stock
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/list_products.php
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
 
-  - [ ] \(mm/dd/yyyy of completion) User can sort products by average rating on the Shop Page
+  - [x] \(mm/dd/yyyy of completion) User can sort products by average rating on the Shop Page
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/product_details.php?id=1
       - Pull Requests
         - PR link #1 (repeat as necessary)
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
+
+## ⭐Extra Credit Features⭐
+  - [x] \(12\21\2021) User will be able to view results through a limit.
+    -  List of Evidence of Feature Completion
+      - Status: Completed
+      - Direct Link: https://rns22-prod.herokuapp.com/Project/shop.php
+      - Pull Requests
+        - https://github.com/rahulnshah/IT202-003/pull/89
+      - Screenshots
+        ![image](https://user-images.githubusercontent.com/68120349/145623689-4fe7fca0-47c0-4f55-a37e-5778e68539e9.png)
+          - User can now see a percentage of change in price of a product in his/her cart.
+
 
 ### Intructions
 #### Don't delete this
