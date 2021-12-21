@@ -15,7 +15,7 @@ if (isset($_POST["submit"])) {
 //get the table definition
 $columns = get_columns("Products");
 //echo "<pre>" . var_export($columns, true) . "</pre>";
-$ignore = ["id", "modified", "created"]; //Admin can choose visisbility for a product 
+$ignore = ["id", "modified", "created", "average_rating"]; //Admin can choose visisbility for a product 
 ?>
 <div class="container-fluid">
     <h1>Add Product</h1>
@@ -41,7 +41,7 @@ $ignore = ["id", "modified", "created"]; //Admin can choose visisbility for a pr
                         <input class="form-control" id="<?php se($column, "Field"); ?>" type="<?php echo inputMap(se($column, "Type", "", false)); ?>" name="<?php se($column, "Field"); ?>" value="1"/>
                     </div>
                 <?php endif; ?>
-                <?php if (!in_array($column["Field"],["stock","unit_price","visibility"])) : ?>
+                <?php if (!in_array($column["Field"],["stock","unit_price","visibility", "average_rating"])) : ?>
                     <div class="mb-4">
                         <label class="form-label" for="<?php se($column, "Field"); ?>"><?php se($column, "Field"); ?></label>
                         <input class="form-control" id="<?php se($column, "Field"); ?>" type="<?php echo inputMap(se($column, "Type", "", false)); ?>" name="<?php se($column, "Field"); ?>" required/>
