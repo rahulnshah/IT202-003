@@ -345,75 +345,86 @@
         ![image](https://user-images.githubusercontent.com/68120349/145623689-4fe7fca0-47c0-4f55-a37e-5778e68539e9.png)
           - User can now see a percentage of change in price of a product in his/her cart.
 - Milestone 4
-  - [x] \(mm/dd/yyyy of completion) User can set their profile to be public or private (will need another column in Users table)
+  - [x] \(12/20/2021) User can set their profile to be public or private (will need another column in Users table)
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/Profile.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/101
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/146988027-afd96a83-189d-45da-a7dc-5d370079255c.png)
+          - User can set their profile to be public or private
+        ![image](https://user-images.githubusercontent.com/68120349/146988504-9f47f286-a47a-435a-91be-54af2a07a472.png)
+          - Profile is public but email is not shown. 
 
-  - [x] \(mm/dd/yyyy of completion) User will be able to rate a product they purchased
+
+  - [x] \(12/17/2021) User will be able to rate a product they purchased
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/product_details.php?id=1
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/95
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/146993555-d0ad4dbc-7fc6-48a7-bde3-be002a8e808f.png)
+          - Ratings table
+        ![image](https://user-images.githubusercontent.com/68120349/146988795-260dda93-3ebe-4061-9443-e220d6310608.png)
+          - User will be able to rate a product they purchased. 
 
-  - [x] \(mm/dd/yyyy of completion) User’s Purchase History Changes
+  - [x] \(12/19/2021) User’s Purchase History Changes
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/orders.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/96
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/146989309-5758a27a-32ed-40cf-ae51-2ca5b80e7525.png)
+          - User can Filter by date range, Filter by category, Sort by total, date purchased on their orders.
 
-  - [x] \(mm/dd/yyyy of completion) Store Owner Purchase History Changes
+
+  - [x] \(12/19/2021) Store Owner Purchase History Changes
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/list_purchase_history.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/97
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/146989545-675cc3d5-4b98-4939-9fa2-348e8964e5d3.png)
+          - Store Owner can Filter by date range, Filter by category, Sort by total, date purchased on their orders.
 
-  - [x] \(mm/dd/yyyy of completion) Add pagination to Shop Page (and any other product lists not yet mentioned)
+  - [x] \(12/21/2021) Add pagination to Shop Page (and any other product lists not yet mentioned)
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/shop.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/102
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/146989672-55f33583-c97a-49b1-b085-9bed6433cfd1.png)
+          - Pagination on shop.php.
+        ![image](https://user-images.githubusercontent.com/68120349/146989841-960422a9-b8ca-4804-afd0-697dc85c5489.png)
+          - Pagination on list_products.php.
 
-  - [x] \(mm/dd/yyyy of completion) Store Owner will be able to see all products out of stock
+  - [x] \(12/20/2021) Store Owner will be able to see all products out of stock
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/admin/list_products.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/99
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/146990270-70aba8f8-c96f-4201-8414-610112eff123.png)
+          -  Store Owner will be able to see all products out of stock (quantity <= stock).
 
-  - [x] \(mm/dd/yyyy of completion) User can sort products by average rating on the Shop Page
+  - [x] \(12/20/2021) User can sort products by average rating on the Shop Page
     -  List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/product_details.php?id=1
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/rahulnshah/IT202-003/pull/100
+        - https://github.com/rahulnshah/IT202-003/pull/102
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        ![image](https://user-images.githubusercontent.com/68120349/146993674-d943a504-2455-4f41-a076-570bdda02623.png)
+          - Products table with average_rating column.
+        ![image](https://user-images.githubusercontent.com/68120349/146990430-3d391b13-0282-4c7b-80d1-0873c118bda9.png)
+          - User can sort products by average rating on the Shop Page
 
 ## ⭐Extra Credit Features⭐
   - [x] \(12\21\2021) User will be able to view results through a limit.
@@ -421,10 +432,12 @@
       - Status: Completed
       - Direct Link: https://rns22-prod.herokuapp.com/Project/shop.php
       - Pull Requests
-        - https://github.com/rahulnshah/IT202-003/pull/89
+        - https://github.com/rahulnshah/IT202-003/pull/102
       - Screenshots
-        ![image](https://user-images.githubusercontent.com/68120349/145623689-4fe7fca0-47c0-4f55-a37e-5778e68539e9.png)
-          - User can now see a percentage of change in price of a product in his/her cart.
+        ![image](https://user-images.githubusercontent.com/68120349/146992144-0ffd7ec2-dfd9-4813-8654-5f6a5043a1aa.png)
+          - Limit results to 1 per page on shop.php.
+        ![image](https://user-images.githubusercontent.com/68120349/146992347-3f49b710-9f67-4abe-9d4b-ec4fc734b213.png)
+          - Limit results to 2 per page on orders.php.
 
 
 ### Intructions
