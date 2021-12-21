@@ -427,17 +427,17 @@
           - User can sort products by average rating on the Shop Page
 
 ## ⭐Extra Credit Features⭐
-  - [x] \(12\21\2021) User will be able to view results through a limit.
-    -  List of Evidence of Feature Completion
-      - Status: Completed
-      - Direct Link: https://rns22-prod.herokuapp.com/Project/shop.php
-      - Pull Requests
-        - https://github.com/rahulnshah/IT202-003/pull/102
-      - Screenshots
-        ![image](https://user-images.githubusercontent.com/68120349/146992144-0ffd7ec2-dfd9-4813-8654-5f6a5043a1aa.png)
-          - Limit results to 1 per page on shop.php.
-        ![image](https://user-images.githubusercontent.com/68120349/146992347-3f49b710-9f67-4abe-9d4b-ec4fc734b213.png)
-          - Limit results to 2 per page on orders.php.
+- [x] \(12\21\2021) User will be able to view results through a limit.
+  -  List of Evidence of Feature Completion
+    - Status: Completed
+    - Direct Link: https://rns22-prod.herokuapp.com/Project/shop.php
+    - Pull Requests
+      - https://github.com/rahulnshah/IT202-003/pull/102
+    - Screenshots
+      ![image](https://user-images.githubusercontent.com/68120349/146992144-0ffd7ec2-dfd9-4813-8654-5f6a5043a1aa.png)
+        - Limit results to 1 per page on shop.php.
+      ![image](https://user-images.githubusercontent.com/68120349/146992347-3f49b710-9f67-4abe-9d4b-ec4fc734b213.png)
+        - Limit results to 2 per page on orders.php.
 
 
 ### Intructions
