@@ -2,6 +2,7 @@
 ## Project Summary: This project will create a simple e-commerce site for users. Administrators or store owners will be able to manage inventory and users will be able to manage their cart and place orders.
 ## Github Link: https://github.com/rahulnshah/IT202-003/tree/prod
 ## Project Board Link: https://github.com/rahulnshah/IT202-003/projects/1
+## Project Demo: https://mediaspace.njit.edu/media/IT202ShopProject2021Demo/1_k6tsvkbb
 ## Website Link: http://rns22-prod.herokuapp.com/Project/
 ## Your Name: Rahul Shah
 
@@ -351,6 +352,7 @@
       - Direct Link: https://rns22-prod.herokuapp.com/Project/Profile.php
       - Pull Requests
         - https://github.com/rahulnshah/IT202-003/pull/101
+        - https://github.com/rahulnshah/IT202-003/pull/112
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/146988027-afd96a83-189d-45da-a7dc-5d370079255c.png)
           - User can set their profile to be public or private
@@ -364,6 +366,7 @@
       - Direct Link: https://rns22-prod.herokuapp.com/Project/product_details.php?id=1
       - Pull Requests
         - https://github.com/rahulnshah/IT202-003/pull/95
+        - https://github.com/rahulnshah/IT202-003/pull/114
       - Screenshots
         ![image](https://user-images.githubusercontent.com/68120349/146993555-d0ad4dbc-7fc6-48a7-bde3-be002a8e808f.png)
           - Ratings table
