@@ -1,28 +1,18 @@
 <?php
 //note we need to go up 1 more directory
 require(__DIR__ . "/../../partials/nav.php");
-$result = [];
-$columns = get_columns("Products");
-//echo "<pre>" . var_export($columns, true) . "</pre>";
-$ignore = ["id", "modified", "created", "visibility"];
-$db = getDB();
-//get the item
 $id = se($_GET, "id", -1, false);
 if($id <= 0)
 {
     flash("Need to select an item first.", "warning");
     redirect("shop.php");
 }
-$stmt = $db->prepare("SELECT * FROM Products where id =:id");
-try {
-    $stmt->execute([":id" => $id]);
-    $r = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($r) {
-        $result = $r;
-    }
-} catch (PDOException $e) {
-    flash("<pre>" . var_export($e, true) . "</pre>");
-}
+$result = [];
+$columns = get_columns("Products");
+//echo "<pre>" . var_export($columns, true) . "</pre>";
+$ignore = ["id", "modified", "created", "visibility"];
+$db = getDB();
+//get the item
 if(isset($_POST['comment']) && isset($_POST["vol"]))
 {
     $comment = se($_POST, "comment", "", false);
@@ -54,6 +44,16 @@ if(isset($_POST['comment']) && isset($_POST["vol"]))
                 flash(var_export($e->errorInfo, true), "warning");
             }
     }
+}
+$stmt = $db->prepare("SELECT * FROM Products where id =:id");
+try {
+    $stmt->execute([":id" => $id]);
+    $r = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($r) {
+        $result = $r;
+    }
+} catch (PDOException $e) {
+    flash("<pre>" . var_export($e, true) . "</pre>");
 }
 $total_query = "SELECT count(1) as total FROM Ratings INNER JOIN Users On Ratings.user_id = Users.id WHERE product_id = :p_id";
 $params = []; //define default params, add keys as needed and pass to execute
@@ -97,8 +97,14 @@ if((int) $total_pages > 0)
                 <!--<?php var_dump(se($column,null,"",false)); ?>-->
                 <?php if (se($column,null,"",false) === "unit_price") : ?> 
                     <p><?php echo "$" . se($value,null,"",false); ?></p>
+                <?php elseif (se($column,null,"",false) === "average_rating" && floatval(se($value,null,"",false)) <= 0) : ?>
+                    <p><?php echo "Be the first to add a rating!"; ?></p>
                 <?php else : ?> 
-                    <p><?php se($value); ?></p> <!-- equivalent to echo $value; -->
+                    <?php if(se($column,null,"",false) === "average_rating"): ?>
+                        <p><?php echo se($value,null,"",false) . "/5"; ?></p>
+                    <?php else: ?>
+                        <p><?php se($value); ?></p> <!-- equivalent to echo $value; -->
+                    <?php endif; ?>
                 <?php endif; ?> 
             <?php endif; ?>
         <?php endforeach; ?>
@@ -107,12 +113,12 @@ if((int) $total_pages > 0)
             <br>
         <?php endif; ?>
         <!-- add a rating form here with a comment box -->
-        <label for="vol" form="form1">Average Rating (between 1 and 5): <?php echo !!floatval(get_average_rating($id)) ? strval(floatval(get_average_rating($id))) . "/5" : get_average_rating($id)?></label>
+        <!-- <label for="vol" form="form1">Average Rating (between 1 and 5): <?php echo !!floatval(get_average_rating($id)) ? strval(floatval(get_average_rating($id))) . "/5" : get_average_rating($id)?></label> -->
         <?php if(is_logged_in()): ?>
         <form onsubmit="return validate(this)" id="form1" method="POST">
             <div class="mb-3">
                 <br>
-                <input type="range" step="0.01" id="vol" name="vol" min="1" max="5" value="<?php echo get_average_rating($id)?>">
+                <input type="range" step="0.01" id="vol" name="vol" min="1" max="5" value="<?php echo !!floatval(get_average_rating($id)) ? strval(floatval(get_average_rating($id))) . "/5" : "";?>">
             </div>
             <div class="mb-3">
                 <label for="d">Comment</label>
@@ -163,7 +169,7 @@ if((int) $total_pages > 0)
     $(document).ready(function (){
         if(document.getElementById("vol") !== null)
         {
-            document.getElementById("vol").oninput = function() { document.getElementsByTagName("label")[0].innerText = document.getElementsByTagName("label")[0].innerText.replace(document.getElementsByTagName("label")[0].innerText.substring(document.getElementsByTagName("label")[0].innerText.indexOf(":")), ": " + document.getElementById("vol").value + "/5");};
+            document.getElementById("vol").oninput = function() { document.getElementsByTagName("p")[5].innerText = document.getElementById("vol").value + "/5";};
         }
     });
 </script>

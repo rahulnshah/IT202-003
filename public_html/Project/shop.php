@@ -112,7 +112,7 @@ try {
 $theRatings = [];
 //select the minimum rating, select the maximum rating from Produtcs then order the DISTINCT ratings and select the mimimal difference 
 // between the first two ratings 
-$stmt = $db->prepare("SELECT DISTINCT(average_rating) as average_Rating FROM Products WHERE visibility = 1 ORDER BY average_Rating ASC"); //could have used the distinct keyword here 
+$stmt = $db->prepare("SELECT DISTINCT(average_rating) as average_Rating FROM Products WHERE visibility = 1 and average_rating > 0 ORDER BY average_Rating ASC"); //could have used the distinct keyword here 
 try {
     $stmt->execute();
     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);

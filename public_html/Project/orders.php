@@ -171,8 +171,8 @@ $oldestDate = "";
                                 <?php foreach ($rangeOfDates as $dateRange) : ?>
                                     <option value="<?php se($dateRange)?>"><?php se($dateRange); ?></option>
                                 <?php endforeach; ?>
-                            <?php else: ?>
-                                <option value="<?php se($oldestDate->format("Y-m-d") . " to " . date_add($oldestDate,date_interval_create_from_date_string("2 days"))->format("Y-m-d"))?>"><?php se($oldestDate->format("Y-m-d") . " to " . date_add($oldestDate,date_interval_create_from_date_string("2 days"))->format("Y-m-d"))?></option>
+                            <?php else: ?> <!-- don't want to add 2 twice to oldestDate so save it in a variable-->
+                                <option value="<?php se($oldestDate->format("Y-m-d") . " to " . date_add($oldestDate,date_interval_create_from_date_string("2 days"))->format("Y-m-d"))?>"><?php se(date_sub($oldestDate,date_interval_create_from_date_string("2 days"))->format("Y-m-d") . " to " . date_add($oldestDate,date_interval_create_from_date_string("2 days"))->format("Y-m-d"))?></option>
                             <?php endif; ?>
                         <?php endif; ?>
                 </select>
