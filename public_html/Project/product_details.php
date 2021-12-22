@@ -117,8 +117,7 @@ if((int) $total_pages > 0)
         <?php if(is_logged_in()): ?>
         <form onsubmit="return validate(this)" id="form1" method="POST">
             <div class="mb-3">
-                <br>
-                <input type="range" step="0.01" id="vol" name="vol" min="1" max="5" value="<?php echo !!floatval(get_average_rating($id)) ? strval(floatval(get_average_rating($id))) . "/5" : "";?>">
+                <input type="range" step="0.01" id="vol" name="vol" min="1" max="5" value="<?php echo !!floatval(get_average_rating($id)) ? strval(floatval(get_average_rating($id))) : "";?>">
             </div>
             <div class="mb-3">
                 <label for="d">Comment</label>
