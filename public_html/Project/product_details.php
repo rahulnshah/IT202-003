@@ -129,7 +129,7 @@ if((int) $total_pages > 0)
         <div class="card">
             <div class="card-body">
                 <p><?php echo " Created: " . se($rating,"created","Unknown created time", false); ?></p>
-                By: <a href="<?php echo get_url("profile.php?id=") . se($rating, "user_id", "Unknown user_id", false); ?>"><?php se($rating, "username", "Unknown user"); ?></a>
+                By: <a href="<?php echo get_url("Profile.php?id=") . se($rating, "user_id", "Unknown user_id", false); ?>"><?php se($rating, "username", "Unknown user"); ?></a>
                 <p>Comment: <?php se($rating,"comment","Unknown Comment"); ?><p>
                 <p>Rating: <?php se($rating,"rating","Unknown rating"); ?><p>
             </div>
