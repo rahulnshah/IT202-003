@@ -16,7 +16,6 @@ $itemName = se($_GET, "itemName", "", false);
 $query = "SELECT id, name, description, category, unit_price, stock FROM Products";
 $whereQuery = [];
 $params = [];
-
 if(!empty($aCategory))
 {
     array_push($whereQuery,"category = :category");
@@ -93,14 +92,14 @@ try {
     if ($r) {
         $categoryResults = $r;
     }
-    //echo "<pre>" . var_export($results, true) . "</pre>";
+    // echo "<pre>" . var_export($categoryResults, true) . "</pre>";
     $categories = [];
     if (count($categoryResults) > 0) // only want to create an extra array (categories) if $results is not empty 
     {
         foreach ($categoryResults as $categoryResult) {
-            $aCategory = se($categoryResult, "category", "", false);
-            if (!in_array($aCategory, $categories)) {
-                array_push($categories, $aCategory);
+            $cat = se($categoryResult, "category", "", false);
+            if (!in_array($cat, $categories)) {
+                array_push($categories, $cat);
             }
         }
     }
@@ -200,6 +199,7 @@ try {
 
 <div class="container-fluid">
     <h1>Shop</h1>
+    <?php echo "This is $aCategory"; ?>
     <!-- TODO add filter -->
     <form id="myForm">
         <div class="col">
@@ -207,16 +207,18 @@ try {
                 <div class="input-group-text">Filter By Category:</div>
                     <select class="form-control" name="categories" form="myForm">
                             <option></option>
-                        <!-- TODO add php templating here to get all the categories-->
                         <?php foreach ($categories as $category) : ?>
                             <option value="<?php echo $category ?>"><?php echo $category ?></option>
                         <?php endforeach; ?>
                     </select>
-            
+                    <script>
+                        //quick fix to ensure proper value is selected since
+                        //value setting only works after the options are defined and php has the value set prior
+                        document.forms[0].categories.value = "<?php se($aCategory); ?>";
+                    </script>
                 <div class="input-group-text">Rating Between:</div>
                     <select class="form-control" name="ratings" form="myForm">
                             <option></option>
-                        <!-- TODO add php templating here to get all the categories-->
                         <?php if (count($theRatings) == 1): ?>
                             <option value="<?php echo $theRatings[0] . " and " . ($theRatings[0] + 1);?>"><?php echo $theRatings[0] . " and " . ($theRatings[0] + 1);?></option>
                         <?php else: ?>
@@ -225,8 +227,11 @@ try {
                             <?php endfor; ?>
                         <?php endif; ?>
                     </select>
-            
-            
+                    <script>
+                        //quick fix to ensure proper value is selected since
+                        //value setting only works after the options are defined and php has the value set prior
+                        document.forms[0].ratings.value = "<?php se($aRatingRange); ?>";
+                    </script> 
                 <div class="input-group-text">Select a Price Range:</div>
                     <select class="form-control" name="price" form="myForm">
                             <option></option>
@@ -239,17 +244,37 @@ try {
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </select>
-            
+                    <script>
+                        //quick fix to ensure proper value is selected since
+                        //value setting only works after the options are defined and php has the value set prior
+                        document.forms[0].price.value = "<?php se($aPriceRange); ?>";
+                    </script>
                 <div class="input-group-text">Featured:</div>
                     <select class="form-control" name="itemsfeatured" form="myForm">
                         <option></option>
                         <option value="asc">Low To High</option>
                         <option value="desc">High To Low</option>
                     </select>
+                    <script>
+                        //quick fix to ensure proper value is selected since
+                        //value setting only works after the options are defined and php has the value set prior
+                        document.forms[0].itemsfeatured.value = "<?php se($upOrdown); ?>";
+                    </script>
                 <input class="form-control me-2" type="search" form="myForm" name="itemName" placeholder="Item Filter" />
+                <script>
+                        //quick fix to ensure proper value is selected since
+                        //value setting only works after the options are defined and php has the value set prior
+                        document.forms[0].itemName.value = "<?php se($itemName); ?>";
+                </script>
             </div>
         </div>
         <?php require(__DIR__ . "/../../partials/limitdropdown.php"); ?>
+        <script>
+            if(document.forms[0].results_per_page !== undefined)
+            {
+                document.forms[0].results_per_page.value = "<?php se(strval($per_page)); ?>";
+            }
+        </script>
         <div class="col">
             <div class="input-group">
                 <input type="submit" class="btn btn-primary" value="Apply" />
