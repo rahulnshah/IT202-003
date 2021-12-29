@@ -162,8 +162,6 @@ try {
 ?>
 <script>
     function purchase(p_id, cost, stock, u_id, item_name) {
-        //console.log("TODO purchase item", p_id);
-        //TODO create JS helper to update all show-balance elements
         //use AJAX here to send a request and recieve a response. 
         //you will the send the data to a php file in the api folder, which will insert it appropiately, and then
         //return a respnse back to this function and you will display a message here with the .message property of data
@@ -177,7 +175,6 @@ try {
                 console.log("responseText:", this.responseText);
                 var data = JSON.parse(this.responseText);
                 flash(data.message, "success");
-
             }
         };
         http.open("POST", "api/addproduct_to_cart.php", true);
