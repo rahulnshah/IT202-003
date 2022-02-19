@@ -4,7 +4,7 @@ require(__DIR__ . "/../../partials/nav.php");
 ?>
 <script>
     function purchase(form, u_id, total) {
-        console.log("TODO purchase", form);
+        //console.log("TODO purchase", form);
         //chec if all fields are filled in and if they are, then
         let flashElement = document.getElementById("flash");
         flashElement.innerHTML = "";
