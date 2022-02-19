@@ -3,7 +3,7 @@
 ## Github Link: https://github.com/rahulnshah/IT202-003/tree/prod
 ## Project Board Link: https://github.com/rahulnshah/IT202-003/projects/1
 ## Project Demo: https://mediaspace.njit.edu/media/IT202ShopProject2021Demo/1_k6tsvkbb
-## Website Link: http://rns22-prod.herokuapp.com/Project/
+## Website Link: https://rns22-prod.herokuapp.com/Project/
 ## Your Name: Rahul Shah
 
 <!--
